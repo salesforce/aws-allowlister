@@ -1,0 +1,171 @@
+# ---------------------------------------------------------------------------------------------------------------------
+# Section 1: "Service name means IAM name"
+#
+# (If a service is called ___ in the compliance pages, list the IAM service prefixes that they map to)
+# ---------------------------------------------------------------------------------------------------------------------
+service_names_to_iam_names:
+  # Service Name: iamserviceprefix
+  Amazon API Gateway:
+    - apigateway
+    - execute-api
+  AWS Amplify:
+    - amplify
+    - amplifybackend
+  AWS Amplify Console:
+    - amplify
+    - amplifybackend
+  AWS Single Sign-On:
+    - sso
+    - sso-directory
+  AWS Web Application Firewall:
+    - waf
+    - wafv2
+    - waf-regional
+  AWS WAF:
+    - waf
+    - wafv2
+    - waf-regional
+  Amazon EC2 Auto Scaling:
+    - autoscaling
+    - application-autoscaling
+  # HIPAA docs
+  #   have mismatch between spellings vs IAM spellings
+  #   https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+  AWS Marketplace:
+    - aws-marketplace-management
+    - aws-marketplace
+  AWS Personal Health Dashboard:
+    - health
+  Amazon Augmented AI:
+    - sagemaker
+  Amazon Aurora:
+    - rds
+  Amazon CloudWatch Events:
+  - events
+  Amazon Cognito:
+    - cognito
+    - cognito-idp
+    - cognito-identity
+  Amazon Comprehend Medical:
+    - comprehend
+    - comprehendmedical
+  AWS DataSync:
+    - datasync
+  AWS Directory Services:
+    - ds
+  Amazon DocumentDB:
+    - rds
+  Amazon Elastic Compute Cloud:
+    - ec2
+  AWS Greengrass:
+    - greengrass
+    - greengrassv2
+  AWS IoT Core:
+    - iot
+    - iotdeviceadvisor
+    - iotwireless
+  AWS IoT Device Management:
+    - iot-device-tester
+  Amazon Kinesis Analytics:
+    - kinesisanalytics
+  Amazon Kinesis Data Streams:
+    - kinesis
+  Amazon Managed Streaming for Apache Kafka:
+    - kafka
+  AWS OpsWorks for Chef Automate:
+    - opsworks
+    - opsworks-cm
+  AWS OpsWorks for Puppet Enterprise:
+    - opsworks
+    - opsworks-cm
+  AWS OpsWorks Stacks:
+    - opsworks, opsworks-cm
+  Amazon Quantum Ledger Database:
+    - qldb
+  Amazon Relational Database Service:
+    - rds
+  Amazon Simple Email Service:
+    - ses
+  Amazon Simple Notification Service:
+    - sns
+  Amazon Simple Queue Service:
+    - sqs
+  Amazon Simple Storage Service:
+    - s3
+  Amazon Simple Workflow:
+    - swf
+  AWS Snowball Edge:
+    - snowball
+  AWS Storage Gateway:
+    - storagegateway
+  Amazon Virtual Private Cloud:
+    - ec2
+  Elastic Load Balancing:
+    - elasticloadbalancing
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Section 2: "SDK name means IAM names"
+#
+# (if a service's SDK is called ___ in the compliance pages, list the IAM service prefixes that they map to)
+# ---------------------------------------------------------------------------------------------------------------------
+sdk_names_to_iam_names:
+  # sdkname: iamname
+  mobiletargeting:
+    - sms-voice
+    - pinpoint
+    - sms-voice
+  runtime.lex:
+    - lex
+  models.lex:
+    - lex
+  # 2 SDKs, one IAM permission
+  connect:
+    - connect
+    - connectparticipant
+  ec2:
+    - ec2
+    - ebs
+  amazonforecast:
+    - forecast
+  codestar:
+    - codestar
+    - codestar-notifications
+    - codestar-connections
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Section 3: Global inserts
+#
+# This is the same as the "direct inserts" above, but it lists these for *all* compliance frameworks.
+# Some services are not listed in the compliance docs at all, but are global services and if we don't include them, our
+# accounts will break
+# ---------------------------------------------------------------------------------------------------------------------
+global_inserts:
+  - account
+  - aws-portal
+  - iam
+  - organizations
+  - rds-data
+  - rds-db
+  - route53domains
+  - sts
+  - support
+  - sso
+  - sso-directory
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Section 4: Direct inserts, per framework
+#
+# Let's say you want to include a particular IAM service for one framework but not another. You can reflect that here.
+# ---------------------------------------------------------------------------------------------------------------------
+direct_inserts:
+  SOC:
+    - ""
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Section 5: Direct removals, per framework
+#
+# Let's say you don't want to include a particular IAM service for a particular framework. You can remove that here.
+# ---------------------------------------------------------------------------------------------------------------------
+global_removals:
+  - ""

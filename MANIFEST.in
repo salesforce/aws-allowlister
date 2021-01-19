@@ -1,0 +1,1 @@
+recursive-include aws_allowlister/data *.html *.yml *.db

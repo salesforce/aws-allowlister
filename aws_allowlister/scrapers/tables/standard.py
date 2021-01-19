@@ -1,0 +1,106 @@
+from bs4 import Tag, NavigableString
+from aws_allowlister.shared.utils import chomp, clean_service_name
+from aws_allowlister.database.scraping_data import add_scraping_entry_to_input_database
+
+
+def scrape_standard_table(db_session, soup, table_id):
+    table = soup.find(id=table_id)
+    # Get the standard name based on the "tab" name
+    tab = table.contents[1]
+    standard_name = tab.contents[0]
+    # Get the rows and operate
+    rows = table.find_all("tr")
+    results = []
+
+    def get_service_name(some_cells):
+        service_name_cell = some_cells[0].contents[0]
+        if isinstance(service_name_cell, NavigableString):
+            service_name = str(service_name_cell)
+        elif isinstance(service_name_cell, Tag):
+            service_name = service_name_cell.text
+        else:
+            service_name = str(service_name_cell)
+        service_name = clean_service_name(service_name)
+        # if translate_sdk_name_to_iam_prefix(service_prefix):
+        #     return True
+        return service_name
+
+    def clean_sdks(some_cells):
+        sdks = []
+        if len(some_cells) < 3:
+            pass
+        # Otherwise,
+        else:
+            cell_content = chomp(some_cells[1].contents[0])
+            if "<a" in cell_content or "]" in cell_content:
+                cell_content = some_cells[1].contents[0].text
+            if not cell_content:
+                pass
+            else:
+                if "," in cell_content:
+                    tmp_sdk_list = cell_content.split(",")
+                    for tmp_sdk in tmp_sdk_list:
+                        sdks.append(chomp(tmp_sdk))
+                else:
+                    sdks = [cell_content]
+        return sdks
+
+    def clean_status_cell():
+        # Slice syntax in case there are only two columns
+        status_cell_contents = cells[-1].contents[0]
+
+        if status_cell_contents is None:
+            status = False
+        elif isinstance(status_cell_contents, str):
+            status_cell_contents = chomp(status_cell_contents)
+        elif isinstance(status_cell_contents, Tag):
+            status_cell_contents = chomp(status_cell_contents.text)
+        elif isinstance(status_cell_contents, NavigableString):
+            status_cell_contents = chomp(str(status_cell_contents))
+        else:
+            print("idk what type it is")
+
+        if status_cell_contents is None:
+            status = False
+        elif "✓" in status_cell_contents:
+            status = True
+        elif status_cell_contents != "✓":
+            status = False
+        else:
+            status = True
+
+        return status, status_cell_contents
+
+    for row in rows:
+        cells = row.find_all("td")
+        # Skip the first row, the rest are the same
+        if len(cells) == 0:
+            continue
+
+        # Cell 0: Service name
+
+        this_service_name = get_service_name(cells)
+
+        # Cell 1: SDKs
+        # For the HIPAA BAA compliance standard, there are only two columns 🙄 smh at inconsistency
+        these_sdks = clean_sdks(cells)
+
+        # Cell 2: Status cell
+        # This will contain a checkmark (✓). Let's just mark as true if it is non-empty
+        this_status, this_status_cell_contents = clean_status_cell()
+
+        result = dict(
+            service_name=this_service_name,
+            sdks=these_sdks,
+            status=this_status,
+            status_text=this_status_cell_contents,
+        )
+        for sdk in these_sdks:
+            add_scraping_entry_to_input_database(
+                db_session=db_session,
+                compliance_standard_name=standard_name,
+                sdk=sdk,
+                service_name=this_service_name,
+            )
+        results.append(result)
+    return results

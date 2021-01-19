@@ -1,0 +1,5 @@
+beautifulsoup4==4.9.3
+click==7.1.2
+requests==2.25.1
+policy_sentry==0.11.3
+SQLAlchemy==1.3.22

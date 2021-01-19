@@ -1,0 +1,69 @@
+# IDEs
+.idea
+.vscode
+
+# Mac OS X
+.DS_Store
+
+# Serverless framework
+.serverless
+.requirements.zip
+node_modules/
+
+# Working directories
+tmp
+!.gitkeep
+
+# Python
+.coverage
+.Python
+__pycache__/
+*.py[cod]
+*$py.class
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+venv/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# HashiCorp
+**/.terraform/*
+*.plan
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars
+.vagrant
+packer_cache/
+*.box
+
+#### Other
+*.log
+*.pem
+!/~$results.xlsx
+**/*.db-journal
+**/tmp.json
