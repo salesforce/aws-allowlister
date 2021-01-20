@@ -32,6 +32,40 @@ def connect_db():
     return db_session
 
 
+class RawScrapingDataTable(Base):
+    """The table that contains the compliance data, as presented by the 'Services in Scope' documentation"""
+
+    __tablename__ = "rawscrapingdatatable"
+    id = Column(Integer, primary_key=True)
+    sdk_name = Column(String(50))
+    service_name = Column(String(50))
+    compliance_standard_name = Column(String(50))
+
+    def __repr__(self):
+        return (
+            f"<RawScrapingDataTable(compliance_standard_name={self.compliance_standard_name}, "
+            f"sdk_name={self.sdk_name}, "
+            f"service_name='{self.service_name}')>"
+        )
+
+
+class TransformedScrapingDataTable(Base):
+    """The table that contains the compliance data, as presented by the 'Services in Scope' documentation"""
+
+    __tablename__ = "transformedscrapingdatatable"
+    id = Column(Integer, primary_key=True)
+    sdk_name = Column(String(50))
+    service_name = Column(String(50))
+    compliance_standard_name = Column(String(50))
+
+    def __repr__(self):
+        return (
+            f"<TransformedScrapingDataTable(compliance_standard_name={self.compliance_standard_name}, "
+            f"sdk_name={self.sdk_name}, "
+            f"service_name='{self.service_name}')>"
+        )
+
+
 class ComplianceTable(Base):
     """The table that you query for Compliance status using IAM names"""
 
@@ -64,21 +98,4 @@ class ComplianceTable(Base):
             f"IRAP='{self.IRAP}', "
             f"OSPAR='{self.OSPAR}', "
             f"FINMA='{self.FINMA}')>"
-        )
-
-
-class ScrapingDataTable(Base):
-    """The table that contains the compliance data, as presented by the 'Services in Scope' documentation"""
-
-    __tablename__ = "scrapingdatatable"
-    id = Column(Integer, primary_key=True)
-    sdk_name = Column(String(50))
-    service_name = Column(String(50))
-    compliance_standard_name = Column(String(50))
-
-    def __repr__(self):
-        return (
-            f"<ScrapingDataTable(compliance_standard_name={self.compliance_standard_name}, "
-            f"sdk_name={self.sdk_name}, "
-            f"service_name='{self.service_name}')>"
         )

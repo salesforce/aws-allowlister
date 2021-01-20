@@ -3,7 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 from policy_sentry.querying.all import get_all_service_prefixes
 from policy_sentry.shared.iam_data import get_service_prefix_data
-from aws_allowlister.database.scraping_data import ScrapingData, add_scraping_entry_to_input_database
+# from aws_allowlister.database.scraping_data import ScrapingData, add_scraping_entry_to_input_database
+from aws_allowlister.database.raw_scraping_data import RawScrapingData
+from aws_allowlister.database.transformed_scraping_data import TransformedScrapingData
 from aws_allowlister.scrapers.aws_docs import get_aws_html
 from aws_allowlister.shared.utils import clean_service_name
 
@@ -23,6 +25,7 @@ def scrape_hipaa_table(db_session):
     get_aws_html(link, html_docs_destination, file_name)
     response = requests.get(link, allow_redirects=False)
     soup = BeautifulSoup(response.content, "html.parser")
+    raw_scraping_data = RawScrapingData()
 
     service_names = []
 
@@ -41,17 +44,17 @@ def scrape_hipaa_table(db_session):
                 if tag.text not in false_positives:
                     service_names.append(tag.text)
     for service_name in service_names:
-        add_scraping_entry_to_input_database(
+        raw_scraping_data.add_entry_to_database(
             db_session=db_session,
             compliance_standard_name="HIPAA",
             sdk="",  # The HIPAA table does not list SDKs. We will update it to match in a second.
             service_name=clean_service_name(service_name),
         )
-    update_scraping_database_by_matching_hipaa_names_with_iam_names(db_session)
+    transform_database_by_matching_hipaa_names_with_iam_names(db_session)
 
 
-def update_scraping_database_by_matching_hipaa_names_with_iam_names(db_session):
-    scraping_database = ScrapingData()
+def transform_database_by_matching_hipaa_names_with_iam_names(db_session):
+    transformed_scraping_data = TransformedScrapingData()
     standard = "HIPAA"
     # The service name in IAM-land
     iam_service_names = {}
@@ -62,7 +65,7 @@ def update_scraping_database_by_matching_hipaa_names_with_iam_names(db_session):
 
     # The service name in compliance land
     compliance_service_names = (
-        scraping_database.get_service_names_matching_compliance_standard(
+        transformed_scraping_data.get_service_names_matching_compliance_standard(
             db_session, standard
         )
     )
@@ -71,7 +74,7 @@ def update_scraping_database_by_matching_hipaa_names_with_iam_names(db_session):
         compliance_names = list(compliance_service_names.keys())
         for name in compliance_names:
             if iam_name.lower() == name.lower():
-                scraping_database.set_sdk_name_given_service_name(
+                transformed_scraping_data.set_sdk_name_given_service_name(
                     db_session=db_session,
                     service_name=iam_name,
                     sdk_name=iam_service_prefix,
