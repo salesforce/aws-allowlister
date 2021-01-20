@@ -75,7 +75,7 @@ def clean_service_name(service_name):
     service_name, sep, tail = service_name.partition("(")
     # Remove tabs and newlines
     service_name = service_name.replace('\n', '')
-    service_name = service_name.replace('\n', '')
+    service_name = service_name.replace('\t', '')
     # Clean start
     service_name = re.sub("^[ ]*", "", service_name)
     # Clean end

@@ -10,12 +10,6 @@ from aws_allowlister.scrapers.aws_docs import get_aws_html
 # TODO: Move some of these cleanup items over to the Transform phase?
 #  At least the stuff where we remove special characters etc.
 def scrape_standard_table(db_session):
-    # table = soup.find(id=table_id)
-    # Get the standard name based on the "tab" name
-    # tab = table.contents[1]
-    # standard_name = tab.contents[0]
-    # Get the rows and operate
-    # rows = table.find_all("tr")
     results = []
 
     # Get the file

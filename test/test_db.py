@@ -1,5 +1,5 @@
 import unittest
-from aws_allowlister.database.compliance_data import ComplianceData, ScrapingData
+from aws_allowlister.database.compliance_data import ComplianceData
 from aws_allowlister.database.build import build_database
 from aws_allowlister.database.database import connect_db, TransformedScrapingDataTable
 from aws_allowlister.shared.utils import write_json_to_file
