@@ -1,7 +1,10 @@
+import logging
 import json
 import click
 from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
+from aws_allowlister import set_stream_logger
+logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 @click.command(
@@ -9,11 +12,19 @@ from aws_allowlister.database.compliance_data import ComplianceData
     short_help="Generate an AWS AllowList policy based on compliance requirements",
 )
 @click.option(
+    "--all",
+    "-a",
+    required=False,
+    is_flag=True,
+    default=True,
+    help="SOC, PCI, ISO, and HIPAA.",
+)
+@click.option(
     "--soc",
     "-s",
     required=False,
     is_flag=True,
-    default=True,
+    default=False,
     help="Include SOC-compliant policies",
 )
 @click.option(
@@ -21,7 +32,7 @@ from aws_allowlister.database.compliance_data import ComplianceData
     "-p",
     required=False,
     is_flag=True,
-    default=True,
+    default=False,
     help="Include PCI-compliant policies",
 )
 @click.option(
@@ -29,7 +40,7 @@ from aws_allowlister.database.compliance_data import ComplianceData
     "-h",
     required=False,
     is_flag=True,
-    default=True,
+    default=False,
     help="Include HIPAA-compliant services",
 )
 @click.option(
@@ -37,11 +48,22 @@ from aws_allowlister.database.compliance_data import ComplianceData
     "-i",
     required=False,
     is_flag=True,
-    default=True,
+    default=False,
     help="Include ISO-compliant policies",
 )
-def generate(soc, pci, hipaa, iso):
+@click.option(
+    '--quiet', '-q',
+    is_flag=True,
+    default=False,
+)
+def generate(all, soc, pci, hipaa, iso, quiet):
     standards = []
+    if quiet:
+        log_level = getattr(logging, "WARNING")
+        set_stream_logger(level=log_level)
+    else:
+        log_level = getattr(logging, "INFO")
+        set_stream_logger(level=log_level)
     if soc:
         standards.append("SOC")
     if pci:
@@ -50,6 +72,17 @@ def generate(soc, pci, hipaa, iso):
         standards.append("HIPAA")
     if iso:
         standards.append("ISO")
+    if (
+        all
+        and not soc
+        and not pci
+        and not hipaa
+        and not iso
+    ):
+        standards = ["SOC", "PCI", "HIPAA", "ISO"]
+        logger.info(f"--all was selected. The policy will include: {str(standards)} ")
+    logger.info(f"Note: to silence these logs, supply the argument '--quiet'")
+    logger.info(f"Policies for standard(s): {str(', '.join(standards))}")
     results = generate_allowlist_scp(standards)
     print(json.dumps(results, indent=4))
 
