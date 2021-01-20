@@ -1,12 +1,12 @@
 import logging
-from aws_allowlister.database.database import TransformedScrapingDataTable
+from aws_allowlister.database.database import TransformedScrapingDataTable, RawScrapingDataTable
 from aws_allowlister.scrapers.overrides import Overrides
 from aws_allowlister.shared.utils import get_service_name_matching_iam_service_prefix
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-class ScrapingData:
+class TransformedScrapingData:
     def __init__(self):
         self.note = None
 
@@ -54,6 +54,44 @@ class ScrapingData:
         rows.update({"service_name": service_name})
         db_session.commit()
         db_session.close()
+
+    def add_entry_to_database(self, db_session, compliance_standard_name, service_name, sdk_name):
+        db_session.add(
+            TransformedScrapingDataTable(
+                compliance_standard_name=compliance_standard_name,
+                sdk_name=sdk_name,
+                service_name=service_name,
+            )
+        )
+        db_session.commit()
+
+    def populate_table(self, db_session, overrides):
+        """Populate the Table using the initial Scraping Data, then apply the overrides"""
+        if not isinstance(overrides, Overrides):
+            raise Exception("Overrides should be an object class of type Overrides")
+
+        old_rows = db_session.query(RawScrapingDataTable)
+        # new_rows = db_session.query(TransformedScrapingDataTable)
+        logger.info("Populating the TransformedScrapingDataTable with the Raw Scraping Data initially")
+        for old_row in old_rows:
+            exists = db_session.query(TransformedScrapingDataTable).filter_by(
+                    compliance_standard_name=old_row.compliance_standard_name,
+                    service_name=old_row.service_name,
+                    sdk_name=old_row.sdk_name,
+                ).first()
+            if not exists:
+                self.add_entry_to_database(
+                    db_session=db_session,
+                    compliance_standard_name=old_row.compliance_standard_name,
+                    service_name=old_row.service_name,
+                    sdk_name=old_row.sdk_name,
+                )
+                # new_entry = TransformedScrapingDataTable(
+                # )
+                # db_session.add(new_entry)
+        # db_session.commit()
+        logger.info("Applying overrides to the TransformedScrapingDataTable")
+        self.apply_overrides(db_session=db_session, overrides=overrides)
 
     def apply_overrides(self, db_session, overrides):
         if not isinstance(overrides, Overrides):
@@ -253,15 +291,3 @@ class ScrapingData:
                     db_session.add(new_entry)
                     db_session.commit()
 
-
-def add_scraping_entry_to_input_database(
-    db_session, compliance_standard_name, service_name, sdk
-):
-    db_session.add(
-        TransformedScrapingDataTable(
-            compliance_standard_name=compliance_standard_name,
-            sdk_name=sdk,
-            service_name=service_name,
-        )
-    )
-    db_session.commit()

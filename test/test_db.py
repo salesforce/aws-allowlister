@@ -1,7 +1,7 @@
 import unittest
 from aws_allowlister.database.compliance_data import ComplianceData, ScrapingData
-from aws_allowlister.database.build import build_compliance_database
-from aws_allowlister.database.database import connect_db, ScrapingDataTable
+from aws_allowlister.database.build import build_database
+from aws_allowlister.database.database import connect_db, TransformedScrapingDataTable
 from aws_allowlister.shared.utils import write_json_to_file
 from policy_sentry.shared.iam_data import get_service_prefix_data
 

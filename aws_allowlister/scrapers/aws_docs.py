@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
+# TODO: Duplicate code passing in these parameters
 def get_aws_html(link, html_docs_destination, file_name):
     print(f"Getting the AWS documentation for: {file_name}")
-    # link = "https://aws.amazon.com/compliance/services-in-scope/"
     response = requests.get(link, allow_redirects=False)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -47,7 +47,13 @@ def get_aws_html(link, html_docs_destination, file_name):
 
     cleanup_links()
 
-    with open(os.path.join(html_docs_destination, file_name), "w") as file:
+    file_path = os.path.join(html_docs_destination, file_name)
+    if os.path.exists(file_path):
+        print(f"Removing old file path: {file_path}")
+        os.remove(file_path)
+    with open(file_path, "w") as file:
+        print(f"Creating new file: {file_path}")
         file.write(str(soup.prettify()))
         file.close()
     logger.info("%s downloaded", file_name)
+    return file_path
