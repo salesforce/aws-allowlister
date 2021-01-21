@@ -20,18 +20,6 @@ def get_service_name_matching_iam_service_prefix(iam_service_prefix):
         return None
 
 
-def write_json_to_file(file_name, content):
-    definition_file = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), file_name)
-    )
-
-    if os.path.exists(definition_file):
-        os.remove(definition_file)
-
-    with open(definition_file, "w") as file:
-        json.dump(content, file, indent=4)
-
-
 def chomp(string):
     """This chomp cleans up all white-space, not just at the ends"""
     string = str(string)
@@ -81,6 +69,18 @@ def clean_service_name(service_name):
     # Clean end
     service_name = re.sub("[ ]*$", "", service_name)
     return service_name
+
+
+def write_json_to_file(file_name, content):
+    definition_file = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), file_name)
+    )
+
+    if os.path.exists(definition_file):
+        os.remove(definition_file)
+
+    with open(definition_file, "w") as file:
+        json.dump(content, file, indent=4)
 
 
 def read_yaml_file(filename):
