@@ -58,8 +58,9 @@ def normalize_tags_or_strings(val):
 def clean_service_name(service_name):
     # Remove non-breaking spaces, otherwise you will have service names like "AWS Amplify\u00a0",
     service_name = service_name.replace(u"\xa0", u" ")
-
+    # Remove all text after brackets [
     service_name, sep, tail = service_name.partition("[")
+    # Remove all text after parentheses (
     service_name, sep, tail = service_name.partition("(")
     # Remove tabs and newlines
     service_name = service_name.replace('\n', '')
