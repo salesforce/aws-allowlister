@@ -2,7 +2,6 @@ import os
 import requests
 from bs4 import BeautifulSoup, Tag
 from aws_allowlister.scrapers.aws_docs import get_aws_html
-# from aws_allowlister.database.scraping_data import add_scraping_entry_to_input_database
 from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.shared.utils import clean_service_name
 
@@ -16,15 +15,14 @@ def scrape_iso_table(db_session):
     if os.path.exists(html_file_path):
         os.remove(html_file_path)
     link = "https://aws.amazon.com/compliance/iso-certified/"
-
-    file_path = get_aws_html(link, html_docs_destination, file_name)
-
+    get_aws_html(link, html_docs_destination, file_name)
     response = requests.get(link, allow_redirects=False)
+
     raw_scraping_data = RawScrapingData()
 
     with open(html_file_path, "r") as f:
-        soup = BeautifulSoup(f.read(), "html.parser")
-        # soup = BeautifulSoup(response.content, "html.parser")
+        # soup = BeautifulSoup(f.read(), "html.parser")
+        soup = BeautifulSoup(response.content, "html.parser")
         table = soup.find("tbody")
         rows = []
         for row in table.contents:
@@ -42,5 +40,4 @@ def scrape_iso_table(db_session):
                     compliance_standard_name="ISO",
                     sdk=sdk,
                     service_name=clean_service_name(service_name),
-                    # status=this_status
                 )

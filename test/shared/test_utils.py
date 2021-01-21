@@ -1,6 +1,7 @@
 import json
 import unittest
-from aws_allowlister.shared.utils import clean_service_name, get_service_name_matching_iam_service_prefix
+from aws_allowlister.shared.utils import clean_service_name, get_service_name_matching_iam_service_prefix, \
+    clean_service_name_after_brackets_and_parentheses
 
 
 class UtilsTestCase(unittest.TestCase):
@@ -35,16 +36,16 @@ class UtilsTestCase(unittest.TestCase):
         result = clean_service_name('AWS Amplify\u00a0')
         self.assertEqual(result, "AWS Amplify")
 
-    def test_clean_service_name_remove_text_after_bracket(self):
-        # Example: Amazon Aurora on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
-        result = clean_service_name('Amazon Aurora [MySQL, PostgreSQL]')
-        self.assertEqual(result, "Amazon Aurora")
-
-    def test_clean_service_name_remove_text_after_parentheses(self):
-        # Example: Alexa for Business on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
-        result = clean_service_name('Alexa for Business (for healthcare skills only – requires Alexa Skills BAA. See '
-                                    'HIPAA whitepaper for details)')
-        self.assertEqual(result, "Alexa for Business")
+    # def test_clean_service_name_remove_text_after_bracket(self):
+    #     # Example: Amazon Aurora on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+    #     result = clean_service_name('Amazon Aurora [MySQL, PostgreSQL]')
+    #     self.assertEqual(result, "Amazon Aurora")
+    #
+    # def test_clean_service_name_remove_text_after_parentheses(self):
+    #     # Example: Alexa for Business on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+    #     result = clean_service_name('Alexa for Business (for healthcare skills only – requires Alexa Skills BAA. See '
+    #                                 'HIPAA whitepaper for details)')
+    #     self.assertEqual(result, "Alexa for Business")
 
     def test_clean_service_name_tabs_and_newlines(self):
         # Make sure tabs and newlines are removed properly
@@ -53,4 +54,17 @@ class UtilsTestCase(unittest.TestCase):
         result = clean_service_name('Amazon API Gateway\n')
         self.assertTrue(result == "Amazon API Gateway")
 
-
+    def test_clean_service_name_text_after_brackets_and_parentheses(self):
+        # Example: Amazon Aurora on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+        result = clean_service_name_after_brackets_and_parentheses('Amazon Aurora [MySQL, PostgreSQL]')
+        self.assertEqual(result, "Amazon Aurora")
+        # Example: Alexa for Business on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+        result = clean_service_name_after_brackets_and_parentheses('Alexa for Business (for healthcare skills '
+                                                                        'only – requires Alexa Skills BAA. See HIPAA '
+                                                                        'whitepaper for details)')
+        self.assertEqual(result, "Alexa for Business")
+        # Make sure tabs and newlines are removed properly
+        result = clean_service_name_after_brackets_and_parentheses('\n\n\t\tAmazon API Gateway\t\n')
+        self.assertEqual(result, "Amazon API Gateway")
+        result = clean_service_name_after_brackets_and_parentheses('Amazon API Gateway\n')
+        self.assertTrue(result == "Amazon API Gateway")

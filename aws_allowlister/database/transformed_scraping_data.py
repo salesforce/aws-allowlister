@@ -1,9 +1,14 @@
 import logging
+from policy_sentry.querying.all import get_all_service_prefixes
+from policy_sentry.shared.iam_data import get_service_prefix_data
 from aws_allowlister.database.database import TransformedScrapingDataTable, RawScrapingDataTable
+from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.scrapers.overrides import Overrides
-from aws_allowlister.shared.utils import get_service_name_matching_iam_service_prefix
+from aws_allowlister.shared.utils import get_service_name_matching_iam_service_prefix, \
+    clean_service_name_after_brackets_and_parentheses
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+ALL_SERVICE_PREFIXES = get_all_service_prefixes()
 
 
 class TransformedScrapingData:
@@ -11,8 +16,14 @@ class TransformedScrapingData:
         self.note = None
 
     def standards(self, db_session):
+        # query = db_session.query(
+        #     TransformedScrapingDataTable.compliance_standard_name.distinct().label(
+        #         "compliance_standard_name"
+        #     )
+        # )
+        # Let's get the list of standards from the RawScrapingDataTable in case the Transformed data table is not populated yet.
         query = db_session.query(
-            TransformedScrapingDataTable.compliance_standard_name.distinct().label(
+            RawScrapingDataTable.compliance_standard_name.distinct().label(
                 "compliance_standard_name"
             )
         )
@@ -40,6 +51,7 @@ class TransformedScrapingData:
         return service_names
 
     def set_sdk_name_given_service_name(self, db_session, service_name, sdk_name):
+        service_name = clean_service_name_after_brackets_and_parentheses(service_name)
         rows = db_session.query(TransformedScrapingDataTable).filter(
             TransformedScrapingDataTable.service_name == service_name
         )
@@ -48,6 +60,7 @@ class TransformedScrapingData:
         db_session.close()
 
     def set_service_name_given_sdk_name(self, db_session, service_name, sdk_name):
+        service_name = clean_service_name_after_brackets_and_parentheses(service_name)
         rows = db_session.query(TransformedScrapingDataTable).filter(
             TransformedScrapingDataTable.sdk_name == sdk_name
         )
@@ -56,6 +69,7 @@ class TransformedScrapingData:
         db_session.close()
 
     def add_entry_to_database(self, db_session, compliance_standard_name, service_name, sdk_name):
+        service_name = clean_service_name_after_brackets_and_parentheses(service_name)
         db_session.add(
             TransformedScrapingDataTable(
                 compliance_standard_name=compliance_standard_name,
@@ -70,8 +84,9 @@ class TransformedScrapingData:
         if not isinstance(overrides, Overrides):
             raise Exception("Overrides should be an object class of type Overrides")
 
+        logger.info("Matching names in all compliance standards with their IAM names")
+
         old_rows = db_session.query(RawScrapingDataTable)
-        # new_rows = db_session.query(TransformedScrapingDataTable)
         logger.info("Populating the TransformedScrapingDataTable with the Raw Scraping Data initially")
         for old_row in old_rows:
             exists = db_session.query(TransformedScrapingDataTable).filter_by(
@@ -83,15 +98,62 @@ class TransformedScrapingData:
                 self.add_entry_to_database(
                     db_session=db_session,
                     compliance_standard_name=old_row.compliance_standard_name,
-                    service_name=old_row.service_name,
+                    service_name=clean_service_name_after_brackets_and_parentheses(old_row.service_name),
                     sdk_name=old_row.sdk_name,
                 )
-                # new_entry = TransformedScrapingDataTable(
-                # )
-                # db_session.add(new_entry)
-        # db_session.commit()
         logger.info("Applying overrides to the TransformedScrapingDataTable")
+        self.transform_database_by_matching_compliance_standard_names_with_iam_names(db_session=db_session)
         self.apply_overrides(db_session=db_session, overrides=overrides)
+
+    def transform_database_by_matching_compliance_standard_names_with_iam_names(self, db_session):
+        standards = self.standards(db_session=db_session)
+        raw_scraping_data = RawScrapingData()
+        for standard in standards:
+            # The service name in IAM-land
+            iam_service_names = {}
+            for service_prefix in ALL_SERVICE_PREFIXES:
+                iam_service_names[service_prefix] = get_service_prefix_data(service_prefix)[
+                    "service_name"
+                ]
+            # The service name in compliance land
+            # Let's get it from the scraping data table because we haven't fully populated the transformed table yet
+            standard_service_names = raw_scraping_data.get_service_names_matching_compliance_standard(
+                db_session, standard
+            )
+            # standard_service_names = self.get_service_names_matching_compliance_standard(
+            #     db_session, standard
+            # )
+            # We are going to compare the names of the services that the HIPAA docs say to the ones in the database
+            # To do this properly, we need to clean up service names that look like this:
+            #   'Amazon Aurora [MySQL, PostgreSQL]'
+            #   'Amazon Elastic Container Registry (ECR)'
+            # And turn them into this:
+            #   'Amazon Aurora'
+            #   'Amazon Elastic Container Registry
+            # Let's clean it up. We'll store it in this dict
+            compliance_service_names = {}
+            # Clean the compliance names *before* comparing them to the IAM names
+            for compliance_name in standard_service_names.keys():
+                service_prefix = standard_service_names.get(compliance_name)
+                service_name = clean_service_name_after_brackets_and_parentheses(compliance_name)
+                compliance_service_names[service_prefix] = service_name
+
+            compliance_names = []
+            for item in iam_service_names:
+                compliance_names.append(iam_service_names.get(item))
+
+            for iam_service_prefix in list(iam_service_names.keys()):
+                iam_name = iam_service_names[iam_service_prefix]
+                # compliance_names = list(compliance_service_names.keys())
+                for name in compliance_names:
+                    if iam_name.lower() == name.lower():
+                        self.set_sdk_name_given_service_name(
+                            db_session=db_session,
+                            service_name=iam_name,
+                            sdk_name=iam_service_prefix,
+                        )
+                        logger.debug(f"match_compliance_standard_name_with_iam_prefix_name: iam_name={iam_name}, "
+                              f"sdk_name={iam_service_prefix}")
 
     def apply_overrides(self, db_session, overrides):
         if not isinstance(overrides, Overrides):
@@ -172,13 +234,19 @@ class TransformedScrapingData:
                     .first()
                 )
                 if not exists:
-                    new_entry = TransformedScrapingDataTable(
+                    # new_entry = TransformedScrapingDataTable(
+                    #     compliance_standard_name=entry.get("compliance_standard_name"),
+                    #     service_name=entry.get("service_name"),
+                    #     sdk_name=entry.get("sdk_name"),
+                    # )
+                    # db_session.add(new_entry)
+                    # db_session.commit()
+                    self.add_entry_to_database(
+                        db_session=db_session,
                         compliance_standard_name=entry.get("compliance_standard_name"),
                         service_name=entry.get("service_name"),
                         sdk_name=entry.get("sdk_name"),
                     )
-                    db_session.add(new_entry)
-                    db_session.commit()
 
     def override_sdk_names_to_iam_names(self, db_session, overrides):
         if not isinstance(overrides, Overrides):
@@ -248,13 +316,19 @@ class TransformedScrapingData:
                     .first()
                 )
                 if not exists:
-                    new_entry = TransformedScrapingDataTable(
+                    # new_entry = TransformedScrapingDataTable(
+                    #     compliance_standard_name=entry.get("compliance_standard_name"),
+                    #     service_name=entry.get("service_name"),
+                    #     sdk_name=entry.get("sdk_name"),
+                    # )
+                    # db_session.add(new_entry)
+                    # db_session.commit()
+                    self.add_entry_to_database(
+                        db_session=db_session,
                         compliance_standard_name=entry.get("compliance_standard_name"),
                         service_name=entry.get("service_name"),
                         sdk_name=entry.get("sdk_name"),
                     )
-                    db_session.add(new_entry)
-                    db_session.commit()
 
     def override_global_inserts(self, db_session, overrides):
         if not isinstance(overrides, Overrides):
@@ -283,11 +357,17 @@ class TransformedScrapingData:
                         sdk_name=service_prefix,
                     )
                     print(f"\t{content}")
-                    new_entry = TransformedScrapingDataTable(
+                    # new_entry = TransformedScrapingDataTable(
+                    #     compliance_standard_name=standard,
+                    #     service_name=service_name,
+                    #     sdk_name=service_prefix,
+                    # )
+                    # db_session.add(new_entry)
+                    # db_session.commit()
+                    self.add_entry_to_database(
+                        db_session=db_session,
                         compliance_standard_name=standard,
                         service_name=service_name,
                         sdk_name=service_prefix,
                     )
-                    db_session.add(new_entry)
-                    db_session.commit()
 
