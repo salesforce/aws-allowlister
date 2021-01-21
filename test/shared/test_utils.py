@@ -20,7 +20,7 @@ class UtilsTestCase(unittest.TestCase):
             #   And view the table called compliancetable
         }
         for iam_service_prefix in list(service_name_pairs.keys()):
-            # service prefix is like a4b, access-analzer, etc.
+            # service prefix is like a4b, access-analyzer, etc.
             result = get_service_name_matching_iam_service_prefix(iam_service_prefix)
             self.assertEqual(result, service_name_pairs.get(iam_service_prefix))
             print(f"{iam_service_prefix}: {result}")
