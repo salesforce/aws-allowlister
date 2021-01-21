@@ -20,18 +20,6 @@ def get_service_name_matching_iam_service_prefix(iam_service_prefix):
         return None
 
 
-def write_json_to_file(file_name, content):
-    definition_file = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), file_name)
-    )
-
-    if os.path.exists(definition_file):
-        os.remove(definition_file)
-
-    with open(definition_file, "w") as file:
-        json.dump(content, file, indent=4)
-
-
 def chomp(string):
     """This chomp cleans up all white-space, not just at the ends"""
     string = str(string)
@@ -71,8 +59,16 @@ def clean_service_name(service_name):
     # Remove non-breaking spaces, otherwise you will have service names like "AWS Amplify\u00a0",
     service_name = service_name.replace(u"\xa0", u" ")
 
-    service_name, sep, tail = service_name.partition("[")
-    service_name, sep, tail = service_name.partition("(")
+    # # Remove all text after brackets [
+    # #   Example: Amazon Aurora on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+    # service_name, sep, tail = service_name.partition("[")
+    #
+    # # Remove all text after parentheses (
+    #   Example: Alexa for Business on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+    #   'Alexa for Business (for healthcare skills only – requires Alexa Skills BAA. See
+    #   HIPAA whitepaper for details)'
+    # service_name, sep, tail = service_name.partition("(")
+
     # Remove tabs and newlines
     service_name = service_name.replace('\n', '')
     service_name = service_name.replace('\t', '')
@@ -81,6 +77,41 @@ def clean_service_name(service_name):
     # Clean end
     service_name = re.sub("[ ]*$", "", service_name)
     return service_name
+
+
+def clean_service_name_after_brackets_and_parentheses(service_name):
+    try:
+        # Remove all text after brackets [
+        #   Example: Amazon Aurora on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+        #   'Amazon Aurora [MySQL, PostgreSQL]'
+        service_name, sep, tail = service_name.partition("[")
+
+        # Remove all text after parentheses (
+        #   Example: Alexa for Business on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+        #   'Alexa for Business (for healthcare skills only – requires Alexa Skills BAA. See HIPAA whitepaper for details)'
+        service_name, sep, tail = service_name.partition("(")
+        # Clean start
+        service_name = re.sub("^[ ]*", "", service_name)
+        # Clean end
+        service_name = re.sub("[ ]*$", "", service_name)
+        service_name = clean_service_name(service_name)
+    except AttributeError as a_e:
+        logger.debug(f"{a_e}: {service_name}")
+        # Set it to a blank string so it doesn't break
+        service_name = ""
+    return service_name
+
+
+def write_json_to_file(file_name, content):
+    definition_file = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), file_name)
+    )
+
+    if os.path.exists(definition_file):
+        os.remove(definition_file)
+
+    with open(definition_file, "w") as file:
+        json.dump(content, file, indent=4)
 
 
 def read_yaml_file(filename):

@@ -1,7 +1,6 @@
 from policy_sentry.shared.iam_data import get_service_prefix_data
 from policy_sentry.querying.all import get_all_service_prefixes
-from aws_allowlister.database.database import ComplianceTable, TransformedScrapingDataTable, RawScrapingDataTable
-# from aws_allowlister.database.scraping_data import ScrapingData
+from aws_allowlister.database.database import ComplianceTable
 from aws_allowlister.database.transformed_scraping_data import TransformedScrapingData
 from aws_allowlister.scrapers.overrides import Overrides
 
@@ -73,13 +72,11 @@ class ComplianceData:
             sdk_names = transformed_scraping_database.get_sdk_names_matching_compliance_standard(
                 db_session, standard
             )
-            # Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
-            # print("SDK names:")
-            # print(list(sdk_names.keys()))
 
             all_service_prefixes = get_all_service_prefixes()
             for service_prefix in all_service_prefixes:
-                # If it matches the service prefix, update the compliance table (which has it sorted by IAM names) to check the box
+                # If it matches the service prefix,
+                #   update the compliance table (which has it sorted by IAM names) to check the box
                 if service_prefix in list(sdk_names.keys()):
                     self.set_compliance_status(
                         db_session=db_session,
@@ -119,18 +116,8 @@ class ComplianceData:
     def update_compliance_database(self, db_session, overrides=None):
         if not overrides:
             overrides = Overrides()
-
-        # get a list of all unique compliance standards in the TransformedScrapingDataTable
-        # query = db_session.query(
-        #     TransformedScrapingDataTable.compliance_standard_name.distinct().label(
-        #         "compliance_standard_name"
-        #     )
-        # )
-        # standards = [row.compliance_standard_name for row in query.all()]
-        # compliance = ComplianceData()
         transformed_scraping_database = TransformedScrapingData()
         transformed_scraping_database.populate_table(db_session, overrides)
-        # overrides = Overrides()
         transformed_scraping_database.apply_overrides(db_session=db_session, overrides=overrides)
         self.update_database_by_matching_sdk_names_with_iam_prefixes(
             db_session=db_session, transformed_scraping_database=transformed_scraping_database
@@ -138,67 +125,3 @@ class ComplianceData:
         self.update_database_by_matching_compliance_names_with_iam_names(
             db_session=db_session, transformed_scraping_database=transformed_scraping_database
         )
-
-#
-# def update_compliance_database(db_session):
-#     # get a list of all unique compliance standards in the TransformedScrapingDataTable
-#     query = db_session.query(
-#         TransformedScrapingDataTable.compliance_standard_name.distinct().label(
-#             "compliance_standard_name"
-#         )
-#     )
-#     standards = [row.compliance_standard_name for row in query.all()]
-#     compliance = ComplianceData()
-#     transformed_scraping_database = TransformedScrapingData()
-#
-#     def update_database_by_matching_sdk_names_with_iam_prefixes(standard):
-#         sdk_names = transformed_scraping_database.get_sdk_names_matching_compliance_standard(
-#             db_session, standard
-#         )
-#         # Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
-#         # print("SDK names:")
-#         # print(list(sdk_names.keys()))
-#
-#         all_service_prefixes = get_all_service_prefixes()
-#         for service_prefix in all_service_prefixes:
-#             # If it matches the service prefix, update the compliance table (which has it sorted by IAM names) to check the box
-#             if service_prefix in list(sdk_names.keys()):
-#                 compliance.set_compliance_status(
-#                     db_session=db_session,
-#                     service_prefix=service_prefix,
-#                     compliance_standard=standard,
-#                     status="true",
-#                 )
-#                 # TODO: Should we also update the alternate names?
-#
-#     def update_database_by_matching_compliance_names_with_iam_names(standard):
-#         # The service name in IAM-land
-#         iam_service_names = {}
-#         for service_prefix in ALL_SERVICE_PREFIXES:
-#             iam_service_names[service_prefix] = get_service_prefix_data(service_prefix)[
-#                 "service_name"
-#             ]
-#
-#         # The service name in compliance land
-#         compliance_service_names = (
-#             transformed_scraping_database.get_service_names_matching_compliance_standard(
-#                 db_session, standard
-#             )
-#         )
-#         for iam_service_prefix in list(iam_service_names.keys()):
-#             iam_name = iam_service_names[iam_service_prefix]
-#             compliance_names = list(compliance_service_names.keys())
-#             if iam_name in compliance_names:
-#                 compliance.set_compliance_status(
-#                     db_session=db_session,
-#                     service_prefix=iam_service_prefix,  # this is the IAM prefix
-#                     compliance_standard=standard,
-#                     status="true",
-#                 )
-#
-#     overrides = Overrides()
-#     transformed_scraping_database.populate_table(db_session=db_session, overrides=overrides)
-#     # transformed_scraping_database.apply_overrides(db_session=db_session, overrides=overrides)
-#     for some_standard in standards:
-#         update_database_by_matching_sdk_names_with_iam_prefixes(some_standard)
-#         update_database_by_matching_compliance_names_with_iam_names(some_standard)

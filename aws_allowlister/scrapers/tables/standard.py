@@ -90,11 +90,7 @@ def scrape_standard_table(db_session):
 
 
 def get_service_name(some_cells):
-    # try:
     service_name_cell = some_cells[0].contents[1]
-    # except IndexError as i_e:
-    #     print(i_e)
-    #     service_name_cell = some_cells[0].contents[1]
     if isinstance(service_name_cell, NavigableString):
         service_name = str(service_name_cell)
     elif isinstance(service_name_cell, Tag):
@@ -102,8 +98,6 @@ def get_service_name(some_cells):
     else:
         service_name = str(service_name_cell)
     service_name = clean_service_name(service_name)
-    # if translate_sdk_name_to_iam_prefix(service_prefix):
-    #     return True
     return service_name
 
 

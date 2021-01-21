@@ -46,6 +46,7 @@ service_names_to_iam_names:
     - cognito
     - cognito-idp
     - cognito-identity
+    - cognito-sync
   Amazon Comprehend Medical:
     - comprehend
     - comprehendmedical
@@ -79,7 +80,7 @@ service_names_to_iam_names:
     - opsworks
     - opsworks-cm
   AWS OpsWorks Stacks:
-    - opsworks, opsworks-cm
+    - opsworks
   Amazon Quantum Ledger Database:
     - qldb
   Amazon Relational Database Service:
@@ -102,6 +103,15 @@ service_names_to_iam_names:
     - ec2
   Elastic Load Balancing:
     - elasticloadbalancing
+  Amazon Keyspaces:
+    - cassandra
+  AWS Chatbot:
+    - chatbot
+  AWS Glue:
+    - glue
+    - lakeformation
+  Amazon Timestream:
+    - timestream
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 2: "SDK name means IAM names"
@@ -131,6 +141,9 @@ sdk_names_to_iam_names:
     - codestar
     - codestar-notifications
     - codestar-connections
+  macie:
+    - macie
+    - macie2
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 3: Global inserts
