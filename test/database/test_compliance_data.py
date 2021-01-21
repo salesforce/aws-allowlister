@@ -110,7 +110,6 @@ class ComplianceDataTestCase(unittest.TestCase):
             "lex",
             "license-manager",
             "logs",
-            "macie",
             "macie2",
             "mediaconnect",
             "mediaconvert",
@@ -168,5 +167,6 @@ class ComplianceDataTestCase(unittest.TestCase):
             "workspaces",
             "xray"
         ]
+        print(len(expected_results))
         for expected_result in expected_results:
             self.assertTrue(expected_result in results)
