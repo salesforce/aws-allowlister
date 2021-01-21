@@ -46,6 +46,7 @@ service_names_to_iam_names:
     - cognito
     - cognito-idp
     - cognito-identity
+    - cognito-sync
   Amazon Comprehend Medical:
     - comprehend
     - comprehendmedical
