@@ -196,4 +196,3 @@ make clean
 * **Quality control of the SQLite database**: LGTM but need someone to do a quality check
 * Documentation on building custom scrapers
 * It covers ISO, PCI, HIPAA, SOC - but doesn't cover FedRAMP yet. Just needs a custom scraper for that.
-* Check about Amazon Macie Classic and its compliance status
