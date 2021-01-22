@@ -12,6 +12,7 @@ class ComplianceData:
         self.note = None
 
     def standard_names(self, db_session):
+        """Get the names of the standards mentioned in the Compliance Database table"""
         standard_names = ComplianceTable.metadata.tables[
             "compliancetable"
         ].columns.keys()
@@ -36,6 +37,7 @@ class ComplianceData:
         db_session.close()
 
     def get_compliance_status(self, db_session, service_prefix, compliance_standard):
+        """Given a compliance standard name and the service prefix, get the true/false compliance status"""
         rows = db_session.query(ComplianceTable).filter(
             ComplianceTable.service_prefix == service_prefix
         )
@@ -50,6 +52,7 @@ class ComplianceData:
         return status
 
     def get_compliant_services(self, db_session, compliance_standard):
+        """Get a list of services compliant with a standard like ISO or SOC"""
         compliant_services = []
         for service_prefix in ALL_SERVICE_PREFIXES:
             rows = db_session.query(ComplianceTable).filter(
@@ -68,6 +71,10 @@ class ComplianceData:
         return compliant_services
 
     def update_database_by_matching_sdk_names_with_iam_prefixes(self, db_session, transformed_scraping_database):
+        """
+        SDK names (the names listed on the compliance pages) and IAM service prefix do not match directly,
+        so let's update the Compliance database table with the IAM names
+        """
         for standard in self.standard_names(db_session):
             sdk_names = transformed_scraping_database.get_sdk_names_matching_compliance_standard(
                 db_session, standard
@@ -86,6 +93,10 @@ class ComplianceData:
                     )
 
     def update_database_by_matching_compliance_names_with_iam_names(self, db_session, transformed_scraping_database):
+        """
+        The names of AWS services in the compliance pages vary; let's change the names of those services to directly
+        match the names of the services as listed on the AWS IAM pages.
+        """
         for standard in self.standard_names(db_session):
 
             # The service name in IAM-land
@@ -113,6 +124,8 @@ class ComplianceData:
                     )
 
     def update_compliance_database(self, db_session, overrides=None):
+        """Populate the compliance database, which we use for writing our SCPs, with the data from
+        the TransformedScrapingData and some overrides magic."""
         if not overrides:
             overrides = Overrides()
         transformed_scraping_database = TransformedScrapingData()

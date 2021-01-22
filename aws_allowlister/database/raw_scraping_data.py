@@ -17,7 +17,9 @@ class RawScrapingData:
         return standards
 
     def get_sdk_names_matching_compliance_standard(self, db_session, standard_name):
-        # Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
+        Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
         rows = db_session.query(RawScrapingDataTable).filter(
             RawScrapingDataTable.compliance_standard_name == standard_name
         )
@@ -27,7 +29,9 @@ class RawScrapingData:
         return sdk_names
 
     def get_service_names_matching_compliance_standard(self, db_session, standard_name):
-        # Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
+        Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
         rows = db_session.query(RawScrapingDataTable).filter(
             RawScrapingDataTable.compliance_standard_name == standard_name
         )
@@ -37,6 +41,7 @@ class RawScrapingData:
         return service_names
 
     def add_entry_to_database(self, db_session, compliance_standard_name, service_name, sdk):
+        """Add an entry to the database"""
         db_session.add(
             RawScrapingDataTable(
                 compliance_standard_name=compliance_standard_name,

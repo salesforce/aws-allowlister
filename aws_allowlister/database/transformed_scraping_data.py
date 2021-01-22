@@ -16,8 +16,9 @@ class TransformedScrapingData:
         self.note = None
 
     def standards(self, db_session):
-        # Let's get the list of standards from the RawScrapingDataTable
-        # in case the Transformed data table is not populated yet.
+        """"
+        Let's get the list of standards from the RawScrapingDataTable in case the Transformed data table is not populated yet.
+        """
         query = db_session.query(
             RawScrapingDataTable.compliance_standard_name.distinct().label(
                 "compliance_standard_name"
@@ -27,7 +28,9 @@ class TransformedScrapingData:
         return standards
 
     def get_sdk_names_matching_compliance_standard(self, db_session, standard_name):
-        # Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
+        Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
         rows = db_session.query(TransformedScrapingDataTable).filter(
             TransformedScrapingDataTable.compliance_standard_name == standard_name
         )
@@ -37,7 +40,9 @@ class TransformedScrapingData:
         return sdk_names
 
     def get_service_names_matching_compliance_standard(self, db_session, standard_name):
-        # Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
+        Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        """
         rows = db_session.query(TransformedScrapingDataTable).filter(
             TransformedScrapingDataTable.compliance_standard_name == standard_name
         )
@@ -47,6 +52,7 @@ class TransformedScrapingData:
         return service_names
 
     def set_sdk_name_given_service_name(self, db_session, service_name, sdk_name):
+        """Set the SDK name given the name of the AWS Service"""
         service_name = clean_service_name_after_brackets_and_parentheses(service_name)
         rows = db_session.query(TransformedScrapingDataTable).filter(
             TransformedScrapingDataTable.service_name == service_name
@@ -56,6 +62,7 @@ class TransformedScrapingData:
         db_session.close()
 
     def set_service_name_given_sdk_name(self, db_session, service_name, sdk_name):
+        """Set the name of the service given the name of the SDK"""
         service_name = clean_service_name_after_brackets_and_parentheses(service_name)
         rows = db_session.query(TransformedScrapingDataTable).filter(
             TransformedScrapingDataTable.sdk_name == sdk_name
@@ -65,6 +72,7 @@ class TransformedScrapingData:
         db_session.close()
 
     def add_entry_to_database(self, db_session, compliance_standard_name, service_name, sdk_name):
+        """Add an entry to the database"""
         service_name = clean_service_name_after_brackets_and_parentheses(service_name)
         db_session.add(
             TransformedScrapingDataTable(
@@ -116,9 +124,6 @@ class TransformedScrapingData:
             standard_service_names = raw_scraping_data.get_service_names_matching_compliance_standard(
                 db_session, standard
             )
-            # standard_service_names = self.get_service_names_matching_compliance_standard(
-            #     db_session, standard
-            # )
             # We are going to compare the names of the services that the HIPAA docs say to the ones in the database
             # To do this properly, we need to clean up service names that look like this:
             #   'Amazon Aurora [MySQL, PostgreSQL]'
