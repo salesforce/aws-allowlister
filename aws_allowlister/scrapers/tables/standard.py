@@ -7,8 +7,6 @@ from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.scrapers.aws_docs import get_aws_html
 
 
-# TODO: Move some of these cleanup items over to the Transform phase?
-#  At least the stuff where we remove special characters etc.
 def scrape_standard_table(db_session):
     results = []
 
@@ -28,11 +26,6 @@ def scrape_standard_table(db_session):
 
     with open(file_path, "r") as f:
         soup = BeautifulSoup(f.read(), "html.parser")
-        # table = soup.find("tbody")
-        # table = soup.find(id=table_id)
-        # Get the standard name based on the "tab" name
-        # tab = table.contents[1]
-        # standard_name = tab.contents[0]
         table_ids = get_table_ids(this_soup=soup)
 
         # these_results = []

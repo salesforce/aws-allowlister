@@ -84,7 +84,6 @@ class ComplianceData:
                         compliance_standard=standard,
                         status="true",
                     )
-                    # TODO: Should we also update the alternate names?
 
     def update_database_by_matching_compliance_names_with_iam_names(self, db_session, transformed_scraping_database):
         for standard in self.standard_names(db_session):

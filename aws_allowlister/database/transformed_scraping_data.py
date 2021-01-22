@@ -16,12 +16,8 @@ class TransformedScrapingData:
         self.note = None
 
     def standards(self, db_session):
-        # query = db_session.query(
-        #     TransformedScrapingDataTable.compliance_standard_name.distinct().label(
-        #         "compliance_standard_name"
-        #     )
-        # )
-        # Let's get the list of standards from the RawScrapingDataTable in case the Transformed data table is not populated yet.
+        # Let's get the list of standards from the RawScrapingDataTable
+        # in case the Transformed data table is not populated yet.
         query = db_session.query(
             RawScrapingDataTable.compliance_standard_name.distinct().label(
                 "compliance_standard_name"
@@ -144,7 +140,6 @@ class TransformedScrapingData:
 
             for iam_service_prefix in list(iam_service_names.keys()):
                 iam_name = iam_service_names[iam_service_prefix]
-                # compliance_names = list(compliance_service_names.keys())
                 for name in compliance_names:
                     if iam_name.lower() == name.lower():
                         self.set_sdk_name_given_service_name(
@@ -194,16 +189,13 @@ class TransformedScrapingData:
                 if not staging_area.get(service_name):
                     staging_area[service_name] = []
                 for matching_standard in matching_standards:
-                    # staging_area[service_name][matching_standard] = []
                     content = {
                         "compliance_standard_name": matching_standard,
                         "service_name": service_name,
                         "sdk_name": iam_name,
                     }
-                    # print(f"\t{iam_name}")
                     print(f"\tAdding to staging area: {content}")
                     staging_area[service_name].append(content)
-                    # staging_area[service_name][matching_standard].append(content)
         # Let's remove the old content since we are going to add the new stuff
         print("\nRemoving the old content:")
         for old_content in content_to_remove:
@@ -222,7 +214,6 @@ class TransformedScrapingData:
             print(f"{service_name}: {len(staging_area.get(service_name))}")
             print("\tNew content:")
             for entry in staging_area.get(service_name):
-                # for entry in staging_area.get(service_name).get(standard):
                 print(f"\t{entry}")
                 exists = (
                     db_session.query(TransformedScrapingDataTable)
@@ -234,13 +225,6 @@ class TransformedScrapingData:
                     .first()
                 )
                 if not exists:
-                    # new_entry = TransformedScrapingDataTable(
-                    #     compliance_standard_name=entry.get("compliance_standard_name"),
-                    #     service_name=entry.get("service_name"),
-                    #     sdk_name=entry.get("sdk_name"),
-                    # )
-                    # db_session.add(new_entry)
-                    # db_session.commit()
                     self.add_entry_to_database(
                         db_session=db_session,
                         compliance_standard_name=entry.get("compliance_standard_name"),
@@ -316,13 +300,6 @@ class TransformedScrapingData:
                     .first()
                 )
                 if not exists:
-                    # new_entry = TransformedScrapingDataTable(
-                    #     compliance_standard_name=entry.get("compliance_standard_name"),
-                    #     service_name=entry.get("service_name"),
-                    #     sdk_name=entry.get("sdk_name"),
-                    # )
-                    # db_session.add(new_entry)
-                    # db_session.commit()
                     self.add_entry_to_database(
                         db_session=db_session,
                         compliance_standard_name=entry.get("compliance_standard_name"),
@@ -357,13 +334,6 @@ class TransformedScrapingData:
                         sdk_name=service_prefix,
                     )
                     print(f"\t{content}")
-                    # new_entry = TransformedScrapingDataTable(
-                    #     compliance_standard_name=standard,
-                    #     service_name=service_name,
-                    #     sdk_name=service_prefix,
-                    # )
-                    # db_session.add(new_entry)
-                    # db_session.commit()
                     self.add_entry_to_database(
                         db_session=db_session,
                         compliance_standard_name=standard,
