@@ -1,4 +1,5 @@
 import unittest
+import json
 from aws_allowlister.database.compliance_data import ComplianceData
 from aws_allowlister.database.database import connect_db
 
@@ -11,7 +12,6 @@ class ComplianceMatches(unittest.TestCase):
         results = compliance_data.get_compliant_services(
             db_session=db_session, compliance_standard=standard
         )
-        # print(json.dumps(results, indent=4))
         expected_results = [
             "account",
             "acm",
@@ -23,6 +23,7 @@ class ComplianceMatches(unittest.TestCase):
             "appsync",
             "athena",
             "autoscaling",
+            "autoscaling-plans",
             "aws-portal",
             "backup",
             "batch",
@@ -39,6 +40,7 @@ class ComplianceMatches(unittest.TestCase):
             "codepipeline",
             "cognito-identity",
             "cognito-idp",
+            "cognito-sync",
             "comprehend",
             "comprehendmedical",
             "config",
@@ -74,27 +76,31 @@ class ComplianceMatches(unittest.TestCase):
             "guardduty",
             "health",
             "iam",
+            "importexport",
             "inspector",
             "iot",
             "iot-device-tester",
             "iotdeviceadvisor",
             "iotevents",
             "iotwireless",
-            "kafka",
             "kinesis",
             "kinesisanalytics",
             "kinesisvideo",
             "kms",
+            "lakeformation",
             "lambda",
             "lex",
             "license-manager",
             "logs",
+            "macie",
             "macie2",
             "mediaconnect",
             "mediaconvert",
             "medialive",
+            "mobiletargeting",
             "mq",
             "neptune-db",
+            "opsworks",
             "opsworks-cm",
             "organizations",
             "outposts",
