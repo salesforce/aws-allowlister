@@ -12,7 +12,7 @@ class ComplianceDataTestCase(unittest.TestCase):
         """database.scrapers.compliance_data.ComplianceData.standard_names"""
         results = compliance_data.standard_names(db_session=db_session)
         # print(result)
-        expected_results = ['SOC', 'PCI', 'ISO', 'FedRAMP', 'HIPAA', 'HITRUST', 'IRAP', 'OSPAR', 'FINMA']
+        expected_results = ['SOC', 'PCI', 'ISO', 'FedRAMP_High', 'FedRAMP_Moderate', 'HIPAA', 'HITRUST', 'IRAP', 'OSPAR', 'FINMA']
         self.assertListEqual(results, expected_results)
 
     def test_get_rows(self):
@@ -30,7 +30,8 @@ class ComplianceDataTestCase(unittest.TestCase):
                 "name": "Amazon S3",
                 "FINMA": "true",
                 "HITRUST": "",
-                "FedRAMP": "",
+                "FedRAMP_High": "",
+                "FedRAMP_Moderate": "",
                 "PCI": "true",
                 "service_prefix": "s3"
             }
@@ -62,7 +63,8 @@ class ComplianceDataTestCase(unittest.TestCase):
                 "name": "Amazon S3",
                 "FINMA": "",
                 "HITRUST": "",
-                "FedRAMP": "",
+                "FedRAMP_High": "",
+                "FedRAMP_Moderate": "",
                 "PCI": "",
                 "service_prefix": "s3"
             }

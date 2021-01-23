@@ -34,7 +34,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     required=False,
     is_flag=True,
     default=False,
-    help="Include SOC-compliant policies",
+    help="Include SOC-compliant services",
 )
 @click.option(
     "--pci",
@@ -42,7 +42,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     required=False,
     is_flag=True,
     default=False,
-    help="Include PCI-compliant policies",
+    help="Include PCI-compliant services",
 )
 @click.option(
     "--hipaa",
@@ -58,7 +58,23 @@ def validate_comma_separated_aws_services(ctx, param, value):
     required=False,
     is_flag=True,
     default=False,
-    help="Include ISO-compliant policies",
+    help="Include ISO-compliant services",
+)
+@click.option(
+    "--fedramp-high",
+    "-fh",
+    required=False,
+    is_flag=True,
+    default=False,
+    help="Include FedRAMP High",
+)
+@click.option(
+    "--fedramp-moderate",
+    "-fm",
+    required=False,
+    is_flag=True,
+    default=False,
+    help="Include FedRAMP Moderate",
 )
 @click.option(
     "--include",
@@ -81,7 +97,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     is_flag=True,
     default=False,
 )
-def generate(all, soc, pci, hipaa, iso, include, exclude, quiet):
+def generate(all, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, include, exclude, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -97,12 +113,18 @@ def generate(all, soc, pci, hipaa, iso, include, exclude, quiet):
         standards.append("HIPAA")
     if iso:
         standards.append("ISO")
+    if fedramp_high:
+        standards.append("FedRAMP_High")
+    if fedramp_moderate:
+        standards.append("FedRAMP_Moderate")
     if (
         all
         and not soc
         and not pci
         and not hipaa
         and not iso
+        and not fedramp_high
+        and not fedramp_moderate
     ):
         standards = ["SOC", "PCI", "HIPAA", "ISO"]
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
