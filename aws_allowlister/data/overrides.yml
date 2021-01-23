@@ -190,6 +190,8 @@ direct_inserts:
   ISO:
     - "mobiletargeting"
     - "msk"
+  PCI:
+    - "chatbot"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 5: Direct removals, per framework
