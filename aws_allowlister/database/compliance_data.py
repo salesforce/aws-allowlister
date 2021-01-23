@@ -199,7 +199,48 @@ class ComplianceData:
                         status="true",
                     )
 
+    def apply_overrides_for_direct_inserts_per_framework(self, db_session, overrides=None):
+        if not isinstance(overrides, Overrides):
+            raise Exception("Overrides should be an object class of type Overrides")
+
+        print("\nOVERRIDES: SECTION 4: Direct inserts, per framework")
+        for standard in self.standard_names(db_session):
+            # If 'SOC' exists under 'direct_inserts'
+            service_keys = overrides.direct_inserts.get(standard)
+            # If there are any services listed under that compliance standard
+            if service_keys:
+                # Then loop through it
+                for service in service_keys:
+                    current_rows = self.get_rows(
+                        db_session=db_session,
+                        service_prefix=service,
+                    )
+                    # Let's try to get the service name if possible to keep it clean.
+                    service_name = get_service_name_matching_iam_service_prefix(service)
+                    if not service_name:
+                        service_name = ""
+                    # This executes if there is no entry at all
+                    if not current_rows:
+                        print(f"direct_inserts: service={service}, standard={standard}")
+                        self.add_entry_to_database(
+                            db_session=db_session,
+                            service_prefix=service,
+                            standard=standard,
+                            name=service_name
+                        )
+                    # This executes if the entry exists but we need to change it
+                    else:
+                        print(f"direct_inserts: service={service}, standard={standard}")
+                        self.update_compliance_status(
+                            db_session=db_session,
+                            service_prefix=service,
+                            compliance_standard=standard,
+                            status="true"
+                        )
+
     def apply_overrides_for_direct_removals_per_framework(self, db_session, overrides=None):
+        print("\nOVERRIDES: SECTION 5: Direct removals, per framework")
+
         if not isinstance(overrides, Overrides):
             raise Exception("Overrides should be an object class of type Overrides")
 
@@ -218,34 +259,6 @@ class ComplianceData:
                     )
                     print(f"direct_removals: service={service}, standard={standard}; removed {rows_removed}")
 
-    def apply_overrides_for_direct_inserts_per_framework(self, db_session, overrides=None):
-        if not isinstance(overrides, Overrides):
-            raise Exception("Overrides should be an object class of type Overrides")
-
-        for standard in self.standard_names(db_session):
-            # If 'SOC' exists under 'direct_inserts'
-            service_keys = overrides.direct_inserts.get(standard)
-            # If there are any services listed under that compliance standard
-            if service_keys:
-                # Then loop through it
-                for service in service_keys:
-                    current_rows = self.get_rows(
-                        db_session=db_session,
-                        service_prefix=service,
-                    )
-                    # Let's try to get the service name if possible to keep it clean.
-                    service_name = get_service_name_matching_iam_service_prefix(service)
-                    if not service_name:
-                        service_name = ""
-                    if not current_rows:
-                        print(f"direct_inserts: service={service}, standard={standard}")
-                        self.add_entry_to_database(
-                            db_session=db_session,
-                            service_prefix=service,
-                            standard=standard,
-                            name=service_name
-                        )
-
     def update_compliance_database(self, db_session, overrides=None):
         """Populate the compliance database, which we use for writing our SCPs, with the data from
         the TransformedScrapingData and some overrides magic."""
@@ -259,5 +272,5 @@ class ComplianceData:
         self.update_database_by_matching_compliance_names_with_iam_names(
             db_session=db_session, transformed_scraping_database=transformed_scraping_database
         )
-        self.apply_overrides_for_direct_removals_per_framework(db_session=db_session, overrides=overrides)
         self.apply_overrides_for_direct_inserts_per_framework(db_session=db_session, overrides=overrides)
+        self.apply_overrides_for_direct_removals_per_framework(db_session=db_session, overrides=overrides)
