@@ -19,7 +19,7 @@ class ComplianceDataTestCase(unittest.TestCase):
         """database.scrapers.compliance_data.ComplianceData.get_rows"""
         results = compliance_data.get_rows(db_session=db_session, service_prefix="s3")
         print(len(results))
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         expected_results = [
             {
                 "OSPAR": "true",
@@ -44,13 +44,13 @@ class ComplianceDataTestCase(unittest.TestCase):
             service_prefix="account",
             compliance_standard="SOC"
         )
-        print(status)
+        # print(status)
         self.assertEqual(status, True)
 
     def test_get_rows_matching_service_prefix(self):
         """database.scrapers.compliance_data.ComplianceData.get_rows_matching_service_prefix"""
         results = compliance_data.get_rows_matching_service_prefix(db_session=db_session, service_prefix="s3")
-        print(json.dumps(results, indent=4))
+        # print(json.dumps(results, indent=4))
         self.assertTrue(len(results) == 1)
         expected_result = [
             {

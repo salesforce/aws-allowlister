@@ -18,7 +18,7 @@ class HipaaQATestCase(unittest.TestCase):
             "macie",
             "mobiletargeting"
         ]
-        print(len(results))
+        # print(len(results))
         for expected_result in expected_results:
-            print(f"{expected_result}: in {expected_result in results}")
+            # print(f"{expected_result}: in {expected_result in results}")
             self.assertTrue(expected_result in results)
