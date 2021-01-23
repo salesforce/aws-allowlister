@@ -31,6 +31,16 @@ def chomp(string):
     return re.sub("[ ]*$", "", result)  # Clean end
 
 
+def chomp_keep_single_spaces(string):
+    """This chomp cleans up all white-space, not just at the ends"""
+    string = str(string)
+    result = string.replace("\n", " ")  # Convert line ends to spaces
+    result = re.sub(" [ ]*", " ", result)  # Truncate multiple spaces to single space
+    result = result.replace(u"\xa0", u" ")  # Remove non-breaking space
+    result = re.sub("^[ ]*", "", result)  # Clean start
+    return re.sub("[ ]*$", "", result)  # Clean end
+
+
 # pylint: disable=inconsistent-return-statements
 def normalize_tags_or_strings(val):
     if isinstance(val, str):

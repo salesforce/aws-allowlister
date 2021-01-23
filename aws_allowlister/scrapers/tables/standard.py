@@ -1,7 +1,6 @@
 import os
 from bs4 import BeautifulSoup
-from aws_allowlister.shared.utils import chomp
-# from aws_allowlister.database.scraping_data import add_scraping_entry_to_input_database
+from aws_allowlister.shared.utils import chomp, chomp_keep_single_spaces
 from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.scrapers.aws_docs import get_aws_html
 from aws_allowlister.scrapers.common import get_table_ids, clean_status_cell, clean_sdks, get_service_name
@@ -29,13 +28,14 @@ def scrape_standard_table(db_session, link, destination_folder, file_name):
 
             # Get the standard name based on the "tab" name
             tab = table.contents[1]
-            standard_name = chomp(str(tab.contents[0]))
-            print(f"Scraping table for {standard_name}")
+            standard_name = chomp_keep_single_spaces(str(tab.contents[0]))
 
             # Skip certain cases based on inconsistent formatting
             exclusions = ["FedRAMP", "DoD CC SRG", "HIPAA BAA", "MTCS"]
             if standard_name in exclusions:
                 continue
+
+            print(f"Scraping table for {standard_name}")
             rows = table.find_all("tr")
             if len(rows) == 0:
                 continue
