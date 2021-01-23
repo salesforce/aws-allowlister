@@ -1,19 +1,14 @@
 import os
 import csv
-from aws_allowlister.database.build import build_database
-from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
+from aws_allowlister.database.database import connect_db
 
 compliance_data = ComplianceData()
 db_session = connect_db()
 
 
-def update_database():
-    build_database()
-    compliance_data.update_compliance_database(db_session=db_session)
-
-
-def update_csv_summary():
+def update_csv():
+    print()
     rows = compliance_data.get_rows(db_session=db_session)
     csv_file_path = os.path.join(
         os.path.dirname(__file__),
@@ -41,5 +36,4 @@ def update_csv_summary():
 
 
 if __name__ == '__main__':
-    update_database()
-    update_csv_summary()
+    update_csv()
