@@ -1,6 +1,8 @@
 name: Publish
 
-on: [published]
+on:
+  release:
+    types: [ published ]
 
 jobs:
   test:
