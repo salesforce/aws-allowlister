@@ -21,6 +21,27 @@ class ComplianceData:
         db_session.close()
         return standard_names
 
+    def get_rows(self, db_session, service_prefix=None, service_name=None):
+        """Get rows as a list of dictionaries"""
+        if service_prefix:
+            rows = db_session.query(ComplianceTable).filter(
+                ComplianceTable.service_prefix == service_prefix
+            )
+        elif service_name:
+            rows = db_session.query(ComplianceTable).filter(
+                ComplianceTable.name == service_name
+            )
+        else:
+            rows = db_session.query(ComplianceTable)
+        size = len(rows.all())
+        results = []
+        for row in rows:
+            res = row.__dict__
+            res.pop("_sa_instance_state", None)
+            res.pop("id", None)
+            results.append(row.__dict__)
+        return results
+
     def set_compliance_status(
         self, db_session, service_prefix, compliance_standard, status
     ):
@@ -29,12 +50,14 @@ class ComplianceData:
         set SOC = "false"
         where service_prefix = "a4b";
         """
-        row = db_session.query(ComplianceTable).filter(
+        rows = db_session.query(ComplianceTable).filter(
             ComplianceTable.service_prefix == service_prefix
         )
-        row.update({compliance_standard: status})
+        size = len(rows.all())
+        rows.update({compliance_standard: status})
         db_session.commit()
         db_session.close()
+        return size
 
     def get_compliance_status(self, db_session, service_prefix, compliance_standard):
         """Given a compliance standard name and the service prefix, get the true/false compliance status"""
@@ -48,9 +71,30 @@ class ComplianceData:
                 result_row = row.__dict__
                 break
         status = result_row.get(compliance_standard)
+        # We set the database value to "true" or an empty string to avoid annoying SQLite errors
+        if status == "true":
+            result = True
+        else:
+            result = False
         db_session.close()
-        return status
+        return result
 
+    def get_rows_matching_service_prefix(self, db_session, service_prefix):
+        """Get rows matching a given prefix and standard"""
+        rows = db_session.query(ComplianceTable).filter(
+            ComplianceTable.service_prefix == service_prefix
+        )
+        size = len(rows.all())
+        results = []
+        for row in rows:
+            res = row.__dict__
+            res.pop("_sa_instance_state", None)
+            res.pop("id", None)
+            results.append(row.__dict__)
+        return results
+
+    # TODO: We should leverage the distinct list of services that match this compliance standard, not just based
+    #  on the service prefixes from Policy Sentry
     def get_compliant_services(self, db_session, compliance_standard):
         """Get a list of services compliant with a standard like ISO or SOC"""
         compliant_services = []
@@ -123,6 +167,61 @@ class ComplianceData:
                         status="true",
                     )
 
+    def apply_overrides_for_direct_removals_per_framework(self, db_session, overrides=None):
+        if not isinstance(overrides, Overrides):
+            raise Exception("Overrides should be an object class of type Overrides")
+
+        for standard in self.standard_names(db_session):
+            # If 'SOC' exists under 'direct_removals'
+            # if overrides.direct_removals.get(standard):
+            services = overrides.direct_removals.get(standard)
+            # If there are any services listed under that compliance standard
+            if services:
+                # Then loop through it
+                for service in services:
+                    # It will return False if it's already in the database as compliant, OR if there is no such row in the database.
+                    status = self.get_compliance_status(
+                        db_session=db_session,
+                        compliance_standard=standard,
+                        service_prefix=service
+                    )
+                    # If it's true, all good. If not, then we need to change the value in the database.
+                    if not status:
+                        self.set_compliance_status(
+                            db_session=db_session,
+                            compliance_standard=standard,
+                            service_prefix=service,
+                            status=""
+                        )
+
+    def apply_overrides_for_direct_inserts_per_framework(self, db_session, overrides=None):
+        if not isinstance(overrides, Overrides):
+            raise Exception("Overrides should be an object class of type Overrides")
+
+        for standard in self.standard_names(db_session):
+            # If 'SOC' exists under 'direct_inserts'
+            # if overrides.direct_inserts.get(standard):
+            services = overrides.direct_inserts.get(standard)
+            # If there are any services listed under that compliance standard
+            if services:
+                # Then loop through it
+                for service in services:
+                    # If the service is listed in the YAML file, get the result
+                    status = self.get_compliance_status(
+                        db_session=db_session,
+                        compliance_standard=standard,
+                        service_prefix=service
+                    )
+                    # TODO: Be able to handle cases where the entries don't exist. That way you can override them. Right now it assumes you have a partial match above kinda
+                    # If it's true, all good. If not, then we need to change the value in the database.
+                    if not status:
+                        self.set_compliance_status(
+                            db_session=db_session,
+                            compliance_standard=standard,
+                            service_prefix=service,
+                            status="true"
+                        )
+
     def update_compliance_database(self, db_session, overrides=None):
         """Populate the compliance database, which we use for writing our SCPs, with the data from
         the TransformedScrapingData and some overrides magic."""
@@ -131,6 +230,8 @@ class ComplianceData:
         transformed_scraping_database = TransformedScrapingData()
         transformed_scraping_database.populate_table(db_session, overrides)
         transformed_scraping_database.apply_overrides(db_session=db_session, overrides=overrides)
+        # self.apply_overrides_for_direct_inserts_per_framework(db_session=db_session, overrides=overrides)
+        # self.apply_overrides_for_direct_removals_per_framework(db_session=db_session, overrides=overrides)
         self.update_database_by_matching_sdk_names_with_iam_prefixes(
             db_session=db_session, transformed_scraping_database=transformed_scraping_database
         )

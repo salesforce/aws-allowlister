@@ -3,12 +3,25 @@ import json
 from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.transformed_scraping_data import TransformedScrapingData
 
+db_session = connect_db()
+transformed_scraping_database = TransformedScrapingData()
+
+
 class ComplianceDataTestCase(unittest.TestCase):
-    def test_get_service_names_matching_compliance_standard(self):
-        db_session = connect_db()
-        transformed_scraping_database = TransformedScrapingData()
-        results = transformed_scraping_database.get_sdk_names_matching_compliance_standard(db_session, "SOC")
+    def test_get_rows(self):
+        results = transformed_scraping_database.get_rows(db_session=db_session, service_prefix="s3")
+        # print(json.dumps(results, indent=4))
+        print(len(results))  # 8
+        results = transformed_scraping_database.get_rows(db_session=db_session, standard="SOC")
+        # print(json.dumps(results, indent=4))
+        print(len(results))  # 146
+        results = transformed_scraping_database.get_rows(db_session=db_session, service_name="Amazon Simple Storage Service")
         print(json.dumps(results, indent=4))
+        print(len(results))  # 8
+
+    def test_get_service_names_matching_compliance_standard(self):
+        results = transformed_scraping_database.get_sdk_names_matching_compliance_standard(db_session, "SOC")
+        # print(json.dumps(results, indent=4))
         expected_results = {
             "appstream": "Amazon AppStream 2.0",
             "athena": "Amazon Athena",
@@ -150,3 +163,4 @@ class ComplianceDataTestCase(unittest.TestCase):
             "storagegateway": "AWS Storage Gateway",
             "elasticloadbalancing": "Elastic Load Balancing"
         }
+        print(len(results))
