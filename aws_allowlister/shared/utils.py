@@ -36,6 +36,7 @@ def chomp_keep_single_spaces(string):
     string = str(string)
     result = string.replace("\n", " ")  # Convert line ends to spaces
     result = re.sub(" [ ]*", " ", result)  # Truncate multiple spaces to single space
+    result = result.replace(" ", " ")  # Replace weird spaces with regular spaces
     result = result.replace(u"\xa0", u" ")  # Remove non-breaking space
     result = re.sub("^[ ]*", "", result)  # Clean start
     return re.sub("[ ]*$", "", result)  # Clean end
@@ -68,6 +69,7 @@ def normalize_tags_or_strings(val):
 def clean_service_name(service_name):
     # Remove non-breaking spaces, otherwise you will have service names like "AWS Amplify\u00a0",
     service_name = service_name.replace(u"\xa0", u" ")
+    service_name = re.sub("\s\s+", " ", service_name)
 
     # # Remove all text after brackets [
     # #   Example: Amazon Aurora on https://aws.amazon.com/compliance/hipaa-eligible-services-reference/

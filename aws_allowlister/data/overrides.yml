@@ -119,6 +119,26 @@ service_names_to_iam_names:
   Amazon Macie:
     - macie
     - macie2
+  # FedRAMP stuff
+  AWS Fargate:
+    - ecs
+    - ecs
+  AWS Database Migration Se rvic e:
+    - dms
+  AWS Identity & Access Management:
+    - iam
+  Amazon S3 Glacier:
+    - glacier
+  Amazon Elastic Kubernetes Service:
+    - eks
+  Amazon EMR:
+    - elasticmapreduce
+  Amazon ElastiCache for Redis:
+    - elasticache
+  Amazon Kinesis Data Firehose:
+    - firehose
+  Elastic Load Balancer:
+    - elasticloadbalancing
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 2: "SDK name means IAM names"

@@ -38,7 +38,31 @@ def clean_sdks(some_cells):
 def clean_status_cell(cells):
     # Slice syntax in case there are only two columns
     status_cell_contents = cells[-1].contents[0]
+    status, status_cell_contents = clean_status_cell_contents(status_cell_contents)
+    # if status_cell_contents is None:
+    #     status = False
+    # elif isinstance(status_cell_contents, str):
+    #     status_cell_contents = chomp(status_cell_contents)
+    # elif isinstance(status_cell_contents, Tag):
+    #     status_cell_contents = chomp(status_cell_contents.text)
+    # elif isinstance(status_cell_contents, NavigableString):
+    #     status_cell_contents = chomp(str(status_cell_contents))
+    # else:
+    #     print("idk what type it is")
+    #
+    # if status_cell_contents is None:
+    #     status = False
+    # elif "✓" in status_cell_contents:
+    #     status = True
+    # elif status_cell_contents != "✓":
+    #     status = False
+    # else:
+    #     status = True
 
+    return status, status_cell_contents
+
+
+def clean_status_cell_contents(status_cell_contents):
     if status_cell_contents is None:
         status = False
     elif isinstance(status_cell_contents, str):

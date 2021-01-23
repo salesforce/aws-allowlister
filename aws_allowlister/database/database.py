@@ -76,7 +76,8 @@ class ComplianceTable(Base):
     SOC = Column(String(50))
     PCI = Column(String(50))
     ISO = Column(String(50))
-    FedRAMP = Column(String(50))
+    FedRAMP_High = Column(String(50))
+    FedRAMP_Moderate = Column(String(50))
     HIPAA = Column(String(50))
     HITRUST = Column(String(50))
     IRAP = Column(String(50))
@@ -90,7 +91,8 @@ class ComplianceTable(Base):
             f"SOC='{self.SOC}', "
             f"PCI='{self.PCI}', "
             f"ISO='{self.ISO}', "
-            f"FedRAMP='{self.FedRAMP}', "
+            f"FedRAMP_High='{self.FedRAMP_High}', "
+            f"FedRAMP_Moderate='{self.FedRAMP_Moderate}', "
             f"HIPAA='{self.HIPAA}', "
             f"HITRUST='{self.HITRUST}', "
             f"IRAP='{self.IRAP}', "
