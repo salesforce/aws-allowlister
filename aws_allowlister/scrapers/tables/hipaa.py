@@ -22,6 +22,10 @@ def scrape_hipaa_table(db_session, link, destination_folder, file_name):
     # These show up as list items but are not relevant at all
     false_positives = [
         "AWS Cloud Security",
+        "AWS Management Console"
+        "AWS CloudEndure"
+        "Amazon CloudWatch SDK Metrics"
+        "AWS Managed Services",
         "AWS Solutions Portfolio",
         "AWS Partner Network",
         "AWS Careers",
@@ -31,14 +35,15 @@ def scrape_hipaa_table(db_session, link, destination_folder, file_name):
     with open(html_file_path, "r") as f:
         soup = BeautifulSoup(f.read(), "html.parser")
         for tag in soup.find_all("li"):
+            cleaned = clean_service_name(tag.text)
             if (
-                tag.text.startswith("Amazon")
-                or tag.text.startswith("AWS")
-                or tag.text.startswith("Elastic")
-                or tag.text.startswith("Alexa")
+                cleaned.startswith("Amazon")
+                or cleaned.startswith("AWS")
+                or cleaned.startswith("Elastic")
+                or cleaned.startswith("Alexa")
             ):
-                if tag.text not in false_positives:
-                    service_names.append(tag.text)
+                if cleaned not in false_positives:
+                    service_names.append(cleaned)
 
     for service_name in service_names:
         raw_scraping_data.add_entry_to_database(

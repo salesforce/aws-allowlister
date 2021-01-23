@@ -25,8 +25,8 @@ def scrape_iso_table(db_session, link, destination_folder, file_name):
 
         for row in rows:
             if isinstance(row, Tag):
-                service_name = str(row.contents[1].text)
-                sdk = str(row.contents[3].text)
+                service_name = clean_service_name(str(row.contents[1].text))
+                sdk = clean_service_name(str(row.contents[3].text))
                 if sdk == "Namespaces*" or service_name == "AWS Services":
                     continue
                 raw_scraping_data.add_entry_to_database(
