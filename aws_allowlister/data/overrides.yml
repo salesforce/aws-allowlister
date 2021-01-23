@@ -28,6 +28,7 @@ service_names_to_iam_names:
   Amazon EC2 Auto Scaling:
     - autoscaling
     - application-autoscaling
+    - autoscaling-plans
   # HIPAA docs
   #   have mismatch between spellings vs IAM spellings
   #   https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
@@ -218,7 +219,4 @@ direct_inserts:
 # ---------------------------------------------------------------------------------------------------------------------
 direct_removals:
   HIPAA:
-    - "msk"
     - "sms-voice"
-  ISO:
-    - "msk"

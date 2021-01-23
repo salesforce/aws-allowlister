@@ -23,7 +23,7 @@ artifact,AWS Artifact,,,true,,,,,,,
 athena,Amazon Athena,true,true,true,true,true,true,,true,true,true
 auditmanager,AWS Audit Manager,,,,,,,,,,
 autoscaling,Amazon EC2 Auto Scaling,true,true,true,true,true,true,,true,true,true
-autoscaling-plans,AWS Auto Scaling,,,,,,,,,,
+autoscaling-plans,AWS Auto Scaling,true,true,true,true,true,true,,true,true,true
 aws-marketplace,AWS Private Marketplace,,,,,,true,,,,
 aws-marketplace-management,AWS Marketplace Management Portal,,,,,,true,,,,
 aws-portal,AWS Billing,true,true,true,true,true,true,,true,true,true
@@ -142,7 +142,7 @@ iotwireless,AWS IoT Core for LoRaWAN,true,true,true,true,true,true,,true,true,tr
 iq,AWS IQ,,,,,,,,,,
 iq-permission,AWS IQ Permissions,,,,,,,,,,
 ivs,Amazon Interactive Video Service,,,,,,,,,,
-kafka,Amazon Managed Streaming for Kafka,true,true,,,,,,,true,true
+kafka,Amazon Managed Streaming for Kafka,,,,,,,,,true,
 kendra,Amazon Kendra,,true,true,,,true,,,,
 kinesis,Amazon Kinesis,true,true,true,true,true,true,,true,true,true
 kinesisanalytics,Amazon Kinesis Analytics V2,true,true,true,,,true,,,true,true
