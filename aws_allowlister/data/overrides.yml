@@ -95,8 +95,12 @@ service_names_to_iam_names:
     - s3
   Amazon Simple Workflow:
     - swf
+  AWS Snowball:
+    - snowball
+    - importexport
   AWS Snowball Edge:
     - snowball
+    - importexport
   AWS Storage Gateway:
     - storagegateway
   Amazon Virtual Private Cloud:
@@ -182,10 +186,8 @@ direct_inserts:
     - "a4b"
     - "mobiletargeting"
     - "msk"
-    - "importexport"
     - "healthlake"
   ISO:
-    - "importexport"
     - "mobiletargeting"
     - "msk"
 
@@ -198,3 +200,5 @@ direct_removals:
   HIPAA:
     - "kafka"
     - "sms-voice"
+  ISO:
+    - "kafka"

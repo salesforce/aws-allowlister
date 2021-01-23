@@ -12,7 +12,6 @@ class IsoQATestCase(unittest.TestCase):
             db_session=db_session, compliance_standard="ISO"
         )
         expected_results = [
-            "importexport",
             "mobiletargeting",
             "macie",
             "msk"

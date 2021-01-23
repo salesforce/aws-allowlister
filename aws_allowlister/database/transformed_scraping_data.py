@@ -135,7 +135,7 @@ class TransformedScrapingData:
                 )
         logger.info("Applying overrides to the TransformedScrapingDataTable")
         self.transform_database_by_matching_compliance_standard_names_with_iam_names(db_session=db_session)
-        self.apply_overrides(db_session=db_session, overrides=overrides)
+        self.apply_name_fixes(db_session=db_session, overrides=overrides)
 
     def transform_database_by_matching_compliance_standard_names_with_iam_names(self, db_session):
         standards = self.standards(db_session=db_session)
@@ -183,7 +183,7 @@ class TransformedScrapingData:
                         logger.debug(f"match_compliance_standard_name_with_iam_prefix_name: iam_name={iam_name}, "
                               f"sdk_name={iam_service_prefix}")
 
-    def apply_overrides(self, db_session, overrides):
+    def apply_name_fixes(self, db_session, overrides):
         if not isinstance(overrides, Overrides):
             raise Exception("Overrides should be an object class of type Overrides")
         self.override_sdk_names_to_iam_names(db_session=db_session, overrides=overrides)
@@ -323,7 +323,7 @@ class TransformedScrapingData:
             print("\tNew content:")
             for entry in staging_area.get(iam_name):
                 # for entry in staging_area.get(iam_name).get(standard):
-                print(f"\t{entry}")
+                print(f"\t{str(entry)}")
                 exists = (
                     db_session.query(TransformedScrapingDataTable)
                     .filter_by(
@@ -349,13 +349,8 @@ class TransformedScrapingData:
         print("New content:")
         for standard in standards:
             for service_prefix in overrides.global_inserts:
-                exists = (
-                    db_session.query(TransformedScrapingDataTable)
-                    .filter_by(
-                        compliance_standard_name=standard, sdk_name=service_prefix
-                    )
-                    .first()
-                )
+                exists = db_session.query(TransformedScrapingDataTable).filter_by(
+                    compliance_standard_name=standard, sdk_name=service_prefix).first()
                 if not exists:
                     service_name = get_service_name_matching_iam_service_prefix(
                         service_prefix
