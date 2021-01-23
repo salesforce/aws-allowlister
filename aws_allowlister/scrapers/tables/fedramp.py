@@ -45,7 +45,7 @@ def scrape_fedramp_table(db_session, link, destination_folder, file_name):
                 # Cell 0: Service name
 
                 this_service_name = get_service_name(cells)
-                print(f"FedRAMP service_name: {this_service_name}")
+                # print(f"FedRAMP service_name: {this_service_name}")
 
                 # Cell 1: FedRAMP Moderate (East/West)
                 fedramp_moderate_status, fedramp_moderate_status_contents = clean_status_cell_contents(cells[1].contents[0])
