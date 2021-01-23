@@ -37,7 +37,12 @@ def scrape_hipaa_table(db_session):
     with open(os.path.join(html_docs_destination, file_name), "r") as f:
         soup = BeautifulSoup(response.content, "html.parser")
         for tag in soup.find_all("li"):
-            if tag.text.startswith("Amazon") or tag.text.startswith("AWS"):
+            if (
+                tag.text.startswith("Amazon")
+                or tag.text.startswith("AWS")
+                or tag.text.startswith("Elastic")
+                or tag.text.startswith("Alexa")
+            ):
                 if tag.text not in false_positives:
                     service_names.append(tag.text)
     for service_name in service_names:

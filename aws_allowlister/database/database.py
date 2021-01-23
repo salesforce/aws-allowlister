@@ -73,7 +73,6 @@ class ComplianceTable(Base):
     id = Column(Integer, primary_key=True)
     service_prefix = Column(String(50))
     name = Column(String(50))
-    alternative_names = Column(String(50))
     SOC = Column(String(50))
     PCI = Column(String(50))
     ISO = Column(String(50))
@@ -88,7 +87,6 @@ class ComplianceTable(Base):
         return (
             f"<ComplianceTable(service_prefix={self.service_prefix}, "
             f"name='{self.name}', "
-            f"alternative_names='{self.alternative_names}', "
             f"SOC='{self.SOC}', "
             f"PCI='{self.PCI}', "
             f"ISO='{self.ISO}', "

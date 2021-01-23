@@ -16,8 +16,8 @@ class Overrides:
         )
         self.sdk_names_to_iam_names = self.overrides.get("sdk_names_to_iam_names")
         self.global_inserts = self.overrides.get("global_inserts")
-        self.global_removals = self.overrides.get("global_removals")
         self.direct_inserts = self.overrides.get("direct_inserts")
+        self.direct_removals = self.overrides.get("direct_removals")
 
     def get_iam_names_matching_service_name(self, service_name):
         iam_names = []

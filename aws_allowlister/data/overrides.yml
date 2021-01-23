@@ -41,7 +41,7 @@ service_names_to_iam_names:
   Amazon Aurora:
     - rds
   Amazon CloudWatch Events:
-  - events
+    - events
   Amazon Cognito:
     - cognito
     - cognito-idp
@@ -95,8 +95,12 @@ service_names_to_iam_names:
     - s3
   Amazon Simple Workflow:
     - swf
+  AWS Snowball:
+    - snowball
+    - importexport
   AWS Snowball Edge:
     - snowball
+    - importexport
   AWS Storage Gateway:
     - storagegateway
   Amazon Virtual Private Cloud:
@@ -112,6 +116,9 @@ service_names_to_iam_names:
     - lakeformation
   Amazon Timestream:
     - timestream
+  Amazon Macie:
+    - macie
+    - macie2
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 2: "SDK name means IAM names"
@@ -124,6 +131,7 @@ sdk_names_to_iam_names:
     - sms-voice
     - pinpoint
     - sms-voice
+    - mobiletargeting
   runtime.lex:
     - lex
   models.lex:
@@ -142,6 +150,9 @@ sdk_names_to_iam_names:
     - codestar-notifications
     - codestar-connections
   macie:
+    - macie
+    - macie2
+  macie2:
     - macie
     - macie2
 
@@ -171,14 +182,25 @@ global_inserts:
 # Let's say you want to include a particular IAM service for one framework but not another. You can reflect that here.
 # ---------------------------------------------------------------------------------------------------------------------
 direct_inserts:
-  SOC:
-    - ""
-
+  HIPAA:
+    - "a4b"
+    - "mobiletargeting"
+    - "msk"
+    - "healthlake"
+  ISO:
+    - "mobiletargeting"
+    - "msk"
+  PCI:
+    - "chatbot"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 5: Direct removals, per framework
 #
 # Let's say you don't want to include a particular IAM service for a particular framework. You can remove that here.
 # ---------------------------------------------------------------------------------------------------------------------
-global_removals:
-  - ""
+direct_removals:
+  HIPAA:
+    - "kafka"
+    - "sms-voice"
+  ISO:
+    - "kafka"

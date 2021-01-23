@@ -16,9 +16,33 @@ class RawScrapingData:
         standards = [row.compliance_standard_name for row in query.all()]
         return standards
 
+    def get_rows(self, db_session, sdk_name=None, service_name=None, standard=None):
+        if sdk_name:
+            rows = db_session.query(RawScrapingDataTable).filter(
+                RawScrapingDataTable.sdk_name == sdk_name
+            )
+        elif service_name:
+            rows = db_session.query(RawScrapingDataTable).filter(
+                RawScrapingDataTable.service_name == service_name
+            )
+        elif standard:
+            rows = db_session.query(RawScrapingDataTable).filter(
+                RawScrapingDataTable.compliance_standard_name == standard
+            )
+        else:
+            rows = db_session.query(RawScrapingDataTable)
+        size = len(rows.all())
+        results = []
+        for row in rows:
+            res = row.__dict__
+            res.pop("_sa_instance_state", None)
+            res.pop("id", None)
+            results.append(row.__dict__)
+        return results
+
     def get_sdk_names_matching_compliance_standard(self, db_session, standard_name):
         """
-        Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        Get a list of all SDK names matching this compliance standard from the Scraping Table
         """
         rows = db_session.query(RawScrapingDataTable).filter(
             RawScrapingDataTable.compliance_standard_name == standard_name
@@ -30,7 +54,7 @@ class RawScrapingData:
 
     def get_service_names_matching_compliance_standard(self, db_session, standard_name):
         """
-        Get a list of all SDK names matching this compliance standard from the TransformedScrapingDataTable
+        Get a list of all SDK names matching this compliance standard from the Scraping Table
         """
         rows = db_session.query(RawScrapingDataTable).filter(
             RawScrapingDataTable.compliance_standard_name == standard_name
