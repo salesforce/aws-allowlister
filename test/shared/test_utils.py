@@ -1,7 +1,7 @@
 import json
 import unittest
 from aws_allowlister.shared.utils import clean_service_name, get_service_name_matching_iam_service_prefix, \
-    clean_service_name_after_brackets_and_parentheses
+    clean_service_name_after_brackets_and_parentheses, chomp_keep_single_spaces, chomp
 
 
 class UtilsTestCase(unittest.TestCase):
@@ -26,8 +26,9 @@ class UtilsTestCase(unittest.TestCase):
             self.assertEqual(result, service_name_pairs.get(iam_service_prefix))
             print(f"{iam_service_prefix}: {result}")
 
-    # def test_chomp(self):
-    #     print()
+    def test_chomp(self):
+        result = chomp_keep_single_spaces("DoD CC SRG")
+        print(result)
     #
     # def test_normalize_tags_or_strings(self):
     #     print()
