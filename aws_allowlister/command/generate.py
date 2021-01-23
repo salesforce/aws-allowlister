@@ -80,7 +80,7 @@ def generate(all, soc, pci, hipaa, iso, quiet):
         and not iso
     ):
         standards = ["SOC", "PCI", "HIPAA", "ISO"]
-        logger.info(f"--all was selected. The policy will include: {str(standards)} ")
+        logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
     logger.info(f"Note: to silence these logs, supply the argument '--quiet'")
     logger.info(f"Policies for standard(s): {str(', '.join(standards))}")
     results = generate_allowlist_scp(standards)
