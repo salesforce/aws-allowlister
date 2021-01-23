@@ -133,7 +133,14 @@ def generate_allowlist_scp(standards, include=None, exclude=None):
 
     allowed_services = []
     for service in services:
+        # Remove the services that were specified for exclusion
+        if exclude:
+            if service in exclude:
+                logger.info(f"{service} has been excluded from the policy")
+                continue
+        # If the service is not excluded, proceed
         allowed_services.append(f"{service}:*")
+
     policy = {
         "Version": "2012-10-17",
         "Statement": {

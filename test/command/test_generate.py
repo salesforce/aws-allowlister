@@ -1,9 +1,7 @@
-import os
-import json
 import unittest
+import json
 from click.testing import CliRunner
 from aws_allowlister.command.generate import generate, generate_allowlist_scp
-from policy_sentry.util.policy_files import get_actions_from_policy
 
 
 class AllowListerClickUnitTests(unittest.TestCase):
@@ -25,3 +23,14 @@ class GenerateAllowlistScpTestCase(unittest.TestCase):
         # print(json.dumps(results, indent=4))
         not_actions = results.get("Statement").get("NotAction")
         self.assertTrue("yolo:*" in not_actions)
+
+    def test_generate_with_force_exclude(self):
+        standards = ["PCI"]
+        include = []
+        exclude = ["iam"]
+        results = generate_allowlist_scp(standards, include=include, exclude=exclude)
+        # print(json.dumps(results, indent=4))
+        not_actions = results.get("Statement").get("NotAction")
+        # Even though we would never remove IAM from an SCP,
+        # this is a good way to demonstrate how services can be forcibly removed from the SCP
+        self.assertTrue("iam:*" not in not_actions)
