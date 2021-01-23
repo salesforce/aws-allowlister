@@ -24,7 +24,7 @@ def set_stream_logger(name='aws_allowlister', level=logging.DEBUG, format_string
     for handler in handlers:
         logging.getLogger(name).removeHandler(handler)
     if format_string is None:
-        format_string = "%(asctime)s %(name)s [%(levelname)s] %(message)s"
+        format_string = "%(name)s [%(levelname)s] %(message)s"
     logger = logging.getLogger(name)
     logger.setLevel(level)
     handler = logging.StreamHandler()
