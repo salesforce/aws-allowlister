@@ -32,7 +32,6 @@ class ComplianceDataTestCase(unittest.TestCase):
                 "HITRUST": "",
                 "FedRAMP": "",
                 "PCI": "true",
-                "alternative_names": "",
                 "service_prefix": "s3"
             }
         ]
@@ -65,7 +64,6 @@ class ComplianceDataTestCase(unittest.TestCase):
                 "HITRUST": "",
                 "FedRAMP": "",
                 "PCI": "",
-                "alternative_names": "",
                 "service_prefix": "s3"
             }
         ]

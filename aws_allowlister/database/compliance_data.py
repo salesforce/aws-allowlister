@@ -3,6 +3,7 @@ from policy_sentry.querying.all import get_all_service_prefixes
 from aws_allowlister.database.database import ComplianceTable
 from aws_allowlister.database.transformed_scraping_data import TransformedScrapingData
 from aws_allowlister.scrapers.overrides import Overrides
+from aws_allowlister.shared.utils import get_service_name_matching_iam_service_prefix
 
 ALL_SERVICE_PREFIXES = get_all_service_prefixes()
 
@@ -16,7 +17,7 @@ class ComplianceData:
         standard_names = ComplianceTable.metadata.tables[
             "compliancetable"
         ].columns.keys()
-        for item in ["id", "service_prefix", "name", "alternative_names"]:
+        for item in ["id", "service_prefix", "name"]:
             standard_names.remove(item)
         db_session.close()
         return standard_names
@@ -42,7 +43,7 @@ class ComplianceData:
             results.append(row.__dict__)
         return results
 
-    def set_compliance_status(
+    def update_compliance_status(
         self, db_session, service_prefix, compliance_standard, status
     ):
         """
@@ -58,6 +59,27 @@ class ComplianceData:
         db_session.commit()
         db_session.close()
         return size
+
+    def add_entry_to_database(self, db_session, service_prefix, name, standard):
+        """Add an entry to the database"""
+        # Let's add the empty entry to the database, then commit it, then call the other function to update the actual status
+        db_session.add(
+            ComplianceTable(
+                service_prefix=service_prefix,
+                name=name,
+                SOC="",
+                PCI="",
+                ISO="",
+                FedRAMP="",
+                HIPAA="",
+                HITRUST="",
+                IRAP="",
+                OSPAR="",
+                FINMA="",
+            )
+        )
+        db_session.commit()
+        self.update_compliance_status(db_session=db_session, service_prefix=service_prefix, compliance_standard=standard)
 
     def get_compliance_status(self, db_session, service_prefix, compliance_standard):
         """Given a compliance standard name and the service prefix, get the true/false compliance status"""
@@ -129,7 +151,7 @@ class ComplianceData:
                 # If it matches the service prefix,
                 #   update the compliance table (which has it sorted by IAM names) to check the box
                 if service_prefix in list(sdk_names.keys()):
-                    self.set_compliance_status(
+                    self.update_compliance_status(
                         db_session=db_session,
                         service_prefix=service_prefix,
                         compliance_standard=standard,
@@ -160,7 +182,7 @@ class ComplianceData:
                 iam_name = iam_service_names[iam_service_prefix]
                 compliance_names = list(compliance_service_names.keys())
                 if iam_name in compliance_names:
-                    self.set_compliance_status(
+                    self.update_compliance_status(
                         db_session=db_session,
                         service_prefix=iam_service_prefix,  # this is the IAM prefix
                         compliance_standard=standard,
@@ -187,7 +209,7 @@ class ComplianceData:
                     )
                     # If it's true, all good. If not, then we need to change the value in the database.
                     if not status:
-                        self.set_compliance_status(
+                        self.update_compliance_status(
                             db_session=db_session,
                             compliance_standard=standard,
                             service_prefix=service,
@@ -201,26 +223,41 @@ class ComplianceData:
         for standard in self.standard_names(db_session):
             # If 'SOC' exists under 'direct_inserts'
             # if overrides.direct_inserts.get(standard):
-            services = overrides.direct_inserts.get(standard)
+            service_keys = overrides.direct_inserts.get(standard)
             # If there are any services listed under that compliance standard
-            if services:
+            if service_keys:
                 # Then loop through it
-                for service in services:
-                    # If the service is listed in the YAML file, get the result
-                    status = self.get_compliance_status(
+                for service in service_keys:
+                    current_rows = self.get_rows(
                         db_session=db_session,
-                        compliance_standard=standard,
-                        service_prefix=service
+                        service_prefix=service,
                     )
-                    # TODO: Be able to handle cases where the entries don't exist. That way you can override them. Right now it assumes you have a partial match above kinda
-                    # If it's true, all good. If not, then we need to change the value in the database.
-                    if not status:
-                        self.set_compliance_status(
+                    # Let's try to get the service name if possible to keep it clean.
+                    service_name = get_service_name_matching_iam_service_prefix(service)
+                    if not service_name:
+                        service_name = ""
+                    if not current_rows:
+                        self.add_entry_to_database(
                             db_session=db_session,
-                            compliance_standard=standard,
                             service_prefix=service,
-                            status="true"
+                            standard=standard,
+                            name=service_name
                         )
+                    # # If the service is listed in the YAML file, get the result
+                    # status = self.get_compliance_status(
+                    #     db_session=db_session,
+                    #     compliance_standard=standard,
+                    #     service_prefix=service
+                    # )
+                    # # TODO: Be able to handle cases where the entries don't exist. That way you can override them. Right now it assumes you have a partial match above kinda
+                    # # If it's true, all good. If not, then we need to change the value in the database.
+                    # if not status:
+                    #     self.update_compliance_status(
+                    #         db_session=db_session,
+                    #         compliance_standard=standard,
+                    #         service_prefix=service,
+                    #         status="true"
+                    #     )
 
     def update_compliance_database(self, db_session, overrides=None):
         """Populate the compliance database, which we use for writing our SCPs, with the data from

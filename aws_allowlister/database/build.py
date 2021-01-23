@@ -1,10 +1,10 @@
 import os
 from policy_sentry.shared.iam_data import get_service_prefix_data
 from policy_sentry.querying.all import get_all_service_prefixes
+from aws_allowlister.database.database import DATABASE_PATH, connect_db, ComplianceTable
 from aws_allowlister.scrapers.tables.standard import scrape_standard_table
 from aws_allowlister.scrapers.tables.iso import scrape_iso_table
 from aws_allowlister.scrapers.tables.hipaa import scrape_hipaa_table
-from aws_allowlister.database.database import DATABASE_PATH, connect_db, ComplianceTable
 
 
 ALL_SERVICE_PREFIXES = get_all_service_prefixes()
@@ -21,7 +21,6 @@ def create_empty_compliance_database(db_session):
             ComplianceTable(
                 service_prefix=service_prefix,
                 name=name,
-                alternative_names="",
                 SOC="",
                 PCI="",
                 ISO="",
