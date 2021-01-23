@@ -42,3 +42,9 @@ fmt: setup_dev
 .PHONY: lint
 lint: setup_dev
 	pylint aws_allowlister/
+
+.PHONY: publish
+publish: build
+	python -m pip install --upgrade twine
+	python -m twine upload dist/*
+	python -m pip install aws_allowlister
