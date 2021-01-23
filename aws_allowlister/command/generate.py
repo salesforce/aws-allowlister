@@ -64,12 +64,14 @@ def validate_comma_separated_aws_services(ctx, param, value):
     "--include",
     required=False,
     default=None,
+    type=str,
     callback=validate_comma_separated_aws_services,
     help="Include specific AWS IAM services, specified in a comma separated string."
 )
 @click.option(
     "--exclude",
     required=False,
+    type=str,
     default=None,
     callback=validate_comma_separated_aws_services,
     help="Exclude specific AWS IAM services, specified in a comma separated string."
