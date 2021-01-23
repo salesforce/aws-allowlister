@@ -72,7 +72,7 @@ service_names_to_iam_names:
   Amazon Kinesis Data Streams:
     - kinesis
   Amazon Managed Streaming for Apache Kafka:
-    - kafka
+    - msk
   AWS OpsWorks for Chef Automate:
     - opsworks
     - opsworks-cm
@@ -198,7 +198,7 @@ direct_inserts:
 # ---------------------------------------------------------------------------------------------------------------------
 direct_removals:
   HIPAA:
-    - "kafka"
+    - "msk"
     - "sms-voice"
   ISO:
-    - "kafka"
+    - "msk"
