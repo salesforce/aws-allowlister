@@ -126,8 +126,6 @@ class ComplianceMatches(unittest.TestCase):
             "sns",
             "sqs",
             "ssm",
-            "sso",
-            "sso-directory",
             "states",
             "storagegateway",
             "sts",

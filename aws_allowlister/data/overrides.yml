@@ -173,8 +173,6 @@ global_inserts:
   - route53domains
   - sts
   - support
-  - sso
-  - sso-directory
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 4: Direct inserts, per framework
