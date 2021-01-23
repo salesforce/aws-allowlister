@@ -7,9 +7,14 @@ logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 # TODO: Duplicate code passing in these parameters
-def get_aws_html(link, html_docs_destination, file_name):
-    """Get the AWS docs, modify the CSS paths so things display properly, and then add it locally."""
+def get_aws_html(link, file_path):
+    """
+    Get the AWS docs, modify the CSS paths so things display properly, save it locally, and return the path.
+    """
+    file_name = os.path.basename(file_path)
+
     print(f"Getting the AWS documentation for: {file_name}")
+
     response = requests.get(link, allow_redirects=False)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -48,7 +53,7 @@ def get_aws_html(link, html_docs_destination, file_name):
 
     cleanup_links()
 
-    file_path = os.path.join(html_docs_destination, file_name)
+    # file_path = os.path.join(html_docs_destination, file_name)
     if os.path.exists(file_path):
         print(f"Removing old file path: {file_path}")
         os.remove(file_path)
