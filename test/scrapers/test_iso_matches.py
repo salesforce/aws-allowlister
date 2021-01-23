@@ -18,7 +18,7 @@ class IsoQATestCase(unittest.TestCase):
         ]
         # print(len(expected_results))
         for expected_result in expected_results:
-            print(expected_result)
+            # print(expected_result)
             # print(f"{expected_result} in {results}")
             self.assertTrue(expected_result in results)
 

@@ -7,6 +7,15 @@ from aws_allowlister import set_stream_logger
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
+def validate_comma_separated_aws_services(ctx, param, value):
+    if value is not None:
+        try:
+            include_services = value.split(",")
+            return include_services
+        except ValueError:
+            raise click.BadParameter('Supply the AWS services in a comma separated string.')
+
+
 @click.command(
     name="generate",
     short_help="Generate an AWS AllowList policy based on compliance requirements",
@@ -52,11 +61,25 @@ logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
     help="Include ISO-compliant policies",
 )
 @click.option(
+    "--include",
+    required=False,
+    default=None,
+    callback=validate_comma_separated_aws_services,
+    help="Include specific AWS IAM services, specified in a comma separated string."
+)
+@click.option(
+    "--exclude",
+    required=False,
+    default=None,
+    callback=validate_comma_separated_aws_services,
+    help="Exclude specific AWS IAM services, specified in a comma separated string."
+)
+@click.option(
     '--quiet', '-q',
     is_flag=True,
     default=False,
 )
-def generate(all, soc, pci, hipaa, iso, quiet):
+def generate(all, soc, pci, hipaa, iso, include, exclude, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -83,13 +106,14 @@ def generate(all, soc, pci, hipaa, iso, quiet):
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
     logger.info(f"Note: to silence these logs, supply the argument '--quiet'")
     logger.info(f"Policies for standard(s): {str(', '.join(standards))}")
-    results = generate_allowlist_scp(standards)
+    results = generate_allowlist_scp(standards, include, exclude)
     print(json.dumps(results, indent=4))
 
 
-def generate_allowlist_scp(standards):
+def generate_allowlist_scp(standards, include=None, exclude=None):
     db_session = connect_db()
     compliance_data = ComplianceData()
+    # This is a list of sets
     standard_results = []
     for standard in standards:
         standard_results.append(
@@ -99,13 +123,24 @@ def generate_allowlist_scp(standards):
                 )
             )
         )
-
     # Intersect a collection of sets
     services = list(standard_results[0].intersection(*standard_results))
+    # Add the force-include services
+    if include:
+        services.extend(include)
+
     services.sort()
+
     allowed_services = []
     for service in services:
+        # Remove the services that were specified for exclusion
+        if exclude:
+            if service in exclude:
+                logger.info(f"{service} has been excluded from the policy")
+                continue
+        # If the service is not excluded, proceed
         allowed_services.append(f"{service}:*")
+
     policy = {
         "Version": "2012-10-17",
         "Statement": {
