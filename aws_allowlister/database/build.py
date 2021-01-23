@@ -46,15 +46,32 @@ def build_database():
     #   (ex: s3) and the Service name (Simple Storage Service) and set all the values to blank strings
     create_empty_compliance_database(db_session)
 
+    html_docs_folder = os.path.join(os.path.dirname(__file__), os.path.pardir, "data")
+
     # Scrape the tables that follow the standard format.
     #   These compliance frameworks, and services that are certified by them, are located at:
     #       https://aws.amazon.com/compliance/services-in-scope/
-    scrape_standard_table(db_session)
+    scrape_standard_table(
+        db_session=db_session,
+        link="https://aws.amazon.com/compliance/services-in-scope/",
+        destination_folder=html_docs_folder,
+        file_name="services-in-scope.html"
+    )
 
     # ISO docs follow a different format.
     #   ISO compliant services are located at https://aws.amazon.com/compliance/iso-certified/
-    scrape_iso_table(db_session)
+    scrape_iso_table(
+        db_session=db_session,
+        link="https://aws.amazon.com/compliance/iso-certified/",
+        destination_folder=html_docs_folder,
+        file_name="iso-certified.html"
+    )
 
     # HIPAA Docs follow a different format.
     #   HIPAA compliant services are located at https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
-    scrape_hipaa_table(db_session)
+    scrape_hipaa_table(
+        db_session=db_session,
+        link="https://aws.amazon.com/compliance/hipaa-eligible-services-reference/",
+        destination_folder=html_docs_folder,
+        file_name="hipaa-eligible-services-reference.html"
+    )

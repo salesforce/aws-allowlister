@@ -7,24 +7,19 @@ from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.scrapers.aws_docs import get_aws_html
 
 
-def scrape_standard_table(db_session):
+def scrape_standard_table(db_session, link, destination_folder, file_name):
     results = []
 
-    # Get the file
-    html_docs_destination = os.path.join(
-        os.path.dirname(__file__), os.path.pardir, os.path.pardir, "data"
-    )
-    file_name = "services-in-scope.html"
-    html_file_path = os.path.join(html_docs_destination, file_name)
+    html_file_path = os.path.join(destination_folder, file_name)
     if os.path.exists(html_file_path):
         os.remove(html_file_path)
+
     # Start scraping the standard table
-    link = "https://aws.amazon.com/compliance/services-in-scope/"
-    file_path = get_aws_html(link, html_docs_destination, file_name)
+    get_aws_html(link, html_file_path)
 
     raw_scraping_data = RawScrapingData()
 
-    with open(file_path, "r") as f:
+    with open(html_file_path, "r") as f:
         soup = BeautifulSoup(f.read(), "html.parser")
         table_ids = get_table_ids(this_soup=soup)
 
