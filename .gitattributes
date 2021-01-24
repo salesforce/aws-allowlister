@@ -1,1 +1,3 @@
 aws_allowlister/data/* linguist-vendored
+HomebrewFormula/* linguist-vendored
+Makefile linguist-vendored
