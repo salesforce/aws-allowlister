@@ -1,5 +1,8 @@
 # aws-allowlister
 
+![Continuous Integration Tests](https://github.com/salesforce/aws-allowlister/workflows/.github/workflows/ci.yml/badge.svg)
+
+
 Automatically compile an AWS Service Control Policy that ONLY allows AWS services that are compliant with your selected frameworks. Supports SOC, PCI, HIPAA, ISO, FedRAMP High, and FedRAMP Moderate.
 
 ## Installation
