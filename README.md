@@ -177,7 +177,7 @@ The resulting policy will look like this:
 - `--hipaa`, or `-h`
 - `--iso`, or `-i`
 - `--fedramp-moderate`, or `-fm`
-- `--fedramp-high`, or `fh`
+- `--fedramp-high`, or `-fh`
 
 
 For example, to generate a PCI only Service Control Policy:
