@@ -31,8 +31,6 @@ class AllowListerClickUnitTests(unittest.TestCase):
         self.assertTrue(result.exit_code == 0)
         result_json = json.loads(result.output)
         not_actions = result_json.get("Statement").get("NotAction")
-        print(result_json)
-        result_json = json.loads(result.output)
         self.assertTrue("iam:*" not in not_actions)
         self.assertTrue("s3:*" not in not_actions)
 
