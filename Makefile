@@ -42,7 +42,6 @@ test: setup_dev
 	bandit -r ./aws_allowlister/
 	python -m coverage run -m pytest -v
 
-
 .PHONY: fmt
 fmt: setup_dev
 	black aws_allowlister/
@@ -56,3 +55,7 @@ publish: build
 	python -m pip install --upgrade twine
 	python -m twine upload dist/*
 	python -m pip install aws_allowlister
+
+.PHONY: generate-examples
+generate-examples: setup_env
+	sh utils/generate_new_scps.sh
