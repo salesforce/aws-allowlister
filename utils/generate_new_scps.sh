@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -ex
 
-source venv/bin/activate
 make uninstall
 pip install aws-allowlister
 
