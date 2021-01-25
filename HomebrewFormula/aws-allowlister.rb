@@ -3,8 +3,8 @@ class AwsAllowlister < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/aws-allowlister"
-  url "https://files.pythonhosted.org/packages/86/62/ccc24158e8b7115e7ae0510bbf640a30bb36b42028f9bfff481bac6e4df1/aws-allowlister-0.0.4.tar.gz"
-  sha256 "170946395a30dca47ab1cd1c6a781fa31352da9b0360cfbae6c6d465056716a4"
+  url "https://files.pythonhosted.org/packages/e2/b3/a0f1a6a7e6216bf65c07ffd2e0196007c9c9e32dcab72be94db0cb48d5f2/aws-allowlister-0.1.0.tar.gz"
+  sha256 "49167ece030ec849a19031dacfbb31ea4a7c7ba93b29af3b03c073ca964d1356"
 
   depends_on "python3"
 
