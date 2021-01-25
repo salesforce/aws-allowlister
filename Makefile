@@ -19,6 +19,13 @@ install: build
 	python -m pip install -q ./dist/aws-allowlister*.tar.gz
 	aws-allowlister --help
 
+.PHONY: uninstall
+uninstall:
+	python -m pip uninstall aws-allowlister -y
+	python -m pip uninstall -r requirements.txt -y
+	python -m pip uninstall -r requirements-dev.txt -y
+	python -m pip freeze | xargs python -m pip uninstall -y
+
 .PHONY: clean
 clean:
 	rm -rf dist/
@@ -31,9 +38,10 @@ clean:
 	find . -name '*.pyo' -exec rm --force {} +
 
 .PHONY: test
-test:
+test: setup_dev
 	bandit -r ./aws_allowlister/
 	python -m coverage run -m pytest -v
+
 
 .PHONY: fmt
 fmt: setup_dev

@@ -9,8 +9,21 @@ class AllowListerClickUnitTests(unittest.TestCase):
         self.runner = CliRunner()
 
     def test_allowlister_with_click(self):
-        result = self.runner.invoke(generate, ["--pci"])
-        print(result.output)
+        result = self.runner.invoke(generate, ["-a"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-s"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-p"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-h"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-i"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-fh"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-fm"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-fm"])
         self.assertTrue(result.exit_code == 0)
 
 
