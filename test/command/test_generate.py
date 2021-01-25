@@ -26,6 +26,23 @@ class AllowListerClickUnitTests(unittest.TestCase):
         result = self.runner.invoke(generate, ["-fm"])
         self.assertTrue(result.exit_code == 0)
 
+        # Test --exclude
+        result = self.runner.invoke(generate, ["--exclude", "iam,s3", "--quiet"])
+        self.assertTrue(result.exit_code == 0)
+        result_json = json.loads(result.output)
+        not_actions = result_json.get("Statement").get("NotAction")
+        print(result_json)
+        result_json = json.loads(result.output)
+        self.assertTrue("iam:*" not in not_actions)
+        self.assertTrue("s3:*" not in not_actions)
+
+        # Test --include
+        result = self.runner.invoke(generate, ["--include", "yolo", "--quiet"])
+        self.assertTrue(result.exit_code == 0)
+        result_json = json.loads(result.output)
+        not_actions = result_json.get("Statement").get("NotAction")
+        self.assertTrue("yolo:*" in not_actions)
+
 
 class GenerateAllowlistScpTestCase(unittest.TestCase):
     def test_generate_with_force_include(self):
