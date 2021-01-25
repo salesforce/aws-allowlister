@@ -20,7 +20,7 @@ brew tap salesforce/aws-allowlister https://github.com/salesforce/aws-allowliste
 brew install aws-allowlister
 ```
 
-### Usage
+## Usage
 
 * Generate an AllowList Policy using this command:
 
@@ -28,7 +28,7 @@ brew install aws-allowlister
 aws-allowlister generate
 ```
 
-By default, it allows policies at the intersection of PCI, HIPAA, SOC, ISO.
+By default, it allows policies at the intersection of PCI, HIPAA, SOC, ISO, FedRAMP High, and FedRAMP Moderate.
 
 The resulting policy will look like this:
 
@@ -175,27 +175,51 @@ The resulting policy will look like this:
 
 </details>
 
-### Arguments
+## Arguments
 
-`aws-allowlister` supports different arguments to generate fine-grained compliance focused Service Control Policy (SCP) AllowLists.
-
-- `--soc`, or `-s`
-- `--pci`, or `-p`
-- `--hipaa`, or `-h`
-- `--iso`, or `-i`
-- `--fedramp-moderate`, or `-fm`
-- `--fedramp-high`, or `-fh`
-
-
-For example, to generate a PCI only Service Control Policy:
+`aws-allowlister` supports different arguments to generate fine-grained compliance focused Service Control Policy (SCP) AllowLists. You can specify individual flags for the compliance frameworks you care about.
 
 ```
-aws-allowlister generate --pci
+Usage: aws-allowlister generate [OPTIONS]
+
+Options:
+  -a, --all                SOC, PCI, ISO, HIPAA, FedRAMP_High, and
+                           FedRAMP_Moderate.
+
+  -s, --soc                Include SOC-compliant services
+  -p, --pci                Include PCI-compliant services
+  -h, --hipaa              Include HIPAA-compliant services
+  -i, --iso                Include ISO-compliant services
+  -fh, --fedramp-high      Include FedRAMP High
+  -fm, --fedramp-moderate  Include FedRAMP Moderate
+  --include TEXT           Include specific AWS IAM services, specified in a
+                           comma separated string.
+
+  --exclude TEXT           Exclude specific AWS IAM services, specified in a
+                           comma separated string.
+
+  -q, --quiet
+  --help                   Show this message and exit.
 ```
 
-## Contributing
 
-### Setup
+* For example, to generate a PCI only Service Control Policy and save it to JSON:
+
+```bash
+aws-allowlister generate --pci --quiet > pci.json
+```
+
+* You can also chain command flags together. For example, to generate a Policy for all the major compliance frameworks but FedRAMP:
+
+```bash
+aws-allowlister generate -sphi --quiet
+```
+
+* Let's say your organization is not subject to FedRAMP or HIPAA, but you
+
+# Contributing
+
+## Setup
 
 * Set up the virtual environment
 

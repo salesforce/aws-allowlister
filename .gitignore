@@ -65,5 +65,6 @@ packer_cache/
 *.log
 *.pem
 !/~$results.xlsx
+*~$*.xlsx
 **/*.db-journal
 **/tmp.json
