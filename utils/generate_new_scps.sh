@@ -9,6 +9,7 @@ aws-allowlister --help
 aws-allowlister --version
 
 # Get the latest tag
+git fetch origin
 latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 echo "latest tag: $latest_tag"
 mkdir -p examples/${latest_tag}/
