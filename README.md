@@ -218,7 +218,7 @@ aws-allowlister generate -sphi --quiet
 * Let's say your organization is not subject to FedRAMP or HIPAA, but you want to create a Policy for PCI, SOC, and ISO:
 
 ```bash
-aws-allowlister generate -spi --quiet
+aws-allowlister generate -psi --quiet
 ```
 
 # Contributing
