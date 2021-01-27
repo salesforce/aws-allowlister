@@ -10,7 +10,7 @@ Automatically compile an AWS Service Control Policy that ONLY allows AWS service
 AWS Service Control Policies (SCPs) allow you to control which AWS Service APIs are allowed *at the AWS Account level* - so local administrators (not even the account's root user) can perform prohibited actions in a child account.
 
  However, before `aws-allowlister`, it was very difficult and error-prone to create AWS AllowList SCPs - only giving accounts access to the compliant services that they need, and nothing else. Before `aws-allowlister`, the approach for creating an AllowList was:
-1. Create a spreadsheet 🙄  based on the [AWS Services in Scope](https://aws.amazon.com/compliance/services-in-scope/) documentation, which have inconsistent naming and do not list the "IAM names"
+1. Create a spreadsheet 🙄 based on the [AWS Services in Scope](https://aws.amazon.com/compliance/services-in-scope/) documentation, which have inconsistent naming and do not list the "IAM names"
 2. Create an AllowList.json by hand, based on that spreadsheet
 3. Roll it out to Dev/Stage/Production
 4. Whoever manages that spreadsheet now magically owns the AllowList policy due to ✨tribal knowledge✨ and any updates occur by pinging this person over Slack.
