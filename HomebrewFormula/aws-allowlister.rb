@@ -3,8 +3,8 @@ class AwsAllowlister < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/aws-allowlister"
-  url "https://files.pythonhosted.org/packages/e2/b3/a0f1a6a7e6216bf65c07ffd2e0196007c9c9e32dcab72be94db0cb48d5f2/aws-allowlister-0.1.0.tar.gz"
-  sha256 "49167ece030ec849a19031dacfbb31ea4a7c7ba93b29af3b03c073ca964d1356"
+  url "https://files.pythonhosted.org/packages/7f/9a/7ede37c4ca9a681a7018cede1c91d6825c7508e0874036e016ad5361f822/aws-allowlister-0.1.1.tar.gz"
+  sha256 "3fc31fb1dfcf571a6ad5c9c8e056af66cd71d95fdb4fcb051b1c235ab0b0c2ad"
 
   depends_on "python3"
 
@@ -69,8 +69,8 @@ class AwsAllowlister < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/29/e6/d1a1d78c439cad688757b70f26c50a53332167c364edb0134cadd280e234/urllib3-1.26.2.tar.gz"
-    sha256 "19188f96923873c92ccb987120ec4acaa12f0461fa9ce5d3d0772bc965a39e08"
+    url "https://files.pythonhosted.org/packages/d7/8d/7ee68c6b48e1ec8d41198f694ecdc15f7596356f2ff8e6b1420300cf5db3/urllib3-1.26.3.tar.gz"
+    sha256 "de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"
   end
 
   def install
