@@ -13,7 +13,6 @@ def aws_allowlister():
 
 
 aws_allowlister.add_command(command.generate.generate)
-aws_allowlister.add_command(command.rebuild.rebuild)
 
 
 def main():
