@@ -185,8 +185,8 @@ def generate_allowlist_scp(standards, include=None, exclude=None):
         "Statement": {
             "Sid": "AllowList",
             "Effect": "Deny",
-            "NotAction": allowed_services,
             "Resource": "*",
+            "NotAction": allowed_services
         },
     }
     return policy
