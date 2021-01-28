@@ -142,8 +142,20 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
     logger.info(f"Note: to silence these logs, supply the argument '--quiet'")
     logger.info(f"Policies for standard(s): {str(', '.join(standards))}")
+
     results = generate_allowlist_scp(standards, include, exclude)
-    print(json.dumps(results, indent=4))
+
+    minified_results = f"""{{
+    "Version": "2012-10-17",
+        "Statement": {{
+            "Sid": "AllowList",
+            "Effect": "Deny",
+            "Resource": "*",
+            "NotAction": {json.dumps(results.get('Statement').get('NotAction'))}
+        }}
+}}"""
+    print(minified_results)
+    # print(json.dumps(results, indent=4))
 
 
 def generate_allowlist_scp(standards, include=None, exclude=None):
