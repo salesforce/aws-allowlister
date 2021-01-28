@@ -4,7 +4,7 @@
 
 Automatically compile an AWS Service Control Policy that ONLY allows AWS services that are compliant with your preferred compliance frameworks.
 
-![](./examples/media/aws-allowlister.svg)
+<img src="./examples/media/aws-allowlister.gif" width="920" height="588">
 
 ## Overview
 
