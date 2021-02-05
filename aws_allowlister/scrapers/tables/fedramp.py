@@ -59,7 +59,7 @@ def scrape_fedramp_table(db_session, link, destination_folder, file_name):
                     )
 
                 # Cell 2: FedRAMP High (GovCloud)
-                fedramp_high_status, fedramp_high_status_contents = clean_status_cell_contents(cells[1].contents[0])
+                fedramp_high_status, fedramp_high_status_contents = clean_status_cell_contents(cells[2].contents[0])
                 if fedramp_high_status:
                     # print(f"fedramp_high_status: {fedramp_moderate_status}, {fedramp_high_status_contents}")
                     raw_scraping_data.add_entry_to_database(
