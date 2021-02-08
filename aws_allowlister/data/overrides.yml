@@ -140,6 +140,10 @@ service_names_to_iam_names:
     - firehose
   Elastic Load Balancer:
     - elasticloadbalancing
+  AWS Systems Manager:
+    - ssm
+    - ssmmessages
+    - ec2messages
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 2: "SDK name means IAM names"
@@ -176,6 +180,11 @@ sdk_names_to_iam_names:
   macie2:
     - macie
     - macie2
+  ssm:
+    - ssm
+    - ssmmessages
+    # Ec2messages is required for SSM Agent: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up-messageAPIs.html
+    - ec2messages
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 3: Global inserts

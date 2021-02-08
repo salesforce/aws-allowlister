@@ -9,8 +9,8 @@ compliance_data = ComplianceData()
 db_session = connect_db()
 
 
-def update_database():
-    build_database()
+def update_database(download: bool):
+    build_database(download)
     compliance_data.update_compliance_database(db_session=db_session)
 
 
@@ -48,5 +48,6 @@ def update_csv_summary():
 
 
 if __name__ == '__main__':
-    update_database()
+    download_docs = True
+    update_database(download=download_docs)
     update_csv_summary()

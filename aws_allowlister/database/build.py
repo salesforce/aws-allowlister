@@ -37,7 +37,7 @@ def create_empty_compliance_database(db_session):
         db_session.commit()
 
 
-def build_database():
+def build_database(download: bool):
     """Builds the database from AWS Documentation files from scratch."""
     # Remove previous database file and connect
     if os.path.exists(DATABASE_PATH):
@@ -57,7 +57,8 @@ def build_database():
         db_session=db_session,
         link="https://aws.amazon.com/compliance/services-in-scope/",
         destination_folder=html_docs_folder,
-        file_name="services-in-scope.html"
+        file_name="services-in-scope.html",
+        download=download
     )
 
     # ISO docs follow a different format.
@@ -66,7 +67,8 @@ def build_database():
         db_session=db_session,
         link="https://aws.amazon.com/compliance/iso-certified/",
         destination_folder=html_docs_folder,
-        file_name="iso-certified.html"
+        file_name="iso-certified.html",
+        download=download
     )
 
     # HIPAA Docs follow a different format.
@@ -75,7 +77,8 @@ def build_database():
         db_session=db_session,
         link="https://aws.amazon.com/compliance/hipaa-eligible-services-reference/",
         destination_folder=html_docs_folder,
-        file_name="hipaa-eligible-services-reference.html"
+        file_name="hipaa-eligible-services-reference.html",
+        download=download
     )
 
     # FedRAMP Docs have a few extra columns
@@ -84,5 +87,6 @@ def build_database():
         db_session=db_session,
         link="https://aws.amazon.com/compliance/services-in-scope/",
         destination_folder=html_docs_folder,
-        file_name="services-in-scope.html"
+        file_name="services-in-scope.html",
+        download=download
     )
