@@ -5,17 +5,20 @@ from policy_sentry.querying.all import get_all_service_prefixes
 from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.scrapers.aws_docs import get_aws_html
 from aws_allowlister.shared.utils import clean_service_name
+from sqlalchemy.orm.session import Session
 
 ALL_SERVICE_PREFIXES = get_all_service_prefixes()
 
 
-def scrape_hipaa_table(db_session, link, destination_folder, file_name):
+def scrape_hipaa_table(db_session: Session, link: str, destination_folder: str, file_name: str, download: bool = True):
     html_file_path = os.path.join(destination_folder, file_name)
     if os.path.exists(html_file_path):
         os.remove(html_file_path)
 
-    # get_aws_html gets the HTML from AWS docs and stores it locally, then returns the path
-    get_aws_html(link, html_file_path)
+    if download:
+        if os.path.exists(html_file_path):
+            os.remove(html_file_path)
+        get_aws_html(link, html_file_path)
 
     raw_scraping_data = RawScrapingData()
 

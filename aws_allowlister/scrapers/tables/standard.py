@@ -4,17 +4,18 @@ from aws_allowlister.shared.utils import chomp, chomp_keep_single_spaces
 from aws_allowlister.database.raw_scraping_data import RawScrapingData
 from aws_allowlister.scrapers.aws_docs import get_aws_html
 from aws_allowlister.scrapers.common import get_table_ids, clean_status_cell, clean_sdks, get_service_name
+from sqlalchemy.orm.session import Session
 
 
-def scrape_standard_table(db_session, link, destination_folder, file_name):
+def scrape_standard_table(db_session: Session, link: str, destination_folder: str, file_name: str, download: bool = True):
     results = []
 
     html_file_path = os.path.join(destination_folder, file_name)
-    if os.path.exists(html_file_path):
-        os.remove(html_file_path)
 
-    # Start scraping the standard table
-    get_aws_html(link, html_file_path)
+    if download:
+        if os.path.exists(html_file_path):
+            os.remove(html_file_path)
+        get_aws_html(link, html_file_path)
 
     raw_scraping_data = RawScrapingData()
 

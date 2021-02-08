@@ -1,18 +1,21 @@
 import os
 from bs4 import BeautifulSoup, Tag
 from aws_allowlister.database.raw_scraping_data import RawScrapingData
+from aws_allowlister.scrapers.aws_docs import get_aws_html
 from aws_allowlister.shared.utils import chomp, chomp_keep_single_spaces
 from aws_allowlister.scrapers.common import get_table_ids, clean_status_cell, clean_sdks, get_service_name, clean_status_cell_contents
+from sqlalchemy.orm.session import Session
 
 """Almost the same as the standard table but with extra columns"""
 
 
-def scrape_fedramp_table(db_session, link, destination_folder, file_name):
+def scrape_fedramp_table(db_session: Session, link: str, destination_folder: str, file_name: str, download: bool = True):
     html_file_path = os.path.join(destination_folder, file_name)
-    # Let's skip the whole removal process now; we just downloaded it, after all
-    # if os.path.exists(html_file_path):
-    #     os.remove(html_file_path)
-    # get_aws_html(link, html_file_path)
+
+    if download:
+        if os.path.exists(html_file_path):
+            os.remove(html_file_path)
+        get_aws_html(link, html_file_path)
 
     raw_scraping_data = RawScrapingData()
 
