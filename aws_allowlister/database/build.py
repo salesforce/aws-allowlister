@@ -6,6 +6,7 @@ from aws_allowlister.scrapers.tables.standard import scrape_standard_table
 from aws_allowlister.scrapers.tables.iso import scrape_iso_table
 from aws_allowlister.scrapers.tables.hipaa import scrape_hipaa_table
 from aws_allowlister.scrapers.tables.fedramp import scrape_fedramp_table
+from aws_allowlister.scrapers.tables.dodccsrg import scrape_dodccsrg_table
 
 
 ALL_SERVICE_PREFIXES = get_all_service_prefixes()
@@ -84,6 +85,14 @@ def build_database(download: bool):
     # FedRAMP Docs have a few extra columns
     #   They are located at the same as the standard ones, but we just have to treat them a bit differently.
     scrape_fedramp_table(
+        db_session=db_session,
+        link="https://aws.amazon.com/compliance/services-in-scope/",
+        destination_folder=html_docs_folder,
+        file_name="services-in-scope.html",
+        download=download
+    )
+
+    scrape_dodccsrg_table(
         db_session=db_session,
         link="https://aws.amazon.com/compliance/services-in-scope/",
         destination_folder=html_docs_folder,
