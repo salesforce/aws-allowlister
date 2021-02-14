@@ -94,16 +94,16 @@ def validate_comma_separated_aws_services(ctx, param, value):
     help="Include DoD CC SRG IL2 (GovCloud)",
 )
 @click.option(
-    "--dodccsrg-il4",
-    "-d4",
+    "--dodccsrg-il4-gc",
+    "-d4g",
     required=False,
     is_flag=True,
     default=False,
     help="Include DoD CC SRG IL4 (GovCloud)",
 )
 @click.option(
-    "--dodccsrg-il5",
-    "-d5",
+    "--dodccsrg-il5-gc",
+    "-d5g",
     required=False,
     is_flag=True,
     default=False,
@@ -131,7 +131,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
 )
 def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, 
-             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4, dodccsrg_il5, include, exclude, quiet):
+             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, include, exclude, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -155,10 +155,10 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         standards.append("DoDCCSRG_IL2_EW")
     if dodccsrg_il2_gc:
         standards.append("DoDCCSRG_IL2_GC")
-    if dodccsrg_il4:
-        standards.append("DoDCCSRG_IL4")
-    if dodccsrg_il5:
-        standards.append("DoDCCSRG_IL5")
+    if dodccsrg_il4_gc:
+        standards.append("DoDCCSRG_IL4_GC")
+    if dodccsrg_il5_gc:
+        standards.append("DoDCCSRG_IL5_GC")
     if (
         all_standards
         and not soc
@@ -169,8 +169,8 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         and not fedramp_moderate
         and not dodccsrg_il2_ew
         and not dodccsrg_il2_gc
-        and not dodccsrg_il4
-        and not dodccsrg_il5
+        and not dodccsrg_il4_gc
+        and not dodccsrg_il5_gc
     ):
         standards = ["SOC", "PCI", "HIPAA", "ISO", "FedRAMP_High", "FedRAMP_Moderate"]
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
@@ -184,8 +184,8 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         and not fedramp_moderate
         and not dodccsrg_il2_ew
         and not dodccsrg_il2_gc
-        and not dodccsrg_il4
-        and not dodccsrg_il5
+        and not dodccsrg_il4_gc
+        and not dodccsrg_il5_gc
     ):
         standards = ["SOC", "PCI", "HIPAA", "ISO", "FedRAMP_High", "FedRAMP_Moderate"]
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")

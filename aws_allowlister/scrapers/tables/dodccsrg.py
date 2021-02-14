@@ -67,29 +67,29 @@ def scrape_dodccsrg_table(db_session: Session, link: str, destination_folder: st
                     # print(f"dodccsrg_il2_gc_status: {dodccsrg_il2_gc_status}, {dodccsrg_il2_gc_status_contents}")
                     raw_scraping_data.add_entry_to_database(
                         db_session=db_session,
-                        compliance_standard_name=" DoDCCSRG_IL2_GC",
+                        compliance_standard_name="DoDCCSRG_IL2_GC",
                         sdk="",
                         service_name=this_service_name,
                     )
 
                 # Cell 3: DoD CC SRG IL4 (GovCloud)
-                dodccsrg_il4_status, dodccsrg_il4_status_contents = clean_status_cell_contents(cells[3].contents[0])
-                if dodccsrg_il4_status:
-                    # print(f"dodccsrg_il4_status: {dodccsrg_il4_status}, {dodccsrg_il4_status_contents}")
+                dodccsrg_il4_gc_status, dodccsrg_il4_gc_status_contents = clean_status_cell_contents(cells[3].contents[0])
+                if dodccsrg_il4_gc_status:
+                    # print(f"dodccsrg_il4_gc_status: {dodccsrg_il4_gc_status}, {dodccsrg_il4_gc_status_contents}")
                     raw_scraping_data.add_entry_to_database(
                         db_session=db_session,
-                        compliance_standard_name=" DoDCCSRG_IL4",
+                        compliance_standard_name="DoDCCSRG_IL4_GC",
                         sdk="",
                         service_name=this_service_name,
                     )
 
                 # Cell 4: DoD CC SRG IL5 (GovCloud)
-                dodccsrg_il5_status, dodccsrg_il5_status_contents = clean_status_cell_contents(cells[4].contents[0])
-                if dodccsrg_il5_status:
-                    # print(f"dodccsrg_il5_status: {dodccsrg_il5_status}, {dodccsrg_il5_status_contents}")
+                dodccsrg_il5_gc_status, dodccsrg_il5_gc_status_contents = clean_status_cell_contents(cells[4].contents[0])
+                if dodccsrg_il5_gc_status:
+                    # print(f"dodccsrg_il5_status: {dodccsrg_il5gc__status}, {dodccsrg_il5_gc_status_contents}")
                     raw_scraping_data.add_entry_to_database(
                         db_session=db_session,
-                        compliance_standard_name=" DoDCCSRG_IL5",
+                        compliance_standard_name="DoDCCSRG_IL5_GC",
                         sdk="",
                         service_name=this_service_name,
                     )
