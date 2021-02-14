@@ -28,7 +28,7 @@ def scrape_fedramp_table(db_session: Session, link: str, destination_folder: str
             # Get the standard name based on the "tab" name
             tab = table.contents[1]
             standard_name = chomp_keep_single_spaces(str(tab.contents[0]))
-            # We are only scraping FedRAMP here
+            # We are only scraping DoD CC SRG here
             if standard_name != "DoD CC SRG":
                 continue
 
