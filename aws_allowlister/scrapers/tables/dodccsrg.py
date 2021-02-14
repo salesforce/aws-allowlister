@@ -9,7 +9,7 @@ from sqlalchemy.orm.session import Session
 """Almost the same as the standard table but with extra columns"""
 
 
-def scrape_fedramp_table(db_session: Session, link: str, destination_folder: str, file_name: str, download: bool = True):
+def scrape_dodccsrg_table(db_session: Session, link: str, destination_folder: str, file_name: str, download: bool = True):
     html_file_path = os.path.join(destination_folder, file_name)
 
     if download:
