@@ -78,6 +78,10 @@ class ComplianceTable(Base):
     ISO = Column(String(50))
     FedRAMP_High = Column(String(50))
     FedRAMP_Moderate = Column(String(50))
+    DoDCCSRG_IL2_EW = Column(String(50))
+    DoDCCSRG_IL2_GC = Column(String(50))
+    DoDCCSRG_IL4_GC = Column(String(50))
+    DoDCCSRG_IL5_GC = Column(String(50))
     HIPAA = Column(String(50))
     HITRUST = Column(String(50))
     IRAP = Column(String(50))
@@ -93,6 +97,10 @@ class ComplianceTable(Base):
             f"ISO='{self.ISO}', "
             f"FedRAMP_High='{self.FedRAMP_High}', "
             f"FedRAMP_Moderate='{self.FedRAMP_Moderate}', "
+            f"DoDCCSRG_IL2_EW='{self.DoDCCSRG_IL2_EW}', "
+            f"DoDCCSRG_IL2_GC={self.DoDCCSRG_IL2_GC}', "
+            f"DoDCCSRG_IL4_GC={self.DoDCCSRG_IL4_GC}', "
+            f"DoDCCSRG_IL5_GC={self.DoDCCSRG_IL5_GC}', "
             f"HIPAA='{self.HIPAA}', "
             f"HITRUST='{self.HITRUST}', "
             f"IRAP='{self.IRAP}', "

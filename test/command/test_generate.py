@@ -23,8 +23,16 @@ class AllowListerClickUnitTests(unittest.TestCase):
         self.assertTrue(result.exit_code == 0)
         result = self.runner.invoke(generate, ["-fm"])
         self.assertTrue(result.exit_code == 0)
-        result = self.runner.invoke(generate, ["-fm"])
+        result = self.runner.invoke(generate, ["-fh"])
         self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-d2e"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-d2g"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-d4g"])
+        self.assertTrue(result.exit_code == 0)
+        result = self.runner.invoke(generate, ["-d5g"])
+        self.assertTrue(result.exit_code == 0)        
 
         # Test --exclude
         result = self.runner.invoke(generate, ["--exclude", "iam,s3", "--quiet"])

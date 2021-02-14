@@ -12,7 +12,8 @@ class ComplianceDataTestCase(unittest.TestCase):
         """database.scrapers.compliance_data.ComplianceData.standard_names"""
         results = compliance_data.standard_names(db_session=db_session)
         # print(result)
-        expected_results = ['SOC', 'PCI', 'ISO', 'FedRAMP_High', 'FedRAMP_Moderate', 'HIPAA', 'HITRUST', 'IRAP', 'OSPAR', 'FINMA']
+        expected_results = ['SOC', 'PCI', 'ISO', 'FedRAMP_High', 'FedRAMP_Moderate','DoDCCSRG_IL2_EW','DoDCCSRG_IL2_GC',
+                            'DoDCCSRG_IL4_GC','DoDCCSRG_IL5_GC' ,'HIPAA', 'HITRUST', 'IRAP', 'OSPAR', 'FINMA']
         self.assertListEqual(results, expected_results)
 
     def test_get_rows(self):
