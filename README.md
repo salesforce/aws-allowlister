@@ -235,6 +235,10 @@ Options:
   -i, --iso                Include ISO-compliant services
   -fh, --fedramp-high      Include FedRAMP High
   -fm, --fedramp-moderate  Include FedRAMP Moderate
+  -d2e, --dodccsrg-il2-ew  Include DoD CC SRG IL2 (East/West)
+  -d2g, --dodccsrg-il2-gc  Include DoD CC SRG IL2 (GovCloud)
+  -d4g, --dodccsrg-il4-gc  Include DoD CC SRG IL4 (GovCloud)
+  -d5g, --dodccsrg-il5-gc  Include DoD CC SRG IL5 (GovCloud)
   --include TEXT           Include specific AWS IAM services, specified in a
                            comma separated string.
 
