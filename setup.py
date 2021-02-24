@@ -48,6 +48,7 @@ setuptools.setup(
         'requests',
         'policy_sentry',
         'SQLAlchemy',
+        'tabulate'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

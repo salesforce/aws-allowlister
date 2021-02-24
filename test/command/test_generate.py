@@ -1,7 +1,8 @@
 import unittest
 import json
 from click.testing import CliRunner
-from aws_allowlister.command.generate import generate, generate_allowlist_scp
+from aws_allowlister.command.generate import generate, generate_allowlist_scp, format_allowlist_services, \
+    generate_allowlist_service_prefixes
 
 
 class AllowListerClickUnitTests(unittest.TestCase):
@@ -70,3 +71,38 @@ class GenerateAllowlistScpTestCase(unittest.TestCase):
         # Even though we would never remove IAM from an SCP,
         # this is a good way to demonstrate how services can be forcibly removed from the SCP
         self.assertTrue("iam:*" not in not_actions)
+
+
+class GenerateMethodsTestCase(unittest.TestCase):
+    def setUp(self):
+        self.runner = CliRunner()
+
+    def test_format_allowlist_services(self):
+        services = [
+            "iam",
+            "ssm",
+            "s3"
+        ]
+        # Test out the
+        result = format_allowlist_services(services)
+        expected_result = ['iam:*', 'ssm:*', 's3:*']
+        print(result)
+        self.assertListEqual(result, expected_result)
+
+    def test_generate_allowlist_table_format(self):
+        result = self.runner.invoke(generate, ["--table"])
+        self.assertTrue(result.exit_code == 0)
+        # If --table is used, it should include the string "Service Prefix"
+        self.assertTrue("Service Prefix" in result.output)
+        # It should also have a real service name somewhere in the output - like "Amazon S3"
+        self.assertTrue("Amazon S3" in result.output)
+
+    def test_generate_allowlist_in_json_format(self):
+        # If --table is used, it should include elements that are in an IAM Policy but not in the markdown formatted table
+        result = self.runner.invoke(generate, [])
+        self.assertTrue(result.exit_code == 0)
+        # If --table is NOT used, then it will look like an IAM policy, so it will have NotAction (an IAM Policy element) in the output.
+        self.assertTrue("NotAction" in result.output)
+        # It shouldn't have Amazon S3 (expected in markdown table) when output is the default json
+        self.assertTrue("Amazon S3" not in result.output)
+

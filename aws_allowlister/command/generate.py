@@ -1,9 +1,11 @@
 import logging
 import json
 import click
+from tabulate import tabulate
 from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
 from aws_allowlister import set_stream_logger
+from aws_allowlister.shared import utils
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
@@ -126,12 +128,20 @@ def validate_comma_separated_aws_services(ctx, param, value):
     help="Exclude specific AWS IAM services, specified in a comma separated string."
 )
 @click.option(
+    "--table",
+    required=False,
+    type=bool,
+    default=False,
+    is_flag=True,
+    help="Instead of providing the output as JSON, output a markdown-formatted table of the Service Prefixes alongside Service Names."
+)
+@click.option(
     '--quiet', '-q',
     is_flag=True,
     default=False,
 )
 def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, 
-             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, include, exclude, quiet):
+             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, include, exclude, table, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -192,9 +202,20 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
     logger.info(f"Note: to silence these logs, supply the argument '--quiet'")
     logger.info(f"Policies for standard(s): {str(', '.join(standards))}")
 
-    results = generate_allowlist_scp(standards, include, exclude)
+    # If --table is provided, print as Markdown table. Otherwise, print the JSON policy
+    if table:
+        services = generate_allowlist_service_prefixes(standards, include, exclude)
+        services_tabulated = []
+        headers = ["Service Prefix", "Service Name"]
+        # services_tabulated.append(headers)
+        for service_prefix in services:
+            service_name = utils.get_service_name_matching_iam_service_prefix(service_prefix)
+            services_tabulated.append([service_prefix, service_name])
+        print(tabulate(services_tabulated, headers=headers, tablefmt="github"))
+    else:
+        results = generate_allowlist_scp(standards, include, exclude)
 
-    minified_results = f"""{{
+        minified_results = f"""{{
     "Version": "2012-10-17",
         "Statement": {{
             "Sid": "AllowList",
@@ -203,11 +224,33 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
             "NotAction": {json.dumps(results.get('Statement').get('NotAction'))}
         }}
 }}"""
-    print(minified_results)
-    # print(json.dumps(results, indent=4))
+        print(minified_results)
+        # print(json.dumps(results, indent=4))
 
 
 def generate_allowlist_scp(standards, include=None, exclude=None):
+    """Get the SCP Policy document"""
+    allowed_services = generate_allowlist_service_prefixes(standards=standards, include=include, exclude=exclude)
+    allowed_services = format_allowlist_services(allowed_services)
+    policy = {
+        "Version": "2012-10-17",
+        "Statement": {
+            "Sid": "AllowList",
+            "Effect": "Deny",
+            "Resource": "*",
+            "NotAction": allowed_services
+        },
+    }
+    return policy
+
+
+def format_allowlist_services(services):
+    result = ["{}{}".format(i, ":*") for i in services]
+    return result
+
+
+def generate_allowlist_service_prefixes(standards, include=None, exclude=None):
+    """Generate a list of service Prefixes"""
     db_session = connect_db()
     compliance_data = ComplianceData()
     # This is a list of sets
@@ -239,15 +282,6 @@ def generate_allowlist_scp(standards, include=None, exclude=None):
                 logger.info(f"{service} has been excluded from the policy")
                 continue
         # If the service is not excluded, proceed
-        allowed_services.append(f"{service}:*")
-
-    policy = {
-        "Version": "2012-10-17",
-        "Statement": {
-            "Sid": "AllowList",
-            "Effect": "Deny",
-            "Resource": "*",
-            "NotAction": allowed_services
-        },
-    }
-    return policy
+        allowed_services.append(service)
+        # allowed_services.append(f"{service}:*")
+    return allowed_services
