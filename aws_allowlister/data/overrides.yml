@@ -128,6 +128,7 @@ service_names_to_iam_names:
     - dms
   AWS Identity & Access Management:
     - iam
+    - access-analyzer
   Amazon S3 Glacier:
     - glacier
   Amazon Elastic Kubernetes Service:
