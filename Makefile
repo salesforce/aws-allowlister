@@ -57,5 +57,9 @@ publish: build
 	python -m pip install aws_allowlister
 
 .PHONY: generate-examples
-generate-examples: setup_env
+generate-examples: setup_env install
 	sh utils/generate_new_scps.sh
+
+.PHONY: update-data
+update-data: setup_dev
+	python utils/update_data.py

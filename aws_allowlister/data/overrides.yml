@@ -145,6 +145,9 @@ service_names_to_iam_names:
     - ssm
     - ssmmessages
     - ec2messages
+  AWS Backup:
+    - backup
+    - backup-storage
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 2: "SDK name means IAM names"
@@ -153,6 +156,9 @@ service_names_to_iam_names:
 # ---------------------------------------------------------------------------------------------------------------------
 sdk_names_to_iam_names:
   # sdkname: iamname
+  backup:
+    - backup
+    - backup-storage
   mobiletargeting:
     - sms-voice
     - pinpoint

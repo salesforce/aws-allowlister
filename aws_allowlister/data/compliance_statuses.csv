@@ -1,8 +1,8 @@
 service_prefix,name,SOC,PCI,ISO,FedRAMP_High,FedRAMP_Moderate,DoDCCSRG_IL2_EW,DoDCCSRG_IL2_GC,DoDCCSRG_IL4_GC,DoDCCSRG_IL5_GC,HIPAA,HITRUST,IRAP,OSPAR,FINMA
 a4b,Alexa for Business,,,,,,,,,,true,,,,
-access-analyzer,IAM Access Analyzer,,,,,,,,,,,,,,
+access-analyzer,IAM Access Analyzer,,true,,true,true,,,,,,,,,
 account,AWS Accounts,true,true,true,true,true,true,true,true,true,true,,true,true,true
-acm,AWS Certificate Manager,true,true,true,true,true,true,true,,,true,,true,true,true
+acm,AWS Certificate Manager,true,true,true,true,true,true,true,true,true,true,,true,true,true
 acm-pca,AWS Certificate Manager Private Certificate Authority,,,,,,,,,,,,,,
 activate,AWS Activate,,,,,,,,,,,,,,
 airflow,Amazon Managed Workflows for Apache Airflow,,,,,,,,,,,,,,
@@ -30,7 +30,7 @@ aws-portal,AWS Billing,true,true,true,true,true,true,true,true,true,true,,true,t
 awsconnector,AWS Connector Service,,,,,,,,,,,,,,
 backup,AWS Backup,true,true,true,,,,,,,true,,true,true,true
 backup-storage,AWS Backup storage,,,,,,,,,,,,,,
-batch,AWS Batch,true,true,true,true,true,true,true,,,true,,true,true,true
+batch,AWS Batch,true,true,true,true,true,true,true,true,true,true,,true,true,true
 braket,Amazon Braket,,,,,,,,,,,,,,
 budgets,AWS Budget Service,,,,,,,,,,,,,,
 cassandra,AWS Managed Apache Cassandra Service,,true,,,,,,,,,,,,
@@ -230,7 +230,7 @@ ssmmessages,Amazon Session Manager Message Gateway Service,true,true,true,true,t
 sso,AWS SSO,,,true,,,,,,,,,,,
 sso-directory,AWS SSO Directory,,,true,,,,,,,,,,,
 states,AWS Step Functions,true,true,true,true,true,true,true,true,true,true,,true,true,true
-storagegateway,Amazon Storage Gateway,true,true,true,true,,,true,,,true,,true,true,true
+storagegateway,Amazon Storage Gateway,true,true,true,true,,,true,true,true,true,,true,true,true
 sts,AWS Security Token Service,true,true,true,true,true,true,true,true,true,true,,true,true,true
 sumerian,Amazon Sumerian,,,,,,,,,,,,,,
 support,AWS Support,true,true,true,true,true,true,true,true,true,true,,true,true,true
