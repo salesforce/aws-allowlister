@@ -1,6 +1,5 @@
 | Service Prefix          | Service Name                                   |
 |-------------------------|------------------------------------------------|
-| access-analyzer         | IAM Access Analyzer                            |
 | account                 | AWS Accounts                                   |
 | acm                     | AWS Certificate Manager                        |
 | apigateway              | Manage Amazon API Gateway                      |
@@ -13,7 +12,6 @@
 | batch                   | AWS Batch                                      |
 | clouddirectory          | Amazon Cloud Directory                         |
 | cloudformation          | AWS CloudFormation                             |
-| cloudhsm                | AWS CloudHSM                                   |
 | cloudtrail              | AWS CloudTrail                                 |
 | cloudwatch              | Amazon CloudWatch                              |
 | codebuild               | AWS CodeBuild                                  |
@@ -55,7 +53,6 @@
 | kms                     | AWS Key Management Service                     |
 | lakeformation           | AWS Lake Formation                             |
 | lambda                  | AWS Lambda                                     |
-| license-manager         | AWS License Manager                            |
 | logs                    | Amazon CloudWatch Logs                         |
 | mediaconvert            | AWS Elemental MediaConvert                     |
 | organizations           | AWS Organizations                              |
@@ -79,13 +76,11 @@
 | ssm                     | AWS Systems Manager                            |
 | ssmmessages             | Amazon Session Manager Message Gateway Service |
 | states                  | AWS Step Functions                             |
-| storagegateway          | Amazon Storage Gateway                         |
 | sts                     | AWS Security Token Service                     |
 | support                 | AWS Support                                    |
 | swf                     | Amazon Simple Workflow Service                 |
 | transcribe              | Amazon Transcribe                              |
 | translate               | Amazon Translate                               |
-| trustedadvisor          | AWS Trusted Advisor                            |
 | waf                     | AWS WAF                                        |
 | waf-regional            | AWS WAF Regional                               |
 | wafv2                   | AWS WAF V2                                     |

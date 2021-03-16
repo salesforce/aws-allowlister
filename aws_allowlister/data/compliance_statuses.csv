@@ -29,7 +29,7 @@ aws-marketplace-management,AWS Marketplace Management Portal,,,,,,,,,,true,,,,
 aws-portal,AWS Billing,true,true,true,true,true,true,true,true,true,true,,true,true,true
 awsconnector,AWS Connector Service,,,,,,,,,,,,,,
 backup,AWS Backup,true,true,true,,,,,,,true,,true,true,true
-backup-storage,AWS Backup storage,,,,,,,,,,,,,,
+backup-storage,AWS Backup storage,true,true,true,,,,,,,true,,true,true,true
 batch,AWS Batch,true,true,true,true,true,true,true,true,true,true,,true,true,true
 braket,Amazon Braket,,,,,,,,,,,,,,
 budgets,AWS Budget Service,,,,,,,,,,,,,,
