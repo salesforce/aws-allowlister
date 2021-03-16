@@ -28,10 +28,10 @@ aws-allowlister generate --quiet > examples/latest/All-AllowList-SCP.json
 aws-allowlister generate --quiet --table > examples/${LATEST_VERSION}/All-AllowList-SCP.md
 aws-allowlister generate --quiet --table > examples/latest/All-AllowList-SCP.md
 # All Commercial (does not include FedRAMP)
-aws-allowlister generate -sphi --quiet > examples/${LATEST_VERSION}/Commerical-AllowList-SCP.json
-aws-allowlister generate -sphi --quiet > examples/latest/Commerical-AllowList-SCP.json
-aws-allowlister generate -sphi --quiet --table > examples/${LATEST_VERSION}/Commerical-AllowList-SCP.md
-aws-allowlister generate -sphi --quiet --table > examples/latest/Commerical-AllowList-SCP.md
+aws-allowlister generate -sphi --quiet > examples/${LATEST_VERSION}/Commercial-AllowList-SCP.json
+aws-allowlister generate -sphi --quiet > examples/latest/Commercial-AllowList-SCP.json
+aws-allowlister generate -sphi --quiet --table > examples/${LATEST_VERSION}/Commercial-AllowList-SCP.md
+aws-allowlister generate -sphi --quiet --table > examples/latest/Commercial-AllowList-SCP.md
 # SOC
 aws-allowlister generate -s --quiet > examples/${LATEST_VERSION}/SOC-AllowList-SCP.json
 aws-allowlister generate -s --quiet > examples/latest/SOC-AllowList-SCP.json
