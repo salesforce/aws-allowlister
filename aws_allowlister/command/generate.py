@@ -6,6 +6,7 @@ from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
 from aws_allowlister import set_stream_logger
 from aws_allowlister.shared import utils
+from policy_sentry.querying.all import get_service_authorization_url
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
@@ -210,7 +211,10 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         # services_tabulated.append(headers)
         for service_prefix in services:
             service_name = utils.get_service_name_matching_iam_service_prefix(service_prefix)
-            services_tabulated.append([service_prefix, service_name])
+            service_authorization_url = get_service_authorization_url(service_prefix)
+            service_name_text = f"[{service_name}]({service_authorization_url})"
+            # services_tabulated.append([service_prefix, service_name])
+            services_tabulated.append([service_prefix, service_name_text])
         print(tabulate(services_tabulated, headers=headers, tablefmt="github"))
     else:
         results = generate_allowlist_scp(standards, include, exclude)
