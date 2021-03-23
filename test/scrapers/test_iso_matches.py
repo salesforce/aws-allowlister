@@ -14,12 +14,13 @@ class IsoQATestCase(unittest.TestCase):
         expected_results = [
             "mobiletargeting",
             "macie",
-            "msk"
+            "kafka"
         ]
+        print(results)
         # print(len(expected_results))
         for expected_result in expected_results:
             # print(expected_result)
-            # print(f"{expected_result} in {results}")
+            print(f"{expected_result} in {results}")
             self.assertTrue(expected_result in results)
 
-        self.assertTrue("kafka" not in results)
+        self.assertTrue("msk" not in results)
