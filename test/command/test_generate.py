@@ -96,6 +96,9 @@ class GenerateMethodsTestCase(unittest.TestCase):
         self.assertTrue("Service Prefix" in result.output)
         # It should also have a real service name somewhere in the output - like "Amazon S3"
         self.assertTrue("Amazon S3" in result.output)
+        # It should also have a link to the AWS Service Authorization URL in the output
+        self.assertTrue("https://docs.aws.amazon.com/service-authorization" in result.output)
+        print(result.output)
 
     def test_generate_allowlist_in_json_format(self):
         # If --table is used, it should include elements that are in an IAM Policy but not in the markdown formatted table
