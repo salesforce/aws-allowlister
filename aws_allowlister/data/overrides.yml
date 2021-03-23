@@ -73,7 +73,9 @@ service_names_to_iam_names:
   Amazon Kinesis Data Streams:
     - kinesis
   Amazon Managed Streaming for Apache Kafka:
-    - msk
+    - kafka
+  Amazon Managed Streaming for Kafka (Amazon MSK):
+    - kafka
   AWS OpsWorks for Chef Automate:
     - opsworks
     - opsworks-cm
@@ -192,6 +194,11 @@ sdk_names_to_iam_names:
     - ssmmessages
     # Ec2messages is required for SSM Agent: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up-messageAPIs.html
     - ec2messages
+  iam:
+    - access-analyzer
+    - iam
+  msk:
+    - kafka
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 3: Global inserts
@@ -208,6 +215,7 @@ global_inserts:
   - rds-data
   - rds-db
   - route53domains
+  - route53resolver
   - sts
   - support
 
@@ -220,11 +228,12 @@ direct_inserts:
   HIPAA:
     - "a4b"
     - "mobiletargeting"
-    - "msk"
+    - "kafka"
     - "healthlake"
+    - "access-analyzer"
   ISO:
     - "mobiletargeting"
-    - "msk"
+    - "kafka"
   PCI:
     - "chatbot"
 

@@ -10,6 +10,15 @@ TESTS_REQUIRE = [
     'nose',
     'pytest'
 ]
+REQUIRED_PACKAGES = [
+    'beautifulsoup4',
+    'click',
+    'requests',
+    'policy_sentry',
+    'SQLAlchemy',
+    'tabulate',
+    'click_option_group'
+]
 
 
 def get_version():
@@ -42,14 +51,7 @@ setuptools.setup(
     url="https://github.com/salesforce/aws-allowlister",
     packages=setuptools.find_packages(exclude=['test*']),
     tests_require=TESTS_REQUIRE,
-    install_requires=[
-        'beautifulsoup4',
-        'click',
-        'requests',
-        'policy_sentry',
-        'SQLAlchemy',
-        'tabulate'
-    ],
+    install_requires=REQUIRED_PACKAGES,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

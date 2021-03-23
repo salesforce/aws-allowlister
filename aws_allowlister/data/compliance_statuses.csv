@@ -1,6 +1,6 @@
 service_prefix,name,SOC,PCI,ISO,FedRAMP_High,FedRAMP_Moderate,DoDCCSRG_IL2_EW,DoDCCSRG_IL2_GC,DoDCCSRG_IL4_GC,DoDCCSRG_IL5_GC,HIPAA,HITRUST,IRAP,OSPAR,FINMA
 a4b,Alexa for Business,,,,,,,,,,true,,,,
-access-analyzer,IAM Access Analyzer,,true,,true,true,,,,,,,,,
+access-analyzer,IAM Access Analyzer,true,true,true,true,true,,,,,true,,true,true,true
 account,AWS Accounts,true,true,true,true,true,true,true,true,true,true,,true,true,true
 acm,AWS Certificate Manager,true,true,true,true,true,true,true,true,true,true,,true,true,true
 acm-pca,AWS Certificate Manager Private Certificate Authority,,,,,,,,,,,,,,
@@ -9,6 +9,7 @@ airflow,Amazon Managed Workflows for Apache Airflow,,,,,,,,,,,,,,
 amplify,AWS Amplify,true,true,true,,,,,,,true,,,true,true
 amplifybackend,AWS Amplify Admin,true,true,true,,,,,,,true,,,true,true
 apigateway,Manage Amazon API Gateway,true,true,true,true,true,true,true,true,true,true,,true,true,true
+app-integrations,Amazon AppIntegrations,,,,,,,,,,,,,,
 appconfig,AWS AppConfig,,,,,,,,,,,,,,
 appflow,Amazon AppFlow,,,,,,,,,,,,,,
 application-autoscaling,Application Auto Scaling,true,true,true,true,true,true,true,true,true,true,,true,true,true
@@ -118,7 +119,8 @@ geo,Amazon Location,,,,,,,,,,,,,,
 glacier,Amazon Glacier,true,true,true,true,true,true,true,true,true,true,,true,true,true
 globalaccelerator,AWS Global Accelerator,true,true,true,,,,,,,true,,,true,true
 glue,AWS Glue,true,true,true,true,true,true,true,true,true,true,,true,true,true
-greengrass,AWS IoT Greengrass,true,true,true,true,true,true,true,true,true,true,,true,true,true
+grafana,Amazon Managed Service for Grafana,,,,,,,,,,,,,,
+greengrass,AWS IoT Greengrass V2,true,true,true,,,,,,,true,,true,true,true
 groundstation,AWS Ground Station,,true,true,,,,,,,,,,,
 groundtruthlabeling,Amazon GroundTruth Labeling,,,,,,,,,,,,,,
 guardduty,Amazon GuardDuty,true,true,true,true,true,true,true,true,true,true,,true,true,true
@@ -142,7 +144,7 @@ iotwireless,AWS IoT Core for LoRaWAN,true,true,true,true,true,true,true,true,tru
 iq,AWS IQ,,,,,,,,,,,,,,
 iq-permission,AWS IQ Permissions,,,,,,,,,,,,,,
 ivs,Amazon Interactive Video Service,,,,,,,,,,,,,,
-kafka,Amazon Managed Streaming for Kafka,,,,,,,,,,,,,true,
+kafka,Amazon Managed Streaming for Kafka,true,true,true,,,,,,,true,,,true,true
 kendra,Amazon Kendra,,true,true,,,,,,,true,,,,
 kinesis,Amazon Kinesis,true,true,true,true,true,true,true,true,true,true,,true,true,true
 kinesisanalytics,Amazon Kinesis Analytics V2,true,true,true,,,,,,,true,,,true,true
@@ -151,10 +153,12 @@ kms,AWS Key Management Service,true,true,true,true,true,true,true,true,true,true
 lakeformation,AWS Lake Formation,true,true,true,true,true,true,true,true,true,true,,true,true,true
 lambda,AWS Lambda,true,true,true,true,true,true,true,true,true,true,,true,true,true
 launchwizard,Launch Wizard,,,,,,,,,,,,,,
-lex,Amazon Lex,true,true,true,,,,,,,true,,,,true
+lex,Amazon Lex V2,true,true,,,,,,,,,,,,true
 license-manager,AWS License Manager,true,true,true,true,true,true,true,true,true,,,true,true,true
 lightsail,Amazon Lightsail,,,,,,,,,,,,,,
 logs,Amazon CloudWatch Logs,true,true,true,true,true,true,true,true,true,true,,true,,true
+lookoutequipment,Amazon Lookout for Equipment,,,,,,,,,,,,,,
+lookoutmetrics,Amazon Lookout for Metrics,,,,,,,,,,,,,,
 lookoutvision,Amazon Lookout for Vision,,,,,,,,,,,,,,
 machinelearning,Amazon Machine Learning,,,,,,,,,,,,,,
 macie,Amazon Macie Classic,true,true,true,,true,true,,,,true,,true,,true
@@ -204,7 +208,7 @@ resource-groups,AWS Resource Groups,true,true,true,,,,,,,,,,true,true
 robomaker,AWS RoboMaker,true,true,true,,,,,,,true,,,true,true
 route53,Amazon Route 53,true,true,true,true,true,true,true,true,true,true,,true,true,true
 route53domains,Amazon Route53 Domains,true,true,true,true,true,true,true,true,true,true,,true,true,true
-route53resolver,Amazon Route 53 Resolver,,,true,,,,,,,,,,,
+route53resolver,Amazon Route 53 Resolver,true,true,true,true,true,true,true,true,true,true,,true,true,true
 s3,Amazon S3,true,true,true,true,true,true,true,true,true,true,,true,true,true
 s3-outposts,Amazon S3 on Outposts,,,,,,,,,,,,,,
 sagemaker,Amazon SageMaker,true,true,true,true,true,true,true,true,true,true,,true,true,true
@@ -239,6 +243,7 @@ synthetics,Amazon CloudWatch Synthetics,,,,,,,,,,,,,,
 tag,Amazon Resource Group Tagging API,,,,,,,,,,,,,,
 textract,Amazon Textract,true,true,true,,,,,,,true,,,true,true
 timestream,AWS Timestream,,true,true,,,,,,,true,,,,
+tiros,AWS Tiros,,,,,,,,,,,,,,
 transcribe,Amazon Transcribe,true,true,true,true,true,true,true,true,true,true,,true,true,true
 transfer,AWS Transfer for SFTP,true,true,true,,,,,,,true,,true,true,true
 translate,Amazon Translate,true,true,true,true,true,true,true,true,true,true,,true,true,true
@@ -254,5 +259,4 @@ workmail,Amazon WorkMail,true,,true,,,,,,,,,,,true
 workmailmessageflow,Amazon WorkMail Message Flow,,,,,,,,,,,,,,
 workspaces,Amazon WorkSpaces,true,true,true,true,true,true,true,true,true,true,,true,true,true
 xray,AWS X-Ray,true,true,true,,,,,,,true,,true,true,true
-msk,,,,true,,,,,,,true,,,,
 healthlake,,,,,,,,,,,true,,,,
