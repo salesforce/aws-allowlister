@@ -23,47 +23,82 @@ mkdir -p examples/latest/
 # Also update it to a "latest" folder, that way we can view the diff in commits.
 # All (includes FedRAMP)
 echo "examples/$LATEST_VERSION/All-AllowList-SCP.json"
-aws-allowlister generate --quiet > examples/${LATEST_VERSION}/All-AllowList-SCP.json
-aws-allowlister generate --quiet > examples/latest/All-AllowList-SCP.json
-aws-allowlister generate --quiet --table > examples/${LATEST_VERSION}/All-AllowList-SCP.md
-aws-allowlister generate --quiet --table > examples/latest/All-AllowList-SCP.md
+export SCP_FILE_NAME="All-AllowList-SCP"
+aws-allowlister generate --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # All Commercial (does not include FedRAMP)
-aws-allowlister generate -sphi --quiet > examples/${LATEST_VERSION}/Commercial-AllowList-SCP.json
-aws-allowlister generate -sphi --quiet > examples/latest/Commercial-AllowList-SCP.json
-aws-allowlister generate -sphi --quiet --table > examples/${LATEST_VERSION}/Commercial-AllowList-SCP.md
-aws-allowlister generate -sphi --quiet --table > examples/latest/Commercial-AllowList-SCP.md
+export SCP_FILE_NAME="Commercial-AllowList-SCP"
+export COMPLIANCE_ARGS="-sphi"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # SOC
-aws-allowlister generate -s --quiet > examples/${LATEST_VERSION}/SOC-AllowList-SCP.json
-aws-allowlister generate -s --quiet > examples/latest/SOC-AllowList-SCP.json
-aws-allowlister generate -s --quiet --table > examples/${LATEST_VERSION}/SOC-AllowList-SCP.md
-aws-allowlister generate -s --quiet --table > examples/latest/SOC-AllowList-SCP.md
+export SCP_FILE_NAME="SOC-AllowList-SCP"
+export COMPLIANCE_ARGS="-s"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # PCI
-aws-allowlister generate -p --quiet > examples/${LATEST_VERSION}/PCI-AllowList-SCP.json
-aws-allowlister generate -p --quiet > examples/latest/PCI-AllowList-SCP.json
-aws-allowlister generate -p --quiet --table > examples/${LATEST_VERSION}/PCI-AllowList-SCP.md
-aws-allowlister generate -p --quiet --table > examples/latest/PCI-AllowList-SCP.md
+export SCP_FILE_NAME="PCI-AllowList-SCP"
+export COMPLIANCE_ARGS="-p"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # HIPAA
-aws-allowlister generate -h --quiet > examples/${LATEST_VERSION}/HIPAA-AllowList-SCP.json
-aws-allowlister generate -h --quiet > examples/latest/HIPAA-AllowList-SCP.json
-aws-allowlister generate -h --quiet --table > examples/${LATEST_VERSION}/HIPAA-AllowList-SCP.md
-aws-allowlister generate -h --quiet --table > examples/latest/HIPAA-AllowList-SCP.md
+export SCP_FILE_NAME="HIPAA-AllowList-SCP"
+export COMPLIANCE_ARGS="-h"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # ISO
-aws-allowlister generate -i --quiet > examples/${LATEST_VERSION}/ISO-AllowList-SCP.json
-aws-allowlister generate -i --quiet > examples/latest/ISO-AllowList-SCP.json
-aws-allowlister generate -i --quiet --table > examples/${LATEST_VERSION}/ISO-AllowList-SCP.md
-aws-allowlister generate -i --quiet --table > examples/latest/ISO-AllowList-SCP.md
+export SCP_FILE_NAME="ISO-AllowList-SCP"
+export COMPLIANCE_ARGS="-i"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # FedRAMP High
-aws-allowlister generate -fh --quiet > examples/${LATEST_VERSION}/FedRAMP_High-AllowList-SCP.json
-aws-allowlister generate -fh --quiet > examples/latest/FedRAMP_High-AllowList-SCP.json
-aws-allowlister generate -fh --quiet --table > examples/${LATEST_VERSION}/FedRAMP_High-AllowList-SCP.md
-aws-allowlister generate -fh --quiet --table > examples/latest/FedRAMP_High-AllowList-SCP.md
+export SCP_FILE_NAME="FedRAMP_High-AllowList-SCP"
+export COMPLIANCE_ARGS="-fh"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # FedRAMP Moderate
-aws-allowlister generate -fm --quiet > examples/${LATEST_VERSION}/FedRAMP_Moderate-AllowList-SCP.json
-aws-allowlister generate -fm --quiet > examples/latest/FedRAMP_Moderate-AllowList-SCP.json
-aws-allowlister generate -fm --quiet --table > examples/${LATEST_VERSION}/FedRAMP_Moderate-AllowList-SCP.md
-aws-allowlister generate -fm --quiet --table > examples/latest/FedRAMP_Moderate-AllowList-SCP.md
+export SCP_FILE_NAME="FedRAMP_Moderate-AllowList-SCP"
+export COMPLIANCE_ARGS="-fm"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md
 # FedRAMP All
-aws-allowlister generate -fm -fh --quiet > examples/${LATEST_VERSION}/FedRAMP_All-AllowList-SCP.json
-aws-allowlister generate -fm -fh --quiet > examples/latest/FedRAMP_All-AllowList-SCP.json
-aws-allowlister generate -fm -fh --quiet --table > examples/${LATEST_VERSION}/FedRAMP_All-AllowList-SCP.md
-aws-allowlister generate -fm -fh --quiet --table > examples/latest/FedRAMP_All-AllowList-SCP.md
+export SCP_FILE_NAME="FedRAMP_All-AllowList-SCP"
+export COMPLIANCE_ARGS="-fm -fh"
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet > examples/latest/${SCP_FILE_NAME}.json
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --table > examples/latest/${SCP_FILE_NAME}.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/${LATEST_VERSION}/${SCP_FILE_NAME}-Excluded.md
+aws-allowlister generate ${COMPLIANCE_ARGS} --quiet --excluded-table > examples/latest/${SCP_FILE_NAME}-Excluded.md

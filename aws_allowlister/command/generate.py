@@ -1,6 +1,9 @@
 import logging
 import json
 import click
+from click_option_group import optgroup, MutuallyExclusiveOptionGroup
+from policy_sentry.querying.all import get_all_service_prefixes
+
 from tabulate import tabulate
 from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
@@ -23,7 +26,8 @@ def validate_comma_separated_aws_services(ctx, param, value):
     name="generate",
     short_help="Generate an AWS AllowList policy based on compliance requirements",
 )
-@click.option(
+@optgroup.group("Compliance Standard Selection", help="")
+@optgroup.option(
     "--all",
     "-a",
     'all_standards',
@@ -32,7 +36,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=True,
     help="SOC, PCI, ISO, HIPAA, FedRAMP_High, and FedRAMP_Moderate.",
 )
-@click.option(
+@optgroup.option(
     "--soc",
     "-s",
     required=False,
@@ -40,7 +44,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include SOC-compliant services",
 )
-@click.option(
+@optgroup.option(
     "--pci",
     "-p",
     required=False,
@@ -48,7 +52,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include PCI-compliant services",
 )
-@click.option(
+@optgroup.option(
     "--hipaa",
     "-h",
     required=False,
@@ -56,7 +60,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include HIPAA-compliant services",
 )
-@click.option(
+@optgroup.option(
     "--iso",
     "-i",
     required=False,
@@ -64,7 +68,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include ISO-compliant services",
 )
-@click.option(
+@optgroup.option(
     "--fedramp-high",
     "-fh",
     required=False,
@@ -72,7 +76,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include FedRAMP High",
 )
-@click.option(
+@optgroup.option(
     "--fedramp-moderate",
     "-fm",
     required=False,
@@ -80,7 +84,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include FedRAMP Moderate",
 )
-@click.option(
+@optgroup.option(
     "--dodccsrg-il2-ew",
     "-d2e",
     required=False,
@@ -88,7 +92,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include DoD CC SRG IL2 (East/West)",
 )
-@click.option(
+@optgroup.option(
     "--dodccsrg-il2-gc",
     "-d2g",
     required=False,
@@ -96,7 +100,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include DoD CC SRG IL2 (GovCloud)",
 )
-@click.option(
+@optgroup.option(
     "--dodccsrg-il4-gc",
     "-d4g",
     required=False,
@@ -104,7 +108,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include DoD CC SRG IL4 (GovCloud)",
 )
-@click.option(
+@optgroup.option(
     "--dodccsrg-il5-gc",
     "-d5g",
     required=False,
@@ -112,7 +116,8 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include DoD CC SRG IL5 (GovCloud)",
 )
-@click.option(
+@optgroup.group("AWS Service selection", help="")
+@optgroup.option(
     "--include",
     required=False,
     default=None,
@@ -120,7 +125,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     callback=validate_comma_separated_aws_services,
     help="Include specific AWS IAM services, specified in a comma separated string."
 )
-@click.option(
+@optgroup.option(
     "--exclude",
     required=False,
     type=str,
@@ -128,13 +133,20 @@ def validate_comma_separated_aws_services(ctx, param, value):
     callback=validate_comma_separated_aws_services,
     help="Exclude specific AWS IAM services, specified in a comma separated string."
 )
-@click.option(
+@optgroup.group("Table output options", help="", cls=MutuallyExclusiveOptionGroup)
+@optgroup.option(
     "--table",
-    required=False,
     type=bool,
     default=False,
     is_flag=True,
-    help="Instead of providing the output as JSON, output a markdown-formatted table of the Service Prefixes alongside Service Names."
+    help="Output a markdown-formatted table of the Service Prefixes alongside Service Names."
+)
+@optgroup.option(
+    "--excluded-table",
+    type=bool,
+    default=False,
+    is_flag=True,
+    help="Output a markdown-formatted table of *excluded* services."
 )
 @click.option(
     '--quiet', '-q',
@@ -142,7 +154,7 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
 )
 def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, 
-             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, include, exclude, table, quiet):
+             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, include, exclude, table, excluded_table, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -211,6 +223,31 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         # services_tabulated.append(headers)
         for service_prefix in services:
             service_name = utils.get_service_name_matching_iam_service_prefix(service_prefix)
+            try:
+                service_authorization_url = get_service_authorization_url(service_prefix)
+            except AttributeError as error:
+                logger.info(error)
+                service_authorization_url = ""
+            service_name_text = f"[{service_name}]({service_authorization_url})"
+            # services_tabulated.append([service_prefix, service_name])
+            services_tabulated.append([service_prefix, service_name_text])
+        print(tabulate(services_tabulated, headers=headers, tablefmt="github"))
+    elif excluded_table:
+        # Get the list of allowlist prefixes
+        allowed_services = generate_allowlist_service_prefixes(standards, include, exclude)
+        # Get the list of all service prefixes, not just the allowlist ones
+        all_services = get_all_service_prefixes()
+        # Create a list of services that don't exist in allowed_services
+        excluded_services = []
+        for service_prefix in all_services:
+            if service_prefix not in allowed_services:
+                excluded_services.append(service_prefix)
+        excluded_services.sort()
+        # Create the table
+        services_tabulated = []
+        headers = ["Service Prefix", "Service Name"]
+        for service_prefix in excluded_services:
+            service_name = utils.get_service_name_matching_iam_service_prefix(service_prefix)
             service_authorization_url = get_service_authorization_url(service_prefix)
             service_name_text = f"[{service_name}]({service_authorization_url})"
             # services_tabulated.append([service_prefix, service_name])
@@ -229,7 +266,6 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         }}
 }}"""
         print(minified_results)
-        # print(json.dumps(results, indent=4))
 
 
 def generate_allowlist_scp(standards, include=None, exclude=None):
