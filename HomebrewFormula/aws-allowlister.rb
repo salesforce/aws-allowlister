@@ -3,8 +3,8 @@ class AwsAllowlister < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/aws-allowlister"
-  url "https://files.pythonhosted.org/packages/6c/63/a81cf1cac441ae8b3f7f7ad9895c35e12d6fbc9c31bdf0d00c77bd9e1765/aws-allowlister-0.1.2.tar.gz"
-  sha256 "255ccb7fc8878178b4b012398676ec09ef0701ebf91dc8a6c149b35c822b8931"
+  url "https://files.pythonhosted.org/packages/38/60/a069513d3bddca9a806cb2aad6f469982343237a88eaac00fcee3fc87112/aws-allowlister-0.2.5.tar.gz"
+  sha256 "c01b6977272aa0e5853b3b8d4a57b8c2b0cd8bbd839cef5e0f2ef8d725f02a62"
 
   depends_on "python3"
 
@@ -28,9 +28,19 @@ class AwsAllowlister < Formula
     sha256 "d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"
   end
 
+  resource "click-option-group" do
+    url "https://files.pythonhosted.org/packages/e5/cb/c5698a6434db57236cdab8852d0305ad71a033f29d8a769faabf35f96e29/click-option-group-0.5.2.tar.gz"
+    sha256 "743733a0f564438b6b761f49ddf37d845f9a662294ecabe0e832e597208bcf31"
+  end
+
   resource "contextlib2" do
     url "https://files.pythonhosted.org/packages/02/54/669207eb72e3d8ae8b38aa1f0703ee87a0e9f88f30d3c0a47bebdb6de242/contextlib2-0.6.0.post1.tar.gz"
     sha256 "01f490098c18b19d2bd5bb5dc445b2054d2fa97f09a4280ba2c5f3c394c8162e"
+  end
+
+  resource "greenlet" do
+    url "https://files.pythonhosted.org/packages/92/be/878cc5314fa5aadce33e68738c1a24debe317605196bdfc2049e66bc9c30/greenlet-1.0.0.tar.gz"
+    sha256 "719e169c79255816cdcf6dccd9ed2d089a72a9f6c42273aae12d55e8d35bdcf8"
   end
 
   resource "idna" do
@@ -38,9 +48,14 @@ class AwsAllowlister < Formula
     sha256 "b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6"
   end
 
+  resource "importlib-metadata" do
+    url "https://files.pythonhosted.org/packages/99/23/aac25e607237feabe8d076932d27a590341001a9bf8a1e4149ee1c3c3c40/importlib_metadata-3.7.3.tar.gz"
+    sha256 "742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71"
+  end
+
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/2b/89/104444db0d43dd91f17862d9a928d3f7be65fa092c572fe6f512f084f245/policy_sentry-0.11.3.tar.gz"
-    sha256 "652137d702c5cb8fbd1e1657fbbea931eb38e5fc64def876e47cd02cc76b7530"
+    url "https://files.pythonhosted.org/packages/4b/5b/5cec64c9053281649cf5ab6f6c39260d2733e5353418b59d5c7001603116/policy_sentry-0.11.8.tar.gz"
+    sha256 "630200439a58efc4233a097422b4830c6cafa4c85778293baf8443884aadb7ea"
   end
 
   resource "PyYAML" do
@@ -54,23 +69,38 @@ class AwsAllowlister < Formula
   end
 
   resource "schema" do
-    url "https://files.pythonhosted.org/packages/0d/de/84afc54d41aea9787c6d8814391a2d296a8240eef5b59d11704a82d82064/schema-0.7.2.tar.gz"
-    sha256 "b536f2375b49fdf56f36279addae98bd86a8afbd58b3c32ce363c464bed5fc1c"
+    url "https://files.pythonhosted.org/packages/2b/91/42bc143289fd5f032ab1b01c5da32dc162ae808a585122f27ed5bf67268f/schema-0.7.4.tar.gz"
+    sha256 "fbb6a52eb2d9facf292f233adcc6008cffd94343c63ccac9a1cb1f3e6de1db17"
   end
 
   resource "soupsieve" do
-    url "https://files.pythonhosted.org/packages/58/5d/445e21e92345848305eecf473338e9ec7ed8905b99ea78415042060127fc/soupsieve-2.1.tar.gz"
-    sha256 "6dc52924dc0bc710a5d16794e6b3480b2c7c08b07729505feab2b2c16661ff6e"
+    url "https://files.pythonhosted.org/packages/c8/3f/e71d92e90771ac2d69986aa0e81cf0dfda6271e8483698f4847b861dd449/soupsieve-2.2.1.tar.gz"
+    sha256 "052774848f448cf19c7e959adf5566904d525f33a3f8b6ba6f6f8f26ec7de0cc"
   end
 
   resource "SQLAlchemy" do
-    url "https://files.pythonhosted.org/packages/b7/10/b6d02efa2cb10dca0671fd62c9091c1e49831b266658fd7a056c577621cb/SQLAlchemy-1.3.22.tar.gz"
-    sha256 "758fc8c4d6c0336e617f9f6919f9daea3ab6bb9b07005eda9a1a682e24a6cacc"
+    url "https://files.pythonhosted.org/packages/4a/38/312ffbd98c204c4bf28293a3dd4a263579f558bef01ae1b5d81672a3adec/SQLAlchemy-1.4.2.tar.gz"
+    sha256 "6a8e4c2e65028933a6dc8643c8f5a4f295a367131195b3c708634925cb3e8ec1"
+  end
+
+  resource "tabulate" do
+    url "https://files.pythonhosted.org/packages/ae/3d/9d7576d94007eaf3bb685acbaaec66ff4cdeb0b18f1bf1f17edbeebffb0a/tabulate-0.8.9.tar.gz"
+    sha256 "eb1d13f25760052e8931f2ef80aaf6045a6cceb47514db8beab24cded16f13a7"
+  end
+
+  resource "typing-extensions" do
+    url "https://files.pythonhosted.org/packages/16/06/0f7367eafb692f73158e5c5cbca1aec798cdf78be5167f6415dd4205fa32/typing_extensions-3.7.4.3.tar.gz"
+    sha256 "99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c"
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/d7/8d/7ee68c6b48e1ec8d41198f694ecdc15f7596356f2ff8e6b1420300cf5db3/urllib3-1.26.3.tar.gz"
-    sha256 "de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"
+    url "https://files.pythonhosted.org/packages/cb/cf/871177f1fc795c6c10787bc0e1f27bb6cf7b81dbde399fd35860472cecbc/urllib3-1.26.4.tar.gz"
+    sha256 "e7b021f7241115872f92f43c6508082facffbd1c048e3c6e2bb9c2a157e28937"
+  end
+
+  resource "zipp" do
+    url "https://files.pythonhosted.org/packages/38/f9/4fa6df2753ded1bcc1ce2fdd8046f78bd240ff7647f5c9bcf547c0df77e3/zipp-3.4.1.tar.gz"
+    sha256 "3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76"
   end
 
   def install
