@@ -3,5 +3,5 @@ click==7.1.2
 click_option_group==0.5.2
 requests==2.25.1
 policy_sentry==0.11.9
-SQLAlchemy==1.4.2
+SQLAlchemy==1.4.7
 tabulate==0.8.9
