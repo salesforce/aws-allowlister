@@ -3,8 +3,8 @@ class AwsAllowlister < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/aws-allowlister"
-  url "https://files.pythonhosted.org/packages/38/60/a069513d3bddca9a806cb2aad6f469982343237a88eaac00fcee3fc87112/aws-allowlister-0.2.5.tar.gz"
-  sha256 "c01b6977272aa0e5853b3b8d4a57b8c2b0cd8bbd839cef5e0f2ef8d725f02a62"
+  url "https://files.pythonhosted.org/packages/96/6c/11d44b7e77ff9f965ea1729ca4c51823bfdb08fcf10b816bf55ef838b407/aws-allowlister-0.2.6.tar.gz"
+  sha256 "a3b4b073ba1a1584396a025138df902aca23fd6a987bfed18a8a15131f2a2b4b"
 
   depends_on "python3"
 
@@ -49,13 +49,13 @@ class AwsAllowlister < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/99/23/aac25e607237feabe8d076932d27a590341001a9bf8a1e4149ee1c3c3c40/importlib_metadata-3.7.3.tar.gz"
-    sha256 "742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71"
+    url "https://files.pythonhosted.org/packages/9a/5a/5bee793e43f6499b7e28de7c0333f49752590826b08a456f3874f555f4f5/importlib_metadata-4.0.0.tar.gz"
+    sha256 "2e881981c9748d7282b374b68e759c87745c25427b67ecf0cc67fb6637a1bff9"
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/4b/5b/5cec64c9053281649cf5ab6f6c39260d2733e5353418b59d5c7001603116/policy_sentry-0.11.8.tar.gz"
-    sha256 "630200439a58efc4233a097422b4830c6cafa4c85778293baf8443884aadb7ea"
+    url "https://files.pythonhosted.org/packages/70/43/fba6ef4399843d95138ed9a6aef323981c07de0cf9fc428d2f6fbc36a4f0/policy_sentry-0.11.9.tar.gz"
+    sha256 "110d84ab5bf177018f9403475e76b4527cfb8bd3213bc0947e79060c3ddfe151"
   end
 
   resource "PyYAML" do
@@ -79,8 +79,8 @@ class AwsAllowlister < Formula
   end
 
   resource "SQLAlchemy" do
-    url "https://files.pythonhosted.org/packages/4a/38/312ffbd98c204c4bf28293a3dd4a263579f558bef01ae1b5d81672a3adec/SQLAlchemy-1.4.2.tar.gz"
-    sha256 "6a8e4c2e65028933a6dc8643c8f5a4f295a367131195b3c708634925cb3e8ec1"
+    url "https://files.pythonhosted.org/packages/29/25/1fbcbf47928731ff46cbf3eaaaacbdcc042dd85f919580055f30a0dbdb0a/SQLAlchemy-1.4.9.tar.gz"
+    sha256 "f31757972677fbe9132932a69a4f23db59187a072cc26427f56a3082b46b6dac"
   end
 
   resource "tabulate" do
