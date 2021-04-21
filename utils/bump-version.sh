@@ -2,11 +2,12 @@
 set -ex
 
 version_file="aws_allowlister/bin/version.py"
-repo="salesforce/aws-allowlister"
+#repo="salesforce/aws-allowlister"
 # https://github.com/bridgecrewio/checkov/blob/master/.github/workflows/build.yml#L87-L132
 
 git config --local user.email "action@github.com"
 git config --local user.name "GitHub Action"
+git pull
 git fetch --tags
 latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 echo "latest tag: $latest_tag"
