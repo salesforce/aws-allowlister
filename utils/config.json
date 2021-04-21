@@ -1,0 +1,15 @@
+[
+    { "SCP_FILE_NAME": "All-AllowList-SCP", "COMPLIANCE_ARGS": "" },
+    { "SCP_FILE_NAME": "Commercial-AllowList-SCP", "COMPLIANCE_ARGS": "-sphi" },
+    { "SCP_FILE_NAME": "SOC-AllowList-SCP", "COMPLIANCE_ARGS": "-s" },
+    { "SCP_FILE_NAME": "PCI-AllowList-SCP", "COMPLIANCE_ARGS": "-p" },
+    { "SCP_FILE_NAME": "HIPAA-AllowList-SCP", "COMPLIANCE_ARGS": "-h" },
+    { "SCP_FILE_NAME": "ISO-AllowList-SCP", "COMPLIANCE_ARGS": "-i" },
+    { "SCP_FILE_NAME": "FedRAMP_High-AllowList-SCP", "COMPLIANCE_ARGS": "-fh" },
+    { "SCP_FILE_NAME": "FedRAMP_Moderate-AllowList-SCP", "COMPLIANCE_ARGS": "-fm" },
+    { "SCP_FILE_NAME": "FedRAMP_All-AllowList-SCP", "COMPLIANCE_ARGS": "-fm -fh" },
+    { "SCP_FILE_NAME": "DOD_CC_SRG_IL2_EW-AllowList-SCP", "COMPLIANCE_ARGS": "-d2e" },
+    { "SCP_FILE_NAME": "DOD_CC_SRG_IL2_GC-AllowList-SCP", "COMPLIANCE_ARGS": "-d2g" },
+    { "SCP_FILE_NAME": "DOD_CC_SRG_IL4_GC-AllowList-SCP", "COMPLIANCE_ARGS": "-d4g" },
+    { "SCP_FILE_NAME": "DOD_CC_SRG_IL5_GC-AllowList-SCP", "COMPLIANCE_ARGS": "-d5g" }
+]

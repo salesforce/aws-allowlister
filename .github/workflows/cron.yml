@@ -22,6 +22,9 @@ jobs:
       - name: Update Data
         run: make update-data
       
+      - name: install jq
+        run: pip install jq
+      
       - name: Update examples
         run: make generate-examples
 
