@@ -1,0 +1,33 @@
+name: Data Update Check
+
+on:
+  schedule:
+    - cron: '0 0 */14 * *'
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      
+      - name: Install the package
+        run: make install
+
+      - name: Update Data
+        run: make update-data
+      
+      - name: Update examples
+        run: make generate-examples
+
+      - name: PR if files were updated
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Update database
+          title: 'Updates database'
+          body: This is an automated PR created because AWS compliances resources were updated.
