@@ -15,5 +15,5 @@ echo "new tag: $new_tag"
 
 echo "__version__ = '$new_tag'" > $version_file
 
-git commit -m "Bump to ${version}"  $version_file || echo "No changes to commit"
+git commit -m "Bump to ${new_tag}"  $version_file || echo "No changes to commit"
 git push origin
