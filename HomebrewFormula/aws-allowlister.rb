@@ -3,8 +3,8 @@ class AwsAllowlister < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/aws-allowlister"
-  url "https://files.pythonhosted.org/packages/96/6c/11d44b7e77ff9f965ea1729ca4c51823bfdb08fcf10b816bf55ef838b407/aws-allowlister-0.2.6.tar.gz"
-  sha256 "a3b4b073ba1a1584396a025138df902aca23fd6a987bfed18a8a15131f2a2b4b"
+  url "https://files.pythonhosted.org/packages/55/f3/8bb88abd7c4eb681c00fc6fcdb9903d6efce9182a91c6304ad946bdd6c5c/aws-allowlister-0.2.7.tar.gz"
+  sha256 "9fd5937a04d20f58068570df2c8a6f86cd6ef56b40d7c3147169b3cd8560a360"
 
   depends_on "python3"
 
@@ -49,8 +49,8 @@ class AwsAllowlister < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/9a/5a/5bee793e43f6499b7e28de7c0333f49752590826b08a456f3874f555f4f5/importlib_metadata-4.0.0.tar.gz"
-    sha256 "2e881981c9748d7282b374b68e759c87745c25427b67ecf0cc67fb6637a1bff9"
+    url "https://files.pythonhosted.org/packages/91/b6/4f8d521c15fa22bca780aeff56a5b43665ac522585b2b2090e3626ca585f/importlib_metadata-4.0.1.tar.gz"
+    sha256 "8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581"
   end
 
   resource "policy-sentry" do
@@ -79,8 +79,8 @@ class AwsAllowlister < Formula
   end
 
   resource "SQLAlchemy" do
-    url "https://files.pythonhosted.org/packages/29/25/1fbcbf47928731ff46cbf3eaaaacbdcc042dd85f919580055f30a0dbdb0a/SQLAlchemy-1.4.9.tar.gz"
-    sha256 "f31757972677fbe9132932a69a4f23db59187a072cc26427f56a3082b46b6dac"
+    url "https://files.pythonhosted.org/packages/a4/38/3d7915f4d92037f621abf0c1ef4b3689551bcb7b804f4e85dcef20504e46/SQLAlchemy-1.4.10.tar.gz"
+    sha256 "483fb869a3151dae6d1c97d242fe2e1b08f97bc71bd4946229930b9efedc9d9d"
   end
 
   resource "tabulate" do
