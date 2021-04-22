@@ -1,4 +1,4 @@
-name: Data Update Check
+name: Update Compliance Data
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-data:
+  update-compliance-data:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
