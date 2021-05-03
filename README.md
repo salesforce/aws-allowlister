@@ -228,7 +228,6 @@ aws-allowlister generate --pci --table
 
 The results will look like this:
 
-
 <details>
 <summary>Example AllowList Policy</summary>
 
