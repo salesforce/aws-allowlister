@@ -8,8 +8,6 @@ on:
 jobs:
   update-compliance-data:
     runs-on: ubuntu-latest
-    env:
-      SHA8: ${GITHUB_SHA::8}
     steps:
       - uses: actions/checkout@v2
 
