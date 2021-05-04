@@ -27,6 +27,9 @@ jobs:
       
       - name: Update examples
         run: make generate-examples
+      
+      - name: Generate a short SHA for branch name
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
 
       - name: PR if files were updated
         uses: peter-evans/create-pull-request@v3
@@ -34,3 +37,7 @@ jobs:
           commit-message: Update database
           title: 'Updates database'
           body: This is an automated PR created because AWS compliances resources were updated.
+          branch: ${SHORT_SHA}
+          delete-branch: true
+          labels: |
+            automation
