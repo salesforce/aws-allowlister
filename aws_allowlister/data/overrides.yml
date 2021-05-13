@@ -150,6 +150,8 @@ service_names_to_iam_names:
   AWS Backup:
     - backup
     - backup-storage
+  AWS Certificate Manager:
+    - acm-pca
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Section 2: "SDK name means IAM names"
