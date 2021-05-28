@@ -261,4 +261,4 @@ worklink,Amazon WorkLink,true,true,true,,,,,,,true,,,,true
 workmail,Amazon WorkMail,true,,true,,,,,,,,,,,true
 workmailmessageflow,Amazon WorkMail Message Flow,,,,,,,,,,,,,,
 workspaces,Amazon WorkSpaces,true,true,true,true,true,true,true,true,true,true,,true,true,true
-xray,AWS X-Ray,true,true,true,,,,,,,true,,true,true,true
+xray,AWS X-Ray,true,true,true,,,true,true,,,true,,true,true,true
