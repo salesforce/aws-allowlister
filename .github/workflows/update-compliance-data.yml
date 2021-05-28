@@ -38,7 +38,7 @@ jobs:
           commit-message: Update database
           title: 'Updates database'
           body: This is an automated PR created because AWS compliances resources were updated.
-          branch: $${{ steps.vars.outputs.sha_short }}
+          branch: ${{ steps.vars.outputs.sha_short }}
           delete-branch: true
           labels: |
             automation
