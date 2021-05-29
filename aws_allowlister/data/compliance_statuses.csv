@@ -76,7 +76,7 @@ dbqms,Database Query Metadata Service,,,,,,,,,,,,,,
 deepcomposer,AWS DeepComposer,,,,,,,,,,,,,,
 deeplens,AWS DeepLens,,,,,,,,,,,,,,
 deepracer,AWS DeepRacer,,,,,,,,,,,,,,
-detective,Amazon Detective,,,true,,,,,,,,,,,
+detective,Amazon Detective,true,,true,,,,,,,,,,,
 devicefarm,AWS Device Farm,,,true,,,,,,,,,,,
 devops-guru,Amazon DevOps Guru,,,,,,,,,,,,,,
 directconnect,AWS Direct Connect,true,true,true,true,true,true,true,true,true,true,,true,true,true
