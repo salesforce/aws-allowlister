@@ -114,10 +114,10 @@ class GenerateMethodsTestCase(unittest.TestCase):
     def test_gh_86_generate_exclude_file(self):
         file = os.path.join(os.path.dirname(__file__), "exclude-example.yml")
         content = utils.read_yaml_file(file)
-        args = f"--exclude-file {file}"
+        args = f"--exclude-file {file} --quiet"
         args = shlex.split(args)
         result = self.runner.invoke(cli=generate, args=args)
         print(result.output)
-        self.assertTrue("iam" not in result.output)
+        self.assertTrue("\"ec2:*\"" not in result.output)
         self.assertTrue("s3" not in result.output)
         self.assertTrue(result.exit_code == 0)
