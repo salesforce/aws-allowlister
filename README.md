@@ -540,27 +540,43 @@ The results will look like this:
 Usage: aws-allowlister generate [OPTIONS]
 
 Options:
-  -a, --all                SOC, PCI, ISO, HIPAA, FedRAMP_High, and
-                           FedRAMP_Moderate.
+  Compliance Standard Selection: 
+    -a, --all                     SOC, PCI, ISO, HIPAA, FedRAMP_High, and
+                                  FedRAMP_Moderate.
 
-  -s, --soc                Include SOC-compliant services
-  -p, --pci                Include PCI-compliant services
-  -h, --hipaa              Include HIPAA-compliant services
-  -i, --iso                Include ISO-compliant services
-  -fh, --fedramp-high      Include FedRAMP High
-  -fm, --fedramp-moderate  Include FedRAMP Moderate
-  -d2e, --dodccsrg-il2-ew  Include DoD CC SRG IL2 (East/West)
-  -d2g, --dodccsrg-il2-gc  Include DoD CC SRG IL2 (GovCloud)
-  -d4g, --dodccsrg-il4-gc  Include DoD CC SRG IL4 (GovCloud)
-  -d5g, --dodccsrg-il5-gc  Include DoD CC SRG IL5 (GovCloud)
-  --include TEXT           Include specific AWS IAM services, specified in a
-                           comma separated string.
+    -s, --soc                     Include SOC-compliant services
+    -p, --pci                     Include PCI-compliant services
+    -h, --hipaa                   Include HIPAA-compliant services
+    -i, --iso                     Include ISO-compliant services
+    -fh, --fedramp-high           Include FedRAMP High
+    -fm, --fedramp-moderate       Include FedRAMP Moderate
+    -d2e, --dodccsrg-il2-ew       Include DoD CC SRG IL2 (East/West)
+    -d2g, --dodccsrg-il2-gc       Include DoD CC SRG IL2 (GovCloud)
+    -d4g, --dodccsrg-il4-gc       Include DoD CC SRG IL4 (GovCloud)
+    -d5g, --dodccsrg-il5-gc       Include DoD CC SRG IL5 (GovCloud)
+  Forcibly Include AWS Services: [mutually_exclusive]
+    --include TEXT                Include specific AWS IAM services, specified
+                                  in a comma separated string.
 
-  --exclude TEXT           Exclude specific AWS IAM services, specified in a
-                           comma separated string.
+    --include-file PATH           A YAML file that contains a list of AWS IAM
+                                  services to include.
+
+  Forcibly Exclude AWS Services: [mutually_exclusive]
+    --exclude TEXT                Exclude specific AWS IAM services, specified
+                                  in a comma separated string.
+
+    --exclude-file PATH           A YAML file that contains a list of AWS IAM
+                                  services to exclude.
+
+  Table output options: [mutually_exclusive]
+    --table                       Output a markdown-formatted table of the
+                                  Service Prefixes alongside Service Names.
+
+    --excluded-table              Output a markdown-formatted table of
+                                  *excluded* services.
 
   -q, --quiet
-  --help                   Show this message and exit.
+  --help                          Show this message and exit.
 ```
 
 
@@ -581,6 +597,94 @@ aws-allowlister generate -sphi --quiet
 ```bash
 aws-allowlister generate -sip --quiet
 ```
+
+### Exceptions: Including or Excluding Services
+
+If you want to force-exclude or force-include a service, you have two options.
+1. Specify the exclusions in command line arguments
+2. Specify the exclusions in a YAML file and supply the file name
+
+#### Example: Exclude Services using a file
+
+For example, create a file that is called `exclusions.yml` with the following contents
+
+```yaml
+# If you use this for exclusions, this will exclude EC2 and S3. Don't actually do this, this is just for the example
+- ec2
+- s3
+```
+
+Now you can specify the following arguments to leverage this file:
+
+```bash
+aws-allowlister generate --exclude-file exclusions.yml
+```
+
+Alternatively, you can supply the argument inline like this:
+
+```bash
+aws-allowlister generate ---exclude ec2,s3
+```
+
+Notice how the output does not include `ec2` or `s3` in the output.
+
+
+<details>
+<summary>Exclude output</summary>
+
+```
+{
+    "Version": "2012-10-17",
+        "Statement": {
+            "Sid": "AllowList",
+            "Effect": "Deny",
+            "Resource": "*",
+            "NotAction": ["access-analyzer:*", "account:*", "acm:*", "amplify:*", "amplifybackend:*", "apigateway:*", "application-autoscaling:*", "appstream:*", "appsync:*", "athena:*", "autoscaling:*", "autoscaling-plans:*", "aws-portal:*", "backup:*", "backup-storage:*", "batch:*", "clouddirectory:*", "cloudformation:*", "cloudfront:*", "cloudhsm:*", "cloudtrail:*", "cloudwatch:*", "codebuild:*", "codecommit:*", "codedeploy:*", "codepipeline:*", "cognito-identity:*", "cognito-idp:*", "cognito-sync:*", "comprehend:*", "comprehendmedical:*", "config:*", "connect:*", "dataexchange:*", "datasync:*", "directconnect:*", "dms:*", "ds:*", "dynamodb:*", "ebs:*", "ec2messages:*", "ecr:*", "ecs:*", "eks:*", "elasticache:*", "elasticbeanstalk:*", "elasticfilesystem:*", "elasticloadbalancing:*", "elasticmapreduce:*", "es:*", "events:*", "execute-api:*", "firehose:*", "fms:*", "forecast:*", "freertos:*", "fsx:*", "glacier:*", "globalaccelerator:*", "glue:*", "greengrass:*", "guardduty:*", "health:*", "iam:*", "importexport:*", "inspector:*", "iot:*", "iot-device-tester:*", "iotdeviceadvisor:*", "iotevents:*", "iotwireless:*", "kafka:*", "kinesis:*", "kinesisanalytics:*", "kinesisvideo:*", "kms:*", "lakeformation:*", "lambda:*", "logs:*", "macie:*", "macie2:*", "mediaconnect:*", "mediaconvert:*", "medialive:*", "mobiletargeting:*", "mq:*", "neptune-db:*", "opsworks:*", "opsworks-cm:*", "organizations:*", "outposts:*", "personalize:*", "polly:*", "qldb:*", "quicksight:*", "rds:*", "rds-data:*", "rds-db:*", "redshift:*", "rekognition:*", "robomaker:*", "route53:*", "route53domains:*", "route53resolver:*", "sagemaker:*", "secretsmanager:*", "securityhub:*", "serverlessrepo:*", "servicecatalog:*", "shield:*", "sms:*", "snowball:*", "sns:*", "sqs:*", "ssm:*", "ssmmessages:*", "states:*", "storagegateway:*", "sts:*", "support:*", "swf:*", "textract:*", "transcribe:*", "transfer:*", "translate:*", "waf:*", "waf-regional:*", "wafv2:*", "workdocs:*", "worklink:*", "workspaces:*", "xray:*"]
+        }
+}
+```
+
+</details>
+
+
+#### Example: Including a service using a file
+
+You can also use this approach for force-including services. Let's say that you want to include the AWS Managed BlockChain Services because your CEO is convinced you're going to the moon 🚀 (even though the AWS Managed BlockChain service does not meet any common compliance frameworks like PCI or HIPAA). You could create a file called `include.yml` with the contents:
+
+```yaml
+- managedblockchain
+```
+
+Then run the following command:
+
+```bash
+aws-allowlister generate --exclude-file exclusions.yml
+```
+
+Alternatively, you can supply the argument inline like this:
+
+```bash
+aws-allowlister generate --include managedblockchain
+```
+
+Notice how the output includes the `managedblockchain` service.
+
+<details>
+<summary>Output with managed blockchain</summary>
+<p>
+
+```
+{
+    "Version": "2012-10-17",
+        "Statement": {
+            "Sid": "AllowList",
+            "Effect": "Deny",
+            "Resource": "*",
+            "NotAction": ["access-analyzer:*", "account:*", "acm:*", "apigateway:*", "application-autoscaling:*", "appstream:*", "athena:*", "autoscaling:*", "autoscaling-plans:*", "aws-portal:*", "batch:*", "clouddirectory:*", "cloudformation:*", "cloudtrail:*", "cloudwatch:*", "codebuild:*", "codecommit:*", "codedeploy:*", "comprehend:*", "config:*", "datasync:*", "directconnect:*", "dms:*", "ds:*", "dynamodb:*", "ebs:*", "ec2:*", "ec2messages:*", "ecr:*", "ecs:*", "elasticache:*", "elasticbeanstalk:*", "elasticfilesystem:*", "elasticloadbalancing:*", "elasticmapreduce:*", "es:*", "events:*", "execute-api:*", "firehose:*", "glacier:*", "glue:*", "guardduty:*", "iam:*", "importexport:*", "inspector:*", "iot:*", "iot-device-tester:*", "iotdeviceadvisor:*", "iotwireless:*", "kinesis:*", "kms:*", "lakeformation:*", "lambda:*", "logs:*", "managedblockchain:*", "mediaconvert:*", "organizations:*", "polly:*", "rds:*", "rds-data:*", "rds-db:*", "redshift:*", "rekognition:*", "route53:*", "route53domains:*", "route53resolver:*", "s3:*", "sagemaker:*", "secretsmanager:*", "serverlessrepo:*", "servicecatalog:*", "sms:*", "snowball:*", "sns:*", "sqs:*", "ssm:*", "ssmmessages:*", "states:*", "sts:*", "support:*", "swf:*", "transcribe:*", "translate:*", "waf:*", "waf-regional:*", "wafv2:*", "workspaces:*"]
+        }
+}
+```
+</details>
 
 # Contributing
 

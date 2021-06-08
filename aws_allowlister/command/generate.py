@@ -3,7 +3,6 @@ import json
 import click
 from click_option_group import optgroup, MutuallyExclusiveOptionGroup
 from policy_sentry.querying.all import get_all_service_prefixes
-
 from tabulate import tabulate
 from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
@@ -20,6 +19,13 @@ def validate_comma_separated_aws_services(ctx, param, value):
             return include_services
         except ValueError:
             raise click.BadParameter('Supply the AWS services in a comma separated string.')
+
+
+def validate_services_from_file(services: list):
+    valid_aws_services = get_all_service_prefixes()
+    for service in services:
+        if service not in valid_aws_services:
+            raise Exception(f"{service} is not a valid AWS service. Please supply a valid AWS service name and try again.")
 
 
 @click.command(
@@ -116,22 +122,33 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
     help="Include DoD CC SRG IL5 (GovCloud)",
 )
-@optgroup.group("AWS Service selection", help="")
+@optgroup.group("Forcibly Include AWS Services", help="", cls=MutuallyExclusiveOptionGroup)
 @optgroup.option(
     "--include",
-    required=False,
     default=None,
     type=str,
     callback=validate_comma_separated_aws_services,
     help="Include specific AWS IAM services, specified in a comma separated string."
 )
 @optgroup.option(
+    "--include-file",
+    default=None,
+    type=click.Path(exists=True),
+    help="A YAML file that contains a list of AWS IAM services to include."
+)
+@optgroup.group("Forcibly Exclude AWS Services", help="", cls=MutuallyExclusiveOptionGroup)
+@optgroup.option(
     "--exclude",
-    required=False,
     type=str,
     default=None,
     callback=validate_comma_separated_aws_services,
     help="Exclude specific AWS IAM services, specified in a comma separated string."
+)
+@optgroup.option(
+    "--exclude-file",
+    default=None,
+    type=click.Path(exists=True),
+    help="A YAML file that contains a list of AWS IAM services to exclude."
 )
 @optgroup.group("Table output options", help="", cls=MutuallyExclusiveOptionGroup)
 @optgroup.option(
@@ -154,7 +171,9 @@ def validate_comma_separated_aws_services(ctx, param, value):
     default=False,
 )
 def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, 
-             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, include, exclude, table, excluded_table, quiet):
+             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc,
+             include, include_file, exclude, exclude_file,
+             table, excluded_table, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -162,6 +181,17 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
     else:
         log_level = getattr(logging, "INFO")
         set_stream_logger(level=log_level)
+
+    # If include-file argument is supplied, then read the file and use it as the include args.
+    if include_file:
+        include = utils.read_yaml_file(include_file)
+        validate_services_from_file(services=include)
+    # Same thing with exclude-file argument
+    if exclude_file:
+        exclude = utils.read_yaml_file(exclude_file)
+        validate_services_from_file(services=exclude)
+
+    # Compile list of standards
     if soc:
         standards.append("SOC")
     if pci:
@@ -268,7 +298,7 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         print(minified_results)
 
 
-def generate_allowlist_scp(standards, include=None, exclude=None):
+def generate_allowlist_scp(standards: list, include: list = None, exclude: list = None):
     """Get the SCP Policy document"""
     allowed_services = generate_allowlist_service_prefixes(standards=standards, include=include, exclude=exclude)
     allowed_services = format_allowlist_services(allowed_services)
@@ -284,12 +314,12 @@ def generate_allowlist_scp(standards, include=None, exclude=None):
     return policy
 
 
-def format_allowlist_services(services):
+def format_allowlist_services(services: list):
     result = ["{}{}".format(i, ":*") for i in services]
     return result
 
 
-def generate_allowlist_service_prefixes(standards, include=None, exclude=None):
+def generate_allowlist_service_prefixes(standards: list, include: list = None, exclude: list = None):
     """Generate a list of service Prefixes"""
     db_session = connect_db()
     compliance_data = ComplianceData()

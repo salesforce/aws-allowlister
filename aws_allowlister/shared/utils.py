@@ -134,8 +134,5 @@ def read_yaml_file(filename):
     :return: dictionary of YAML file contents
     """
     with open(filename, "r") as yaml_file:
-        try:
-            cfg = yaml.safe_load(yaml_file)
-        except yaml.YAMLError as exc:
-            logger.critical(exc)
+        cfg = yaml.safe_load(yaml_file)
     return cfg
