@@ -1,8 +1,10 @@
 import unittest
 import json
 from click.testing import CliRunner
-from aws_allowlister.command.generate import generate, generate_allowlist_scp, format_allowlist_services, \
-    generate_allowlist_service_prefixes
+from aws_allowlister.command.generate import generate, generate_allowlist_scp, format_allowlist_services
+from aws_allowlister.shared import utils
+import os
+import shlex
 
 
 class AllowListerClickUnitTests(unittest.TestCase):
@@ -57,7 +59,7 @@ class GenerateAllowlistScpTestCase(unittest.TestCase):
         include = ["yolo"]
         exclude = []
         results = generate_allowlist_scp(standards, include=include, exclude=exclude)
-        # print(json.dumps(results, indent=4))
+        print(json.dumps(results, indent=4))
         not_actions = results.get("Statement").get("NotAction")
         self.assertTrue("yolo:*" in not_actions)
 
@@ -109,3 +111,13 @@ class GenerateMethodsTestCase(unittest.TestCase):
         # It shouldn't have Amazon S3 (expected in markdown table) when output is the default json
         self.assertTrue("Amazon S3" not in result.output)
 
+    def test_gh_86_generate_exclude_file(self):
+        file = os.path.join(os.path.dirname(__file__), "exclude-example.yml")
+        content = utils.read_yaml_file(file)
+        args = f"--exclude-file {file}"
+        args = shlex.split(args)
+        result = self.runner.invoke(cli=generate, args=args)
+        print(result.output)
+        self.assertTrue("iam" not in result.output)
+        self.assertTrue("s3" not in result.output)
+        self.assertTrue(result.exit_code == 0)
