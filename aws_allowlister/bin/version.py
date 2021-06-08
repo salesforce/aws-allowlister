@@ -1,1 +1,2 @@
-__version__ = '0.2.7'
+# pylint: disable=missing-module-docstring
+__version__ = '0.2.9'
