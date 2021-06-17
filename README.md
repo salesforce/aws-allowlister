@@ -1,6 +1,8 @@
 # aws-allowlister
 
 ![Continuous Integration Tests](https://github.com/salesforce/aws-allowlister/workflows/continuous-integration/badge.svg)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/kmcquade3.svg?style=social&label=Follow%20the%20author)](https://twitter.com/kmcquade3)
+[![Downloads](https://pepy.tech/badge/aws-allowlister)](https://pepy.tech/project/aws-allowlister)
 
 Automatically compile an AWS Service Control Policy that ONLY allows AWS services that are compliant with your preferred compliance frameworks.
 
