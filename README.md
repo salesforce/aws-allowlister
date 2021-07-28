@@ -660,7 +660,7 @@ You can also use this approach for force-including services. Let's say that you 
 Then run the following command:
 
 ```bash
-aws-allowlister generate --exclude-file exclusions.yml
+aws-allowlister generate --include-file include.yml
 ```
 
 Alternatively, you can supply the argument inline like this:
