@@ -16,8 +16,11 @@ jobs:
       - name: Install dependencies
         run: make setup-dev
 
-      - name: Run pytest (unit tests) and bandit (security test)
+      - name: Run pytest (unit tests)
         run: make test
+
+      - name: Run bandit (security test)
+        run: make security-test
 
       - name: Install the package to make sure nothing is randomly broken
         run: make install

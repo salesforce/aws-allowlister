@@ -1,32 +1,16 @@
 SHELL:=/bin/bash
 
-.PHONY: setup-env
+PROJECT := aws-allowlister
+PROJECT_UNDERSCORE := aws_allowlister
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Environment setup and management
+# ---------------------------------------------------------------------------------------------------------------------
 setup-env:
 	pip3 install pipenv
 	pipenv install
-
-.PHONY: setup-dev
 setup-dev: setup-env
 	pipenv install --dev
-
-.PHONY: build
-build: setup-env clean
-	pipenv run pip install --upgrade setuptools wheel
-	python -m setup -q sdist bdist_wheel
-
-.PHONY: install
-install: build
-	pip install -q ./dist/aws-allowlister*.tar.gz
-	aws-allowlister --help
-
-.PHONY: uninstall
-uninstall:
-	pip uninstall aws-allowlister -y
-	pip uninstall -r requirements.txt -y
-	pip uninstall -r requirements-dev.txt -y
-	pip freeze | xargs pipenv run pip uninstall -y
-
-.PHONY: clean
 clean:
 	rm -rf dist/
 	rm -rf build/
@@ -37,29 +21,49 @@ clean:
 	find . -name '*.pyc' -exec rm --force {} +
 	find . -name '*.pyo' -exec rm --force {} +
 
-.PHONY: test
+# ---------------------------------------------------------------------------------------------------------------------
+# Python Testing
+# ---------------------------------------------------------------------------------------------------------------------
 test: setup-dev
-	pipenv run bandit -r ./aws_allowlister/
-	pipenv run coverage run -m pytest -v
-
-.PHONY: fmt
+	python3 -m coverage run -m pytest -v
+security-test: setup-dev
+	bandit -r ./${PROJECT_UNDERSCORE}/
 fmt: setup-dev
-	pipenv run black aws_allowlister/
-
-.PHONY: lint
+	black ${PROJECT_UNDERSCORE}/
 lint: setup-dev
-	pipenv run pylint aws_allowlister/
+	pylint ${PROJECT_UNDERSCORE}/
 
-.PHONY: publish
+# ---------------------------------------------------------------------------------------------------------------------
+# Package building and publishing
+# ---------------------------------------------------------------------------------------------------------------------
+build: clean setup-env
+	python3 -m pip install --upgrade setuptools wheel
+	python3 -m setup -q sdist bdist_wheel
+install: build
+	python3 -m pip install -q ./dist/${PROJECT}*.tar.gz
+	${PROJECT} --help
+uninstall:
+	python3 -m pip uninstall ${PROJECT} -y
+	python3 -m pip uninstall -r requirements.txt -y
+	python3 -m pip uninstall -r requirements-dev.txt -y
+	python3 -m pip freeze | xargs python3 -m pip uninstall -y
 publish: build
-	pip install --upgrade twine
-	python -m twine upload dist/*
-	pip install aws_allowlister
+	python3 -m pip install --upgrade twine
+	python3 -m twine upload dist/*
+	python3 -m pip install ${PROJECT}
 
-.PHONY: generate-examples
+# ---------------------------------------------------------------------------------------------------------------------
+# Miscellaneous development
+# ---------------------------------------------------------------------------------------------------------------------
+count-loc:
+	echo "If you don't have tokei installed, you can install it with 'brew install tokei'"
+	echo "Website: https://github.com/XAMPPRocky/tokei#installation'"
+	tokei ./*
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Repository specific
+# ---------------------------------------------------------------------------------------------------------------------
 generate-examples: setup-env install
 	sh utils/generate_new_scps.sh
-
-.PHONY: update-data
 update-data: setup-dev
 	pipenv run python utils/update_data.py
