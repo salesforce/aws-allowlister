@@ -25,13 +25,13 @@ clean:
 # Python Testing
 # ---------------------------------------------------------------------------------------------------------------------
 test: setup-dev
-	python3 -m coverage run -m pytest -v
+	pipenv run coverage run -m pytest -v
 security-test: setup-dev
-	bandit -r ./${PROJECT_UNDERSCORE}/
+	pipenv run bandit -r ./${PROJECT_UNDERSCORE}/
 fmt: setup-dev
-	black ${PROJECT_UNDERSCORE}/
+	pipenv run black ${PROJECT_UNDERSCORE}/
 lint: setup-dev
-	pylint ${PROJECT_UNDERSCORE}/
+	pipenv run pylint ${PROJECT_UNDERSCORE}/
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Package building and publishing
