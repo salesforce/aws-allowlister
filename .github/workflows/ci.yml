@@ -14,16 +14,13 @@ jobs:
           python-version: 3.7
 
       - name: Install dependencies
-        run: |
-          make setup_dev
+        run: make setup-dev
 
       - name: Run pytest (unit tests) and bandit (security test)
-        run: |
-          make test
+        run: make test
 
       - name: Install the package to make sure nothing is randomly broken
-        run: |
-          make install
+        run: make install
 
 #      - name: pylint
 #        run: |

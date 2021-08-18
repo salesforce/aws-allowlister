@@ -16,16 +16,13 @@ jobs:
           python-version: 3.7
 
       - name: Install dependencies
-        run: |
-          make setup_dev
+        run: make setup-dev
 
       - name: Run pytest (unit tests) and bandit (security test)
-        run: |
-          make test
+        run: make test
 
       - name: Install the package to make sure nothing is randomly broken
-        run: |
-          make install
+        run: make install
 
   publish-package:
     needs: test
@@ -37,11 +34,11 @@ jobs:
         with:
           python-version: 3.7
 
+      - uses: dschep/install-pipenv-action@v1
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          pipenv install --dev
       - name: create python package
         run: |
           git config --local user.email "action@github.com"
@@ -49,7 +46,7 @@ jobs:
           git fetch --tags
           git pull origin main
           pip install setuptools wheel twine
-          python -m setup sdist bdist_wheel
+          pipenv run python setup.py sdist bdist_wheel
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@master
         with:
@@ -71,15 +68,16 @@ jobs:
           sleep 5m
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          pip install homebrew-pypi-poet
-          pip install aws-allowlister -U
+          pipenv uninstall --all
+          pipenv run pip install homebrew-pypi-poet
+          pipenv run pip install aws-allowlister -U
           git fetch origin
           git checkout --track origin/main
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
           echo "latest tag: $latest_tag"
           git pull origin $latest_tag
           mkdir -p "HomebrewFormula" && touch "HomebrewFormula/aws-allowlister.rb"
-          poet -f aws-allowlister > HomebrewFormula/aws-allowlister.rb
+          pipenv run poet -f aws-allowlister > HomebrewFormula/aws-allowlister.rb
           git add .
           git commit -m "update brew formula" aws_allowlister/bin/cli.py HomebrewFormula/aws-allowlister.rb || echo "No brew changes to commit"
           git push -u origin main

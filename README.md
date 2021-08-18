@@ -695,9 +695,9 @@ Notice how the output includes the `managedblockchain` service.
 * Set up the virtual environment
 
 ```bash
-# Set up the virtual environment
-python3 -m venv ./venv && source venv/bin/activate
-pip3 install -r requirements.txt
+pipenv --python 3.7  # create the environment
+pipenv shell         # start the environment
+pipenv install       # install both development and production dependencies
 ```
 
 * Build the package

@@ -1,30 +1,30 @@
 SHELL:=/bin/bash
 
-.PHONY: setup_env
-setup_env:
-	python3 -m venv ./venv && source venv/bin/activate
-	python -m pip install -r requirements.txt
+.PHONY: setup-env
+setup-env:
+	pip3 install pipenv
+	pipenv install
 
-.PHONY: setup_dev
-setup_dev: setup_env
-	python -m pip install -r requirements-dev.txt
+.PHONY: setup-dev
+setup-dev: setup-env
+	pipenv install --dev
 
 .PHONY: build
-build: setup_env clean
-	python -m pip install --upgrade setuptools wheel
+build: setup-env clean
+	pipenv run pip install --upgrade setuptools wheel
 	python -m setup -q sdist bdist_wheel
 
 .PHONY: install
 install: build
-	python -m pip install -q ./dist/aws-allowlister*.tar.gz
+	pipenv run pip install -q ./dist/aws-allowlister*.tar.gz
 	aws-allowlister --help
 
 .PHONY: uninstall
 uninstall:
-	python -m pip uninstall aws-allowlister -y
-	python -m pip uninstall -r requirements.txt -y
-	python -m pip uninstall -r requirements-dev.txt -y
-	python -m pip freeze | xargs python -m pip uninstall -y
+	pipenv run pip uninstall aws-allowlister -y
+	pipenv run pip uninstall -r requirements.txt -y
+	pipenv run pip uninstall -r requirements-dev.txt -y
+	pipenv run pip freeze | xargs pipenv run pip uninstall -y
 
 .PHONY: clean
 clean:
@@ -38,28 +38,28 @@ clean:
 	find . -name '*.pyo' -exec rm --force {} +
 
 .PHONY: test
-test: setup_dev
+test: setup-dev
 	bandit -r ./aws_allowlister/
 	python -m coverage run -m pytest -v
 
 .PHONY: fmt
-fmt: setup_dev
+fmt: setup-dev
 	black aws_allowlister/
 
 .PHONY: lint
-lint: setup_dev
+lint: setup-dev
 	pylint aws_allowlister/
 
 .PHONY: publish
 publish: build
-	python -m pip install --upgrade twine
+	pipenv run pip install --upgrade twine
 	python -m twine upload dist/*
-	python -m pip install aws_allowlister
+	pipenv run pip install aws_allowlister
 
 .PHONY: generate-examples
-generate-examples: setup_env install
+generate-examples: setup-env install
 	sh utils/generate_new_scps.sh
 
 .PHONY: update-data
-update-data: setup_dev
+update-data: setup-dev
 	python utils/update_data.py
