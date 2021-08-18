@@ -16,15 +16,15 @@ build: setup-env clean
 
 .PHONY: install
 install: build
-	pipenv run pip install -q ./dist/aws-allowlister*.tar.gz
+	pip install -q ./dist/aws-allowlister*.tar.gz
 	aws-allowlister --help
 
 .PHONY: uninstall
 uninstall:
-	pipenv run pip uninstall aws-allowlister -y
-	pipenv run pip uninstall -r requirements.txt -y
-	pipenv run pip uninstall -r requirements-dev.txt -y
-	pipenv run pip freeze | xargs pipenv run pip uninstall -y
+	pip uninstall aws-allowlister -y
+	pip uninstall -r requirements.txt -y
+	pip uninstall -r requirements-dev.txt -y
+	pip freeze | xargs pipenv run pip uninstall -y
 
 .PHONY: clean
 clean:
@@ -39,22 +39,22 @@ clean:
 
 .PHONY: test
 test: setup-dev
-	bandit -r ./aws_allowlister/
-	python -m coverage run -m pytest -v
+	pipenv run bandit -r ./aws_allowlister/
+	pipenv run coverage run -m pytest -v
 
 .PHONY: fmt
 fmt: setup-dev
-	black aws_allowlister/
+	pipenv run black aws_allowlister/
 
 .PHONY: lint
 lint: setup-dev
-	pylint aws_allowlister/
+	pipenv run pylint aws_allowlister/
 
 .PHONY: publish
 publish: build
-	pipenv run pip install --upgrade twine
+	pip install --upgrade twine
 	python -m twine upload dist/*
-	pipenv run pip install aws_allowlister
+	pip install aws_allowlister
 
 .PHONY: generate-examples
 generate-examples: setup-env install
@@ -62,4 +62,4 @@ generate-examples: setup-env install
 
 .PHONY: update-data
 update-data: setup-dev
-	python utils/update_data.py
+	pipenv run python utils/update_data.py
