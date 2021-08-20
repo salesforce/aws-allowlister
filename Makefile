@@ -25,7 +25,7 @@ clean:
 # Python Testing
 # ---------------------------------------------------------------------------------------------------------------------
 test: setup-dev
-	pipenv run coverage run -m pytest -v
+	pipenv run pytest -v
 security-test: setup-dev
 	pipenv run bandit -r ./${PROJECT_UNDERSCORE}/
 fmt: setup-dev
