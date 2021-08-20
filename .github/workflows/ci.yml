@@ -13,6 +13,8 @@ jobs:
         with:
           python-version: 3.7
 
+      - uses: dschep/install-pipenv-action@v1
+
       - name: Install dependencies
         run: make setup-dev
 
