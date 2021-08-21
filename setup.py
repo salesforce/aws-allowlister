@@ -60,5 +60,5 @@ setuptools.setup(
     entry_points={"console_scripts": "aws-allowlister=aws_allowlister.bin.cli:main"},
     zip_safe=True,
     keywords='aws iam roles policy policies privileges security',
-    python_requires='>=3.6',
+    python_requires='>=3.7',
 )

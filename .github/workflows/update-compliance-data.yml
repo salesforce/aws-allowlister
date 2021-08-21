@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
+      - uses: dschep/install-pipenv-action@v1
 
       - name: Install the package
         run: make install

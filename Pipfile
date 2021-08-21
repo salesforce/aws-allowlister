@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+nose = "*"
+black = "==21.7b0"
+bandit = "*"
+coverage = "*"
+pylint = "*"
+pandas = "*"
+openpyxl = "*"
+
+
+[packages]
+beautifulsoup4 = "*"
+click_option_group = "*"
+click = "*"
+requests = "*"
+policy_sentry = "*"
+SQLAlchemy = "*"
+tabulate = "*"
+
+[requires]
+python_version = "3.7"
