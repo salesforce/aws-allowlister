@@ -66,4 +66,4 @@ count-loc:
 generate-examples: setup-env install
 	sh utils/generate_new_scps.sh
 update-data: setup-dev
-	pipenv run python utils/update_data.py
+	python3 ./utils/update_data.py

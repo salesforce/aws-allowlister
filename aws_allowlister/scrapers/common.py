@@ -3,7 +3,10 @@ from aws_allowlister.shared.utils import chomp, clean_service_name
 
 
 def get_service_name(some_cells):
-    service_name_cell = some_cells[0].contents[1]
+    try:
+        service_name_cell = some_cells[0].contents[1]
+    except IndexError as err:
+        service_name_cell = some_cells[0].contents[0]
     if isinstance(service_name_cell, NavigableString):
         service_name = str(service_name_cell)
     elif isinstance(service_name_cell, Tag):
