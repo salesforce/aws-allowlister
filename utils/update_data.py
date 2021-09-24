@@ -1,6 +1,10 @@
+#! /usr/bin/env python3
 import os
 import csv
 import pandas as pd
+import sys
+from pathlib import Path
+sys.path.append(str(Path(os.path.dirname(__file__)).parent))
 from aws_allowlister.database.build import build_database
 from aws_allowlister.database.database import connect_db
 from aws_allowlister.database.compliance_data import ComplianceData
