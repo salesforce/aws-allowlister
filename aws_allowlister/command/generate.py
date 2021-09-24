@@ -150,7 +150,7 @@ def validate_services_from_file(services: list):
     type=click.Path(exists=True),
     help="A YAML file that contains a list of AWS IAM services to exclude."
 )
-@optgroup.group("Table output options", help="", cls=MutuallyExclusiveOptionGroup)
+@optgroup.group("Output options", help="", cls=MutuallyExclusiveOptionGroup)
 @optgroup.option(
     "--table",
     type=bool,
@@ -159,11 +159,25 @@ def validate_services_from_file(services: list):
     help="Output a markdown-formatted table of the Service Prefixes alongside Service Names."
 )
 @optgroup.option(
+    "--json-list",
+    type=bool,
+    default=False,
+    is_flag=True,
+    help="Output a JSON object of the service prefixes, service names, and authorization URLs."
+)
+@optgroup.option(
     "--excluded-table",
     type=bool,
     default=False,
     is_flag=True,
     help="Output a markdown-formatted table of *excluded* services."
+)
+@optgroup.option(
+    "--excluded-json-list",
+    type=bool,
+    default=False,
+    is_flag=True,
+    help="Output a JSON object of *excluded* service prefixes, service names, and authorization URLs."
 )
 @click.option(
     '--quiet', '-q',
@@ -173,7 +187,7 @@ def validate_services_from_file(services: list):
 def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, 
              dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc,
              include, include_file, exclude, exclude_file,
-             table, excluded_table, quiet):
+             table, json_list, excluded_table, excluded_json_list, quiet):
     standards = []
     if quiet:
         log_level = getattr(logging, "WARNING")
@@ -262,6 +276,18 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
             # services_tabulated.append([service_prefix, service_name])
             services_tabulated.append([service_prefix, service_name_text])
         print(tabulate(services_tabulated, headers=headers, tablefmt="github"))
+    elif json_list:
+        services_json = {}
+        services = generate_allowlist_service_prefixes(standards, include, exclude)
+        for service_prefix in services:
+            service_name = utils.get_service_name_matching_iam_service_prefix(service_prefix)
+            try:
+                service_authorization_url = get_service_authorization_url(service_prefix)
+            except AttributeError as error:
+                logger.info(error)
+                service_authorization_url = ""
+            services_json.update({service_prefix:{'service_name':service_name, 'service_authorization_url':service_authorization_url}})
+        print(json.dumps(services_json, indent=2))
     elif excluded_table:
         # Get the list of allowlist prefixes
         allowed_services = generate_allowlist_service_prefixes(standards, include, exclude)
@@ -283,6 +309,26 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
             # services_tabulated.append([service_prefix, service_name])
             services_tabulated.append([service_prefix, service_name_text])
         print(tabulate(services_tabulated, headers=headers, tablefmt="github"))
+    elif excluded_json_list:
+        services_json = {}
+        allowed_services = generate_allowlist_service_prefixes(standards, include, exclude)
+        all_services = get_all_service_prefixes()
+
+        excluded_services = []
+        for service_prefix in all_services:
+            if service_prefix not in allowed_services:
+                excluded_services.append(service_prefix)
+        excluded_services.sort()
+
+        for service_prefix in excluded_services:
+            service_name = utils.get_service_name_matching_iam_service_prefix(service_prefix)
+            try:
+                service_authorization_url = get_service_authorization_url(service_prefix)
+            except AttributeError as error:
+                logger.info(error)
+                service_authorization_url = ""
+            services_json.update({service_prefix:{'service_name':service_name, 'service_authorization_url':service_authorization_url}})
+        print(json.dumps(services_json, indent=2))
     else:
         results = generate_allowlist_scp(standards, include, exclude)
 
