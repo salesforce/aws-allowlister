@@ -8,7 +8,7 @@ db_session = connect_db()
 
 class HitrustQATestCase(unittest.TestCase):
     def test_gh_20_HITRUST_compliant_services(self):
-        results = scompliance_data.get_compliant_services(
+        results = compliance_data.get_compliant_services(
             db_session=db_session, compliance_standard="HITRUST"
         )
         expected_results = [
