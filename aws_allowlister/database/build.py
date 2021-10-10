@@ -7,6 +7,7 @@ from aws_allowlister.scrapers.tables.iso import scrape_iso_table
 from aws_allowlister.scrapers.tables.hipaa import scrape_hipaa_table
 from aws_allowlister.scrapers.tables.fedramp import scrape_fedramp_table
 from aws_allowlister.scrapers.tables.dodccsrg import scrape_dodccsrg_table
+from aws_allowlister.scrapers.tables.hitrust import scrape_hitrust_table
 
 
 ALL_SERVICE_PREFIXES = get_all_service_prefixes()
@@ -97,6 +98,15 @@ def build_database(download: bool):
     )
 
     scrape_dodccsrg_table(
+        db_session=db_session,
+        link="https://aws.amazon.com/compliance/services-in-scope/",
+        destination_folder=html_docs_folder,
+        file_name="services-in-scope.html",
+        download=download
+    )
+
+    # HITRUST docs follow a 2 column format
+    scrape_hitrust_table(
         db_session=db_session,
         link="https://aws.amazon.com/compliance/services-in-scope/",
         destination_folder=html_docs_folder,
