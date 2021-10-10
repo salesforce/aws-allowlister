@@ -32,7 +32,7 @@ def scrape_standard_table(db_session: Session, link: str, destination_folder: st
             standard_name = chomp_keep_single_spaces(str(tab.contents[0]))
 
             # Skip certain cases based on inconsistent formatting
-            exclusions = ["FedRAMP", "DoD CC SRG", "HIPAA BAA", "MTCS"]
+            exclusions = ["FedRAMP", "DoD CC SRG", "HIPAA BAA", "MTCS", "HITRUST CSF"]
             if standard_name in exclusions:
                 continue
 
