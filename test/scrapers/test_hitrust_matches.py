@@ -16,7 +16,7 @@ class HitrustQATestCase(unittest.TestCase):
             "kendra",
             "guardduty",
             "sagemaker",
-            "step-functions"
+            "states"
         ]
         # print(len(results))
         for expected_result in expected_results:
