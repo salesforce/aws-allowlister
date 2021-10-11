@@ -235,7 +235,7 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
     if dodccsrg_il5_gc:
         standards.append("DoDCCSRG_IL5_GC")
     if hitrust_csf:
-        standards.append("HITRUST_CSF")
+        standards.append("HITRUST")
     if (
         all_standards
         and not soc
