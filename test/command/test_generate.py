@@ -35,7 +35,9 @@ class AllowListerClickUnitTests(unittest.TestCase):
         result = self.runner.invoke(generate, ["-d4g"])
         self.assertTrue(result.exit_code == 0)
         result = self.runner.invoke(generate, ["-d5g"])
-        self.assertTrue(result.exit_code == 0)        
+        self.assertTrue(result.exit_code == 0)   
+        result = self.runner.invoke(generate, ["-hc"])
+        self.assertTrue(result.exit_code == 0)     
 
         # Test --exclude
         result = self.runner.invoke(generate, ["--exclude", "iam,s3", "--quiet"])
