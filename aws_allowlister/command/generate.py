@@ -130,6 +130,14 @@ def validate_services_from_file(services: list):
     default=False,
     help="Include HITRUST CSF",
 )
+@optgroup.option(
+    "--irap",
+    "-ir",
+    required=False,
+    is_flag=True,
+    default=False,
+    help="Include IRAP",
+)
 @optgroup.group("Forcibly Include AWS Services", help="", cls=MutuallyExclusiveOptionGroup)
 @optgroup.option(
     "--include",
@@ -193,7 +201,7 @@ def validate_services_from_file(services: list):
     default=False,
 )
 def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate, 
-             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, hitrust_csf,
+             dodccsrg_il2_ew, dodccsrg_il2_gc, dodccsrg_il4_gc, dodccsrg_il5_gc, hitrust_csf, irap,
              include, include_file, exclude, exclude_file,
              table, json_list, excluded_table, excluded_json_list, quiet):
     standards = []
@@ -236,6 +244,8 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         standards.append("DoDCCSRG_IL5_GC")
     if hitrust_csf:
         standards.append("HITRUST")
+    if irap:
+        standards.append("IRAP")
     if (
         all_standards
         and not soc
@@ -249,6 +259,7 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         and not dodccsrg_il4_gc
         and not dodccsrg_il5_gc
         and not hitrust_csf
+        and not irap
     ):
         standards = ["SOC", "PCI", "HIPAA", "ISO", "FedRAMP_High", "FedRAMP_Moderate"]
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
@@ -265,6 +276,7 @@ def generate(all_standards, soc, pci, hipaa, iso, fedramp_high, fedramp_moderate
         and not dodccsrg_il4_gc
         and not dodccsrg_il5_gc
         and not hitrust_csf
+        and not irap
     ):
         standards = ["SOC", "PCI", "HIPAA", "ISO", "FedRAMP_High", "FedRAMP_Moderate"]
         logger.info(f"--all was selected. The policy will include the default standard(s): {str(', '.join(standards))}")
