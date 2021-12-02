@@ -1851,7 +1851,7 @@ make update-data
 # Authors and Contributors
 
 * [Kinnaird McQuade (@kmcquade3)](https://twitter.com/kmcquade3), Salesforce - Author
-* [Jason Dyke (@jasonadyke)](https://twitter.com/jasonadyke), ScaleSec - Contributor
+* [Jason Dyke (@jasonadyke)](https://twitter.com/jasonadyke), Square - Contributor
 
 # 🚨 Disclaimer 🚨
 
