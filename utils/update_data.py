@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import os
 import csv
-import pandas as pd
+# import pandas as pd
 import sys
 from pathlib import Path
 sys.path.append(str(Path(os.path.dirname(__file__)).parent))
@@ -44,11 +44,11 @@ def update_csv_summary():
             writer.writerow(row)
     print(f"CSV updated! Wrote {len(rows)} rows. Path: {csv_file_path}")
 
-    df_new = pd.read_csv(csv_file_path)
-    writer = pd.ExcelWriter(excel_file_path)
-    df_new.to_excel(writer, index=False)
-    writer.save()
-    print(f"Excel file updated! Wrote {len(rows)} rows. Path: {excel_file_path}")
+    # df_new = pd.read_csv(csv_file_path)
+    # writer = pd.ExcelWriter(excel_file_path)
+    # df_new.to_excel(writer, index=False)
+    # writer.save()
+    # print(f"Excel file updated! Wrote {len(rows)} rows. Path: {excel_file_path}")
 
 
 if __name__ == '__main__':

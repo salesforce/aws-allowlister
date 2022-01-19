@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-make uninstall
+# make uninstall
 #pip install aws-allowlister
 make install
 
