@@ -64,6 +64,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
+      - uses: dschep/install-pipenv-action@v1
       - name: publish brew
         run: |
           sleep 5m
@@ -92,6 +93,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
+      - uses: dschep/install-pipenv-action@v1
       - name: update SCP examples
         run: |
           git config --local user.email "action@github.com"
