@@ -4,7 +4,7 @@
 | acm                        | [AWS Certificate Manager](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awscertificatemanager.html)                                                          |
 | acm-pca                    | [AWS Certificate Manager Private Certificate Authority](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awscertificatemanagerprivatecertificateauthority.html) |
 | apigateway                 | [Manage Amazon API Gateway](https://docs.aws.amazon.com/service-authorization/latest/reference/list_manageamazonapigateway.html)                                                       |
-| application-autoscaling    | [Application Auto Scaling](https://docs.aws.amazon.com/service-authorization/latest/reference/list_applicationautoscaling.html)                                                        |
+| application-autoscaling    | [AWS Application Auto Scaling](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsapplicationautoscaling.html)                                                 |
 | appstream                  | [Amazon AppStream 2.0](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonappstream2.0.html)                                                                |
 | athena                     | [Amazon Athena](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonathena.html)                                                                             |
 | autoscaling                | [Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2autoscaling.html)                                                           |
