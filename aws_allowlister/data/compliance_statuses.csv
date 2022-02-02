@@ -8,11 +8,12 @@ activate,AWS Activate,,,,,,,,,,,,,,
 airflow,Amazon Managed Workflows for Apache Airflow,,,,,,,,,,,,,,
 amplify,AWS Amplify,true,true,true,,,,,,,true,true,true,true,true
 amplifybackend,AWS Amplify Admin,true,true,true,,,,,,,true,true,true,true,true
+amplifyuibuilder,AWS Amplify UI Builder,,,,,,,,,,,,,,
 apigateway,Manage Amazon API Gateway,true,true,true,true,,,true,true,true,true,true,true,true,true
 app-integrations,Amazon AppIntegrations,,,,,,,,,,,,,,
 appconfig,AWS AppConfig,,,,,,,,,,,,,,
 appflow,Amazon AppFlow,,true,true,,,,,,,true,,true,,
-application-autoscaling,Application Auto Scaling,true,true,true,true,,,true,true,true,true,true,true,true,true
+application-autoscaling,AWS Application Auto Scaling,true,true,true,true,,,true,true,true,true,true,true,true,true
 application-cost-profiler,AWS Application Cost Profiler Service,,,,,,,,,,,,,,
 applicationinsights,CloudWatch Application Insights,,,,,,,,,,,,,,
 appmesh,AWS App Mesh,true,true,true,,,,,,,true,true,true,true,true
@@ -32,6 +33,7 @@ aws-marketplace-management,AWS Marketplace Management Portal,,,,,,,true,true,tru
 aws-portal,AWS Billing and Cost Management,true,true,true,true,,,true,true,true,true,true,true,true,true
 awsconnector,AWS Connector Service,,,,,,,,,,,,,,
 backup,AWS Backup,true,true,true,true,,,true,true,true,true,true,true,true,true
+backup-gateway,AWS Backup Gateway,,,,,,,,,,,,,,
 backup-storage,AWS Backup storage,true,true,true,true,,,true,true,true,true,true,true,true,true
 batch,AWS Batch,true,true,true,true,,,true,true,true,true,true,true,true,true
 braket,Amazon Braket,,,,,,,,,,,,,,
@@ -54,6 +56,7 @@ codeartifact,AWS CodeArtifact,,,,,,,,,,,,,,
 codebuild,AWS CodeBuild,true,true,true,true,,,true,true,true,true,true,true,true,true
 codecommit,AWS CodeCommit,true,true,true,true,,,true,true,true,true,true,true,true,true
 codedeploy,AWS CodeDeploy,true,true,true,true,,,true,true,true,true,true,true,true,true
+codedeploy-commands-secure,AWS CodeDeploy secure host commands service,,,,,,,,,,,,,,
 codeguru,Amazon CodeGuru,,,,,,,,,,,,,,
 codeguru-profiler,Amazon CodeGuru Profiler,,,,,,,,,,,,,,
 codeguru-reviewer,Amazon CodeGuru Reviewer,,,,,,,,,,,,,,
@@ -88,6 +91,7 @@ directconnect,AWS Direct Connect,true,true,true,true,,,true,true,true,true,true,
 discovery,Application Discovery,,,,,,,,,,,,,,
 dlm,Amazon Data Lifecycle Manager,,,,,,,,,,,,,,
 dms,AWS Database Migration Service,true,true,true,true,,,true,true,true,true,true,true,true,true
+drs,AWS Elastic Disaster Recovery,,,,,,,,,,,,,,
 ds,AWS Directory Service,true,true,true,true,,,true,true,true,true,true,true,true,true
 dynamodb,Amazon DynamoDB,true,true,true,true,,,true,true,true,true,true,true,true,true
 ebs,Amazon Elastic Block Store,true,true,true,true,,,true,true,true,true,true,true,true,true
@@ -112,6 +116,7 @@ elemental-support-content,Elemental Support Content,,,,,,,,,,,,,,
 emr-containers,Amazon EMR on EKS (EMR Containers),,,,,,,,,,,,,,
 es,Amazon OpenSearch Service (successor to Amazon Elasticsearch Service),true,true,true,true,,,true,true,true,true,,true,true,true
 events,Amazon EventBridge,true,true,true,true,,,true,true,true,true,,true,,true
+evidently,Amazon CloudWatch Evidently,,,,,,,,,,,,,,
 execute-api,Amazon API Gateway,true,true,true,true,,,true,true,true,true,true,true,true,true
 finspace,Amazon FinSpace,true,true,true,,,,,,,,,,,true
 firehose,Amazon Kinesis Firehose,true,true,true,true,,,true,true,true,true,true,true,true,true
@@ -139,6 +144,7 @@ identitystore,AWS Identity Store,,,,,,,,,,,,,,
 imagebuilder,Amazon EC2 Image Builder,true,true,true,,,,,,,,,,,true
 importexport,AWS Import Export Disk Service,true,true,true,true,,,true,true,true,true,true,,true,true
 inspector,Amazon Inspector,true,true,true,true,,,true,true,true,true,true,true,,true
+inspector2,Amazon Inspector2,,,,,,,,,,,,,,
 iot,AWS IoT,true,true,true,true,,,true,true,true,true,true,true,true,true
 iot-device-tester,AWS IoT Device Tester,true,true,true,true,,,true,true,true,true,true,true,true,true
 iot1click,AWS IoT 1-Click,,,true,,,,,,,,,,,
@@ -146,8 +152,11 @@ iotanalytics,AWS IoT Analytics,,,true,,,,,,,,,,,
 iotdeviceadvisor,AWS IoT Core Device Advisor,true,true,true,true,,,true,true,true,true,true,true,true,true
 iotevents,AWS IoT Events,true,true,true,,,,,,,true,true,,true,true
 iotfleethub,Fleet Hub for AWS IoT Device Management,,,,,,,,,,,,,,
+iotfleetwise,AWS IoT FleetWise,,,,,,,,,,,,,,
+iotroborunner,AWS IoT RoboRunner,,,,,,,,,,,,,,
 iotsitewise,AWS IoT SiteWise,,,,,,,,,,,,,,
 iotthingsgraph,AWS IoT Things Graph,,,,,,,,,,,true,,,
+iottwinmaker,AWS IoT TwinMaker,,,,,,,,,,,,,,
 iotwireless,AWS IoT Core for LoRaWAN,true,true,true,true,,,true,true,true,true,true,true,true,true
 iq,AWS IQ,,,,,,,,,,,,,,
 iq-permission,AWS IQ Permissions,,,,,,,,,,,,,,
@@ -178,6 +187,7 @@ marketplacecommerceanalytics,AWS Marketplace Commerce Analytics Service,,,,,,,,,
 mechanicalturk,Amazon Mechanical Turk,,,,,,,,,,,,,,
 mediaconnect,AWS Elemental MediaConnect,true,true,true,,,,,,,true,true,,true,true
 mediaconvert,AWS Elemental MediaConvert,true,true,true,true,,,true,true,true,true,true,true,true,true
+mediaimport,AmazonMediaImport,,,,,,,,,,,,,,
 medialive,AWS Elemental MediaLive,true,true,true,,,,,,,true,true,,true,true
 mediapackage,AWS Elemental MediaPackage,,,,,,,,,,,,,,
 mediapackage-vod,AWS Elemental MediaPackage VOD,,,,,,,,,,,,,,
@@ -185,7 +195,8 @@ mediastore,AWS Elemental MediaStore,,,,,,,,,,,,,,
 mediatailor,AWS Elemental MediaTailor,,,,,,,,,,,,,,
 memorydb,Amazon MemoryDB,,,,,,,,,,,,,,
 mgh,AWS Migration Hub,,,,,,,,,,,,,,
-mgn,AWS Application Migration Service,,true,,,,,,,,true,,,,
+mgn,AWS Application Migration Service,,true,true,,,,,,,true,,,,
+migrationhub-strategy,AWS Migration Hub Strategy Recommendations.,,,,,,,,,,,,,,
 mobileanalytics,Amazon Mobile Analytics,,,,,,,,,,,,,,
 mobilehub,AWS Mobile Hub,,,,,,,,,,,,,,
 mobiletargeting,Amazon Pinpoint,true,true,true,true,,,true,true,true,true,true,true,true,true
@@ -210,12 +221,15 @@ purchase-orders,AWS Purchase Orders Console,,,,,,,,,,,,,,
 qldb,Amazon QLDB,true,true,true,,,,,,,true,true,true,true,true
 quicksight,Amazon QuickSight,true,true,true,true,,,true,true,true,true,true,true,true,true
 ram,AWS Resource Access Manager,,true,,,,,,,,,,,,
+rbin,Recycle Bin,,,,,,,,,,,,,,
 rds,Amazon RDS,true,true,true,true,,,true,true,true,true,true,true,true,true
 rds-data,Amazon RDS Data API,true,true,true,true,,,true,true,true,true,true,true,true,true
 rds-db,Amazon RDS IAM Authentication,true,true,true,true,,,true,true,true,true,true,true,true,true
 redshift,Amazon Redshift,true,true,true,true,,,true,true,true,true,true,true,true,true
 redshift-data,Amazon Redshift Data API,,,,,,,,,,,,,,
+refactor-spaces,AWS Migration Hub Refactor Spaces,,,,,,,,,,,,,,
 rekognition,Amazon Rekognition,true,true,true,true,,,true,true,true,true,true,true,true,true
+resiliencehub,AWS Resilience Hub Service,,,,,,,,,,,,,,
 resource-explorer,AWS Tag Editor,,,,,,,,,,,,,,
 resource-groups,AWS Resource Groups,true,true,true,true,,,true,true,,,true,true,true,true
 robomaker,AWS RoboMaker,true,true,true,,,,,,,true,true,true,true,true
@@ -225,6 +239,7 @@ route53-recovery-control-config,Amazon Route 53 Recovery Controls,,,,,,,,,,,,,,
 route53-recovery-readiness,Amazon Route 53 Recovery Readiness,,,,,,,,,,,,,,
 route53domains,Amazon Route 53 Domains,true,true,true,true,,,true,true,true,true,true,true,true,true
 route53resolver,Amazon Route 53 Resolver,true,true,true,true,,,true,true,true,true,true,true,true,true
+rum,AWS CloudWatch RUM,,,,,,,,,,,,,,
 s3,Amazon S3,true,true,true,true,,,true,true,true,true,true,true,true,true
 s3-object-lambda,Amazon S3 Object Lambda,,,,,,,,,,,,,,
 s3-outposts,Amazon S3 on Outposts,,,,,,,,,,,,,,
@@ -237,6 +252,7 @@ securityhub,AWS Security Hub,true,true,true,true,,,true,true,true,true,true,true
 serverlessrepo,AWS Serverless Application Repository,true,true,true,true,,,true,true,true,true,true,true,true,true
 servicecatalog,AWS Service Catalog,true,true,true,true,,,true,true,true,true,true,true,true,true
 servicediscovery,AWS Cloud Map,true,true,true,true,,,true,,,true,true,true,true,true
+serviceextract,AWS Microservice Extractor for .NET,,,,,,,,,,,,,,
 servicequotas,Service Quotas,,,,,,,,,,,,,,
 ses,Amazon Simple Email Service v2,true,true,true,true,,,true,true,true,true,true,true,true,true
 shield,AWS Shield,true,true,true,true,,,true,,,true,true,true,true,true
@@ -250,6 +266,7 @@ sqlworkbench,AWS SQL Workbench,,,,,,,,,,,,,,
 sqs,Amazon SQS,true,true,true,true,,,true,true,true,true,true,true,true,true
 ssm,AWS Systems Manager,true,true,true,true,,,true,true,true,true,true,true,true,true
 ssm-contacts,AWS Systems Manager Incident Manager Contacts,,,,,,,,,,,,,,
+ssm-guiconnect,AWS Systems Manager GUI Connect,,,,,,,,,,,,,,
 ssm-incidents,AWS Systems Manager Incident Manager,,,,,,,,,,,,,,
 ssmmessages,Amazon Session Manager Message Gateway Service,true,true,true,true,,,true,true,true,true,true,true,true,true
 sso,AWS SSO,true,true,true,,,,,,,,,true,,true
@@ -281,4 +298,5 @@ worklink,Amazon WorkLink,true,true,true,,,,,,,true,true,,,true
 workmail,Amazon WorkMail,true,,true,,,,,,,,true,,,true
 workmailmessageflow,Amazon WorkMail Message Flow,,,,,,,,,,,,,,
 workspaces,Amazon WorkSpaces,true,true,true,true,,,true,true,true,true,true,true,true,true
+workspaces-web,Amazon WorkSpaces Web,,,,,,,,,,,,,,
 xray,AWS X-Ray,true,true,true,,,,true,true,true,true,true,true,true,true
