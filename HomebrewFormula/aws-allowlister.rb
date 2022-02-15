@@ -3,8 +3,8 @@ class AwsAllowlister < Formula
 
   desc "Shiny new formula"
   homepage "https://github.com/salesforce/aws-allowlister"
-  url "https://files.pythonhosted.org/packages/65/21/8a7ddb20fb7f5112f049830c44530eff2c6723def58cdc2e38e432325109/aws-allowlister-0.2.13.tar.gz"
-  sha256 "5f3467e8e338c797a5b9eb166e5078344662ee1e4133f16506be9bf756c4771c"
+  url "https://files.pythonhosted.org/packages/c3/cc/f0c03e0652bbc32366738da1e7488320319004010e0f4c924f12944aa2c2/aws-allowlister-0.2.14.tar.gz"
+  sha256 "2f8a37e2638db43cf48c9397155c58f25a7fc70457a88c076e6d686129d3c8f8"
 
   depends_on "python3"
 
@@ -19,8 +19,8 @@ class AwsAllowlister < Formula
   end
 
   resource "charset-normalizer" do
-    url "https://files.pythonhosted.org/packages/e8/e8/b6cfd28fb430b2ec9923ad0147025bf8bbdf304b1eb3039b69f1ce44ed6e/charset-normalizer-2.0.11.tar.gz"
-    sha256 "98398a9d69ee80548c762ba991a4728bfc3836768ed226b3945908d1a688371c"
+    url "https://files.pythonhosted.org/packages/56/31/7bcaf657fafb3c6db8c787a865434290b726653c912085fbd371e9b92e1c/charset-normalizer-2.0.12.tar.gz"
+    sha256 "2857e29ff0d34db842cd7ca3230549d1a697f96ee6d3fb071cfa6c7393832597"
   end
 
   resource "click" do
@@ -49,13 +49,13 @@ class AwsAllowlister < Formula
   end
 
   resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/f8/41/8ffb059708359ea14a3ec74a99a2bf0cd44a0c983a0c480d9eb7a69438bb/importlib_metadata-4.10.1.tar.gz"
-    sha256 "951f0d8a5b7260e9db5e41d429285b5f451e928479f19d80818878527d36e95e"
+    url "https://files.pythonhosted.org/packages/28/ac/befd6d793f230c17c366959f518a7fb2f38c0168b850944ec70ba0566271/importlib_metadata-4.11.0.tar.gz"
+    sha256 "9e5e553bbba1843cb4a00823014b907616be46ee503d2b9ba001d214a8da218f"
   end
 
   resource "policy-sentry" do
-    url "https://files.pythonhosted.org/packages/12/8c/363de39a82ae1340d27226fa24344fc07dadbe23b5eac9044c3a847a75df/policy_sentry-0.12.1.tar.gz"
-    sha256 "a3304752dd3b5c82a7665fcf586d2aeb87433fbc9b4ae7130b141b24f63312f7"
+    url "https://files.pythonhosted.org/packages/56/e8/f41574e1b00c053555788e0cd2c76217b1d0cbe3d1dc9c12040c56eaf315/policy_sentry-0.12.2.tar.gz"
+    sha256 "c38c16ab224b9860e8d2d18271e3338824147672a04d1827100585271933dc14"
   end
 
   resource "PyYAML" do
@@ -89,8 +89,8 @@ class AwsAllowlister < Formula
   end
 
   resource "typing-extensions" do
-    url "https://files.pythonhosted.org/packages/0d/4a/60ba3706797b878016f16edc5fbaf1e222109e38d0fa4d7d9312cb53f8dd/typing_extensions-4.0.1.tar.gz"
-    sha256 "4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e"
+    url "https://files.pythonhosted.org/packages/b1/5a/8b5fbb891ef3f81fc923bf3cb4a578c0abf9471eb50ce0f51c74212182ab/typing_extensions-4.1.1.tar.gz"
+    sha256 "1a9462dcc3347a79b1f1c0271fbe79e844580bb598bafa1ed208b94da3cdcd42"
   end
 
   resource "urllib3" do
