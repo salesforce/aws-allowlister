@@ -34,7 +34,7 @@
 | config                     | [AWS Config](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsconfig.html)                                                                                   |
 | connect                    | [Amazon Connect](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html)                                                                           |
 | controltower               | [AWS Control Tower](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awscontroltower.html)                                                                      |
-| datasync                   | [AWSDataSync](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatasync.html)                                                                                |
+| datasync                   | [AWS DataSync](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatasync.html)                                                                               |
 | directconnect              | [AWS Direct Connect](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdirectconnect.html)                                                                    |
 | dms                        | [AWS Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html)                                             |
 | ds                         | [AWS Directory Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdirectoryservice.html)                                                              |
